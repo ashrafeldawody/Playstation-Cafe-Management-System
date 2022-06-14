@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['prefix' => 'play'], function () {
+    Route::resource('/devices', 'DeviceController');
+    Route::post('/start', \App\Http\Controllers\Cashier\DevicesController::class . '@start');
+    Route::post('/finish/{device_id}', 'DeviceController@finish');
+});

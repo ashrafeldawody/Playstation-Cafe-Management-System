@@ -9,28 +9,32 @@ class Bill extends Model
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     protected $guarded = [];
     protected $hidden = ['user_id','device_id'];
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function device()
+    public function device(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Device::class);
     }
-    public function cafeBill()
-    {
-        return $this->hasOne(CafeBill::class);
-    }
-    public function sessions()
+    public function sessions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(PlaySession::class);
     }
-    public function activeSession()
+    public function activeSession(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->sessions()->where('end_time', null);
     }
-    public function getTotalPriceAttribute()
+    public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->sessions->sum('cost');
+        return $this->hasMany(CafeBillItem::class);
     }
+
+    public function getPriceAttribute()
+    {
+        return $this->items->sum(function ($row) {
+            return $row->price * $row->quantity;
+        });
+    }
+
 }

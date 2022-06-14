@@ -1,2 +1,2 @@
 import './bootstrap';
-import 'alpinejs';
+window.$ = window.jQuery = require('jquery');

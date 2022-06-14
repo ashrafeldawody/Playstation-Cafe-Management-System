@@ -15,7 +15,7 @@ class CreateCafeBillItemsTable extends Migration
     {
         Schema::create('cafe_bill_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cafe_bill_id')->constrained();
+            $table->foreignId('bill_id')->constrained();
             $table->foreignId('item_id')->constrained();
             $table->integer('quantity');
             $table->float('price');

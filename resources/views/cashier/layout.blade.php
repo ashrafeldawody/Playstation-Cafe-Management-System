@@ -2,6 +2,9 @@
 <head>
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
@@ -34,6 +37,5 @@
     <div class="container">
         @yield('content')
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
