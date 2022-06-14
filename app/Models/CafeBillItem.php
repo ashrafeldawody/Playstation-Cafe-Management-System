@@ -8,12 +8,10 @@ class CafeBillItem extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     protected $guarded = [];
-
-    public function cafeBill()
+    function bill()
     {
-        return $this->belongsTo(CafeBill::class);
+        return $this->belongsTo(Bill::class);
     }
-
     protected static function boot()
     {
         parent::boot();
@@ -22,7 +20,7 @@ class CafeBillItem extends Model
                 'item_id' => $item->item_id,
                 'quantity' => -$item->quantity,
                 'type' => 'SELL',
-                'user_id' => $item->cafeBill->user_id,
+                'user_id' => $item->bill->user_id,
             ]);
         });
         static::deleted(function ($item) {
@@ -30,7 +28,7 @@ class CafeBillItem extends Model
                 'item_id' => $item->item_id,
                 'quantity' => $item->quantity,
                 'type' => 'RETURN',
-                'user_id' => $item->cafeBill->user_id,
+                'user_id' => $item->bill->user_id,
             ]);
         });
     }

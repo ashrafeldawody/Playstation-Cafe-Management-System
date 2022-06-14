@@ -15,7 +15,7 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cafe_bill_id')->nullable()->constrained();
+            $table->foreignId('bill_id')->nullable()->constrained();
             $table->foreignId('item_id')->constrained();
             $table->integer('quantity');
             $table->enum('type', ['BUY', 'SELL', 'RETURN','DEFECT']);

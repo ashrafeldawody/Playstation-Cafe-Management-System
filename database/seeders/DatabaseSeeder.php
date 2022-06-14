@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Bill;
-use App\Models\CafeBill;
 use App\Models\CafeBillItem;
 use App\Models\Device;
 use App\Models\devicesCategory;
@@ -156,6 +155,9 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'device_id' => 1,
         ]);
+        Bill::create([
+            'user_id' => 1,
+        ]);
         PlaySession::create([
             'bill_id' => 1,
             'start_time' => \Carbon\Carbon::now()->subMinutes(10),
@@ -169,48 +171,41 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        CafeBill::create([
-            'user_id' => 1,
-        ]);
         CafeBillItem::create([
-            'cafe_bill_id' => 1,
+            'bill_id' => 1,
             'item_id' => 1,
             'quantity' => 3,
             'price' => Item::find(1)->price,
         ]);
 
         CafeBillItem::create([
-            'cafe_bill_id' => 1,
+            'bill_id' => 1,
             'item_id' => 2,
             'quantity' => 2,
             'price' => Item::find(2)->price,
         ]);
         CafeBillItem::create([
-            'cafe_bill_id' => 1,
+            'bill_id' => 1,
             'item_id' => 4,
             'quantity' => 1,
             'price' => Item::find(3)->price,
         ]);
 
-        CafeBill::create([
-            'user_id' => 1,
-            'bill_id' => 1,
-        ]);
         CafeBillItem::create([
-            'cafe_bill_id' => 2,
+            'bill_id' => 2,
             'item_id' => 6,
             'quantity' => 8,
             'price' => Item::find(6)->price,
         ]);
 
         CafeBillItem::create([
-            'cafe_bill_id' => 2,
+            'bill_id' => 2,
             'item_id' => 7,
             'quantity' => 4,
             'price' => Item::find(7)->price,
         ]);
         CafeBillItem::create([
-            'cafe_bill_id' => 2,
+            'bill_id' => 2,
             'item_id' => 6,
             'quantity' => 2,
             'price' => Item::find(6)->price,

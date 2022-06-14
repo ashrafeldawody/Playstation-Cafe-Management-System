@@ -1,6 +1,20 @@
 @extends('cashier.layout')
 @section('title', 'الأجهزة')
 @section('content')
+    <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -59,7 +73,7 @@
                                                         <li><a class="dropdown-item time-list-item" data-time="0">وقت مفتوح</a></li>
                                                         <li><hr class="dropdown-divider"></li>
                                                         @for($minutes = 30; $minutes <= 240; $minutes+=30)
-                                                            <li><button class="dropdown-item time-list-item" data-device_id="{{$device->id}}" data-time="{{ $minutes }}">{{gmdate("H:i", $minutes * 60);}}</button></li>
+                                                            <li><button class="dropdown-item time-list-item" data-device_id="{{$device->id}}" data-time="{{ $minutes }}">{{gmdate("H:i", $minutes * 60)}}</button></li>
                                                         @endfor
                                                     </ul>
                                                 </div>
@@ -71,7 +85,7 @@
                                                         <li><a class="dropdown-item time-list-item" data-time="0" data-multi="1">وقت مفتوح</a></li>
                                                         <li><hr class="dropdown-divider"></li>
                                                         @for($minutes = 30; $minutes <= 240; $minutes+=30)
-                                                            <li><button class="dropdown-item time-list-item" data-multi="1" data-device_id="{{$device->id}}" data-time="{{ $minutes }}">{{gmdate("H:i", $minutes * 60);}}</button></li>
+                                                            <li><button class="dropdown-item time-list-item" data-multi="1" data-device_id="{{$device->id}}" data-time="{{ $minutes }}">{{gmdate("H:i", $minutes * 60)}}</button></li>
                                                         @endfor
                                                     </ul>
                                                 </div>
@@ -112,6 +126,16 @@
     <script>
         $(document).ready(function () {
             $('.time-list-item').click(function () {
+                var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+                var toastList = toastElList.map(function(toastEl) {
+                    // Creates an array of toasts (it only initializes them)
+                    return new bootstrap.Toast(toastEl) // No need for options; use the default options
+                });
+                toastList.forEach(toast => toast.show()); // This show them
+
+                console.log(toastList); // Testing to see if it works
+
+                return;
                 let time = $(this).data('time');
                 let is_multi = $(this).data('multi') ? 1 : 0;
                 let device_id = $(this).data('device_id');
