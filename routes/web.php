@@ -13,9 +13,5 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return Inertia::render('Home',[
-        'event' => 'whatever'
-    ]);
-});
-//Route::get('/', \App\Http\Controllers\Cashier\DevicesController::class . '@index');
+
+Route::get('/', \App\Http\Controllers\Cashier\DevicesController::class . '@index');

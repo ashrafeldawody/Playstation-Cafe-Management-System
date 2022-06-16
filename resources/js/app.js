@@ -1,5 +1,5 @@
 import 'vuetify/styles' // Global CSS has to be imported
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { createVuetify } from 'vuetify'

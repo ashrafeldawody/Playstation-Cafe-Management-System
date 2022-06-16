@@ -7,13 +7,16 @@ use App\Models\Bill;
 use App\Models\Device;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DevicesController extends Controller
 {
     public function index()
     {
         $devices = Device::with('activeBill','activeBill.sessions')->get();
-        return  view('cashier.devices', compact('devices'));
+        return Inertia::render('Home',[
+            'devices' => $devices
+        ]);
     }
 
     /**
@@ -92,13 +95,39 @@ class DevicesController extends Controller
         $request->merge([
             'user_id' => 1,
         ]);
-        $bill = Bill::create($request->only(['device_id','user_id']));
+        $bill = Bill::create($request->only(['device_id','user_id','time_limit']));
         $bill->sessions()->create([
-            'start_time' => Carbon::now()->toDateTime(),
-            'time_limit' => $request->time_limit,
-            'is_multi' => $request->is_multi,
+            'start_time' => Carbon::now(),
+            'is_multi' => $request->is_multi ? 1 : 0,
         ]);
-        return response()->json($bill);
+        return response()->json(Bill::with('sessions')->find($bill->id));
+    }
+    public function toggleMulti($device_id)
+    {
+        $bill = Bill::where('device_id',$device_id)->whereHas('activeSession')->first();
+        if(!$bill)
+            return response()->json(['message' => 'لا يوجد فاتوره للجهاز'], 404);
+
+        $last_session = $bill->sessions->last();
+        $last_session->update([
+            'end_time' => Carbon::now(),
+        ]);
+        $bill->sessions()->create([
+            'start_time' => Carbon::now(),
+            'is_multi' => !$last_session->is_multi,
+        ]);
+        return response()->json(Bill::with('sessions')->find($bill->id));
+    }
+    public function changeLimit($device_id,$time_limit)
+    {
+        $bill = Bill::where('device_id',$device_id)->whereHas('activeSession')->first();
+        if(!$bill)
+            return response()->json(['message' => 'لا يوجد فاتوره للجهاز'], 404);
+
+        $bill->update([
+            'time_limit' => $time_limit,
+        ]);
+        return response()->json(null,200);
     }
 
     public function finish($device_id,Request $request)

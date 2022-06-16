@@ -151,23 +151,12 @@ class DatabaseSeeder extends Seeder
             'type' => 'BUY',
             'user_id' => 1,
         ]);
-        Bill::create([
-            'user_id' => 1,
-            'device_id' => 1,
-        ]);
+
         Bill::create([
             'user_id' => 1,
         ]);
-        PlaySession::create([
-            'bill_id' => 1,
-            'start_time' => \Carbon\Carbon::now()->subMinutes(10),
-            'end_time' => \Carbon\Carbon::now()->addMinute(10),
-            'is_multi' => false,
-        ]);
-        PlaySession::create([
-            'bill_id' => 1,
-            'start_time' => \Carbon\Carbon::now()->addMinute(10),
-            'is_multi' => true,
+        Bill::create([
+            'user_id' => 1,
         ]);
 
 

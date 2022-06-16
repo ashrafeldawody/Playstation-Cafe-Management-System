@@ -18,7 +18,6 @@ class CreatePlaySessionsTable extends Migration
             $table->foreignId('bill_id')->constrained();
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
-            $table->integer('time_limit')->nullable();
             $table->integer('duration')->default(0);
             $table->decimal('cost',5,2)->default(0);
             $table->boolean('is_multi')->default(false);

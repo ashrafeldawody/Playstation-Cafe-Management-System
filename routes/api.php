@@ -20,5 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'play'], function () {
     Route::resource('/devices', 'DeviceController');
     Route::post('/start', \App\Http\Controllers\Cashier\DevicesController::class . '@start');
-    Route::post('/finish/{device_id}', 'DeviceController@finish');
+    Route::post('/finish/{device_id}',  \App\Http\Controllers\Cashier\DevicesController::class . '@finish');
+    Route::post('/toggle_multi/{device_id}',  \App\Http\Controllers\Cashier\DevicesController::class . '@toggleMulti');
+    Route::post('/change_limit/{device_id}/{time_limit}',  \App\Http\Controllers\Cashier\DevicesController::class . '@changeLimit');
 });
