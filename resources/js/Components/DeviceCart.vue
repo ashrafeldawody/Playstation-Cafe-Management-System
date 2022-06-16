@@ -4,13 +4,8 @@
                 <v-row>
                     <v-col cols="8">
                         <v-card>
-                            <v-tabs
-                                v-model="category"
-                                background-color="primary"
-                            >
-                                <v-tab value="one">Item One</v-tab>
-                                <v-tab value="two">Item Two</v-tab>
-                                <v-tab value="three">Item Three</v-tab>
+                            <v-tabs v-model="category" background-color="primary">
+                                <v-tab v-for="category in items" :value="category.id">{{ category.name }}</v-tab>
                             </v-tabs>
 
                             <v-card-text>
@@ -18,8 +13,8 @@
                                     <v-card
                                         class="mx-auto"
                                         width="200px"
-                                        v-for="index in 20"
-                                        @click="alert('clicked')"
+                                        v-for="item in activeCategory.items"
+                                        @click="alert(item)"
                                     >
                                         <v-img
                                             src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
@@ -29,10 +24,10 @@
                                         </v-img>
                                         <v-card-title class="flex-column align-start">
                                             <p class=" mb-2">
-                                                منتج رائع
+                                                {{ item.name }}
                                             </p>
                                             <p class=" font-weight-regular text-grey">
-                                                20 جنيه
+                                                {{ item.price }}
                                             </p>
                                         </v-card-title>
 
@@ -67,16 +62,27 @@ export default {
         device: {
             type: Object,
             required: true
+        },
+        items: {
+            type: Array,
+            required: true
         }
     },
     data() {
         return {
             category: null,
-        }},
+        }
+    },
     methods: {
         closeCartDialog() {
             this.$emit("closeCartDialog");
         },
+    },
+    computed: {
+        activeCategory() {
+            let category = this.items.find(category => category.id === this.category);
+            return category? category: [];
+        }
     }
 }
 </script>

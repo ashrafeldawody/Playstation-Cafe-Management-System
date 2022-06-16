@@ -106,25 +106,25 @@ class DatabaseSeeder extends Seeder
             'name' => 'اكلات 1',
             'price' => 10,
             'buy_price' => 8,
-            'items_category_id' => 1,
+            'items_category_id' => 2,
         ]);
         Item::create([
             'name' => 'اكلات 2',
             'price' => 15,
             'buy_price' => 12,
-            'items_category_id' => 1,
+            'items_category_id' => 2,
         ]);
         Item::create([
             'name' => 'اكلات 3',
             'price' => 20,
             'buy_price' => 12,
-            'items_category_id' => 1,
+            'items_category_id' => 2,
         ]);
         Item::create([
             'name' => 'اكلات 4',
             'price' => 25,
             'buy_price' => 22,
-            'items_category_id' => 1,
+            'items_category_id' => 2,
         ]);
 
         Inventory::create([

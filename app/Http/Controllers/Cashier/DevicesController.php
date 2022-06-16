@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cashier;
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
 use App\Models\Device;
+use App\Models\itemsCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,9 +14,11 @@ class DevicesController extends Controller
 {
     public function index()
     {
-        $devices = Device::with('category','activeBill','activeBill.sessions')->get();
+        $devices = Device::with('category','activeBill','activeBill.sessions','activeBill.items')->get();
+        $items = ItemsCategory::with('items')->get();
         return Inertia::render('Home',[
-            'devices' => $devices
+            'devices' => $devices,
+            'items' => $items
         ]);
     }
 
@@ -100,7 +103,7 @@ class DevicesController extends Controller
             'start_time' => Carbon::now(),
             'is_multi' => $request->is_multi ? 1 : 0,
         ]);
-        return response()->json(Bill::with('sessions')->find($bill->id));
+        return response()->json(Bill::with('sessions','items')->find($bill->id));
     }
     public function toggleMulti($device_id)
     {
@@ -116,7 +119,7 @@ class DevicesController extends Controller
             'start_time' => Carbon::now(),
             'is_multi' => !$last_session->is_multi,
         ]);
-        return response()->json(Bill::with('sessions')->find($bill->id));
+        return response()->json(Bill::with('sessions','items')->find($bill->id));
     }
     public function changeLimit($device_id,$time_limit)
     {

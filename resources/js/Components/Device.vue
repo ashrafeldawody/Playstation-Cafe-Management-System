@@ -68,7 +68,7 @@
         <div>
 
         <v-dialog v-model="cartDialog" persistent>
-            <DeviceCart @closeCartDialog ="cartDialog = false" :device="device"></DeviceCart>
+            <DeviceCart @closeCartDialog ="cartDialog = false" :device="device" :items="items"></DeviceCart>
         </v-dialog>
 
 
@@ -142,7 +142,8 @@ export default {
     }),
 
     props: {
-        device: Object
+        device: Object,
+        items: Array
     },
     methods: {
         prettyTime(time) {

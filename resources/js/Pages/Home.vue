@@ -2,7 +2,7 @@
     <Layout>
         <v-card width="100%" style="margin: 2rem auto">
                 <div class="d-flex justify-content-between w-100 flex-wrap">
-                    <Device v-for="device in devices" :device="device" :key="device.id"></Device>
+                    <Device v-for="device in devices" :items="items" :device="device" :key="device.id"></Device>
                 </div>
         </v-card>
     </Layout>
@@ -15,7 +15,8 @@ import Device from "../Components/Device";
 export default {
     name: "Home",
     props: {
-        devices: Array
+        devices: Array,
+        items: Array
     },
     data() {
         return {
