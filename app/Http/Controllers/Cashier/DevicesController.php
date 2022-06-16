@@ -13,7 +13,7 @@ class DevicesController extends Controller
 {
     public function index()
     {
-        $devices = Device::with('activeBill','activeBill.sessions')->get();
+        $devices = Device::with('category','activeBill','activeBill.sessions')->get();
         return Inertia::render('Home',[
             'devices' => $devices
         ]);

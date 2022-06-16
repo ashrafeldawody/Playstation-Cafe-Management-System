@@ -27,6 +27,12 @@
                     <th class="text-right">
                         انتهاء
                     </th>
+                    <th class="text-right">
+                        النوع
+                    </th>
+                    <th class="text-right">
+                        التكلفة
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,12 +40,39 @@
                     v-for="session in activeBill.sessions"
                     :key="session.id"
                 >
-                    <td>{{ new Date(session.start_time).toLocalTimeString() }}</td>
-                    <td>{{ session.end_time }}</td>
+                    <td>{{ prettyTime(session.start_time) }}</td>
+                    <td v-if="session.end_time">{{prettyTime(session.end_time)}}</td>
+                    <td v-else>
+                        <v-progress-linear
+                            color=" accent-4"
+                            indeterminate
+                            rounded
+                            height="6"
+                        ></v-progress-linear>
+                    </td>
+                    <td>{{ session.is_multi ? 'مالتي':'عادي' }}</td>
+                    <td>{{ calculateSessionCost(session) }}</td>
                 </tr>
                 </tbody>
-            </v-table>
 
+                <tfoot>
+                <td colspan="2"></td>
+                <td class="text-right">
+                    <strong>المجموع</strong>
+                </td>
+                <td>
+                    <strong>{{ totalCost }} جنيه</strong>
+                </td>
+                </tfoot>
+            </v-table>
+        <div>
+
+        <v-dialog v-model="cartDialog" persistent>
+            <DeviceCart @closeCartDialog ="cartDialog = false" :device="device"></DeviceCart>
+        </v-dialog>
+
+
+        </div>
         </v-card-text>
         <v-card-actions v-if="!device.active_bill" >
             <v-switch
@@ -69,8 +102,9 @@
         <v-card-actions v-else >
             <div class="d-flex justify-content-between w-100">
 
-            <v-btn color="primary" @click="this.toggleMulti" :disabled="this.activeBill.sessions.length === 3" variant="outlined">{{ activeSession.is_multi ? 'تحويل عادي':'تحويل مالتي' }}</v-btn>
-            <v-btn color="warning" @click="this.finishAndPay" variant="outlined">ايقاف ودفع</v-btn>
+            <v-btn color="primary" @click="this.toggleMulti" :disabled="this.activeBill.sessions.length >= 3" variant="outlined">{{ activeSession.is_multi ? 'تحويل عادي':'تحويل مالتي' }}</v-btn>
+            <v-btn color="warning" @click="cartDialog=true" variant="outlined">الكافيه</v-btn>
+            <v-btn color="warning" @click="this.finishAndPay" variant="outlined">دفع</v-btn>
             <v-menu >
                 <template v-slot:activator="{ props }">
                     <v-btn color="primary"  variant="outlined" v-bind="props">تغيير الوقت</v-btn>
@@ -94,20 +128,30 @@
 
 <script>
 import Timeline from "./Timeline";
+import DeviceCart from "./DeviceCart";
 import axios from "axios";
 import moment from "moment";
 export default {
     name: "Device",
-    components: {Timeline},
+    components: {Timeline,DeviceCart},
     data: () => ({
+        cartDialog: true,
         multi: false,
         timeDiff: 0,
+        activeSessionDiff: 0,
     }),
 
     props: {
         device: Object
     },
     methods: {
+        prettyTime(time) {
+            let date = new Date(time);
+            return date.toLocaleTimeString('ar-EG', {
+                hour: '2-digit',
+                minute:'2-digit'
+            });
+        },
         formatTime(time,include_seconds=false) {
             let hours = Math.floor(time / 3600);
             let minutes = Math.floor((time - hours * 3600) / 60);
@@ -131,6 +175,7 @@ export default {
             if(this.device.active_bill)
                 setInterval(()=>{
                     this.timeDiff = moment().diff(moment(this.device.active_bill.sessions[0].start_time),'seconds');
+                    this.activeSessionDiff = moment().diff(moment(this.activeSession.start_time),'minutes');
                 },1000)
         },
         changeTimeLimit(time_limit) {
@@ -140,7 +185,7 @@ export default {
                 });
         },
         toggleMulti(){
-            if(this.activeBill.sessions.length === 3) return;
+            if(this.activeBill.sessions.length >= 3) return;
             axios.post(`/api/play/toggle_multi/${this.device.id}`)
                 .then(response => {
                     this.device.active_bill = response.data;
@@ -149,6 +194,11 @@ export default {
         finishAndPay(){
             console.log('finishAndPay');
         },
+        calculateSessionCost(session){
+            let price = session.is_multi ? this.device.category.multi_price : this.device.category.price;
+            let diff = (session.end_time ? moment(session.end_time).diff(moment(session.start_time),'minutes') : this.activeSessionDiff) / 60 ;
+            return Math.round(price * diff * 100) / 100;
+        }
     },
     computed: {
         activeBill() {
@@ -159,6 +209,11 @@ export default {
         },
         timeLabel() {
             return this.activeBill ? this.formatTime(this.timeDiff,true) : '00:00:00';
+        },
+        totalCost() {
+            return this.activeBill ? this.activeBill.sessions.reduce((total,session)=>{
+                return total + this.calculateSessionCost(session);
+            },0) : 0;
         }
     },
 
