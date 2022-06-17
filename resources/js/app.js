@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { createVuetify } from 'vuetify'
+import '@mdi/font/css/materialdesignicons.css'
 
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
@@ -18,7 +19,10 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(vuetify,{
-                rtl: true
+                rtl: true,
+                icons: {
+                    iconfont: 'mdi',
+                }
             })
             .mount(el)
     },

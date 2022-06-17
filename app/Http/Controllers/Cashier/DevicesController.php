@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
+use App\Models\CafeBillItem;
 use App\Models\Device;
 use App\Models\itemsCategory;
+use App\Models\TempBillItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +16,7 @@ class DevicesController extends Controller
 {
     public function index()
     {
-        $devices = Device::with('category','activeBill','activeBill.sessions','activeBill.items')->get();
+        $devices = Device::with('category','activeBill','activeBill.sessions','activeBill.tempItems')->get();
         $items = ItemsCategory::with('items')->get();
         return Inertia::render('Home',[
             'devices' => $devices,
@@ -103,7 +105,7 @@ class DevicesController extends Controller
             'start_time' => Carbon::now(),
             'is_multi' => $request->is_multi ? 1 : 0,
         ]);
-        return response()->json(Bill::with('sessions','items')->find($bill->id));
+        return response()->json(Bill::with('sessions','tempItems')->find($bill->id));
     }
     public function toggleMulti($device_id)
     {
@@ -119,7 +121,7 @@ class DevicesController extends Controller
             'start_time' => Carbon::now(),
             'is_multi' => !$last_session->is_multi,
         ]);
-        return response()->json(Bill::with('sessions','items')->find($bill->id));
+        return response()->json(Bill::with('sessions','tempItems')->find($bill->id));
     }
     public function changeLimit($device_id,$time_limit)
     {
@@ -151,6 +153,18 @@ class DevicesController extends Controller
             'duration' => $duration,
         ]);
         return response()->json($bill);
+    }
+    public function updateCart($bill_id,Request $request){
+
+        TempBillItem::where('bill_id',$bill_id)->delete();
+        foreach ($request->items as $item) {
+            TempBillItem::updateOrCreate(
+                ['bill_id' => $bill_id, 'item_id' => $item['item_id']],
+                ['quantity' => $item['quantity'],'price'=> $item['price']]
+            );
+        }
+
+        return response()->json(null,200);
     }
     private function delete_bill($device_id)
     {

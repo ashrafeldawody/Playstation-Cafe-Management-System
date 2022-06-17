@@ -127,31 +127,6 @@ class DatabaseSeeder extends Seeder
             'items_category_id' => 2,
         ]);
 
-        Inventory::create([
-            'item_id' => 1,
-            'quantity' => 10,
-            'type' => 'BUY',
-            'user_id' => 1,
-        ]);
-        Inventory::create([
-            'item_id' => 2,
-            'quantity' => 20,
-            'type' => 'BUY',
-            'user_id' => 1,
-        ]);
-        Inventory::create([
-            'item_id' => 3,
-            'quantity' => 33,
-            'type' => 'BUY',
-            'user_id' => 1,
-        ]);
-        Inventory::create([
-            'item_id' => 4,
-            'quantity' => 55,
-            'type' => 'BUY',
-            'user_id' => 1,
-        ]);
-
         Bill::create([
             'user_id' => 1,
         ]);

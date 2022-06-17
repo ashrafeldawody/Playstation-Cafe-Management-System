@@ -12,7 +12,6 @@
   "dependencies": {
     "@inertiajs/inertia": "^0.11.0",
     "@inertiajs/inertia-vue3": "^0.6.0",
-    "@mdi/font": "5.9.55",
     "alpinejs": "^3.10.2",
     "autoprefixer": "10.4.5",
     "jquery": "^3.6.0",
@@ -23,9 +22,12 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@mdi/font": "^6.7.96",
     "@popperjs/core": "^2.10.2",
     "axios": "^0.25.0",
     "bootstrap": "^5.1.3",
+    "browser-sync": "^2.27.10",
+    "browser-sync-webpack-plugin": "^2.3.0",
     "laravel-mix": "^6.0.6",
     "lodash": "^4.17.19",
     "postcss": "^8.1.14",

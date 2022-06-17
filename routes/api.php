@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Cashier\DevicesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::group(['prefix' => 'play'], function () {
     Route::resource('/devices', 'DeviceController');
-    Route::post('/start', \App\Http\Controllers\Cashier\DevicesController::class . '@start');
-    Route::post('/finish/{device_id}',  \App\Http\Controllers\Cashier\DevicesController::class . '@finish');
-    Route::post('/toggle_multi/{device_id}',  \App\Http\Controllers\Cashier\DevicesController::class . '@toggleMulti');
-    Route::post('/change_limit/{device_id}/{time_limit}',  \App\Http\Controllers\Cashier\DevicesController::class . '@changeLimit');
+    Route::post('/start', DevicesController::class . '@start');
+    Route::post('/finish/{device_id}',  DevicesController::class . '@finish');
+    Route::post('/toggle_multi/{device_id}',  DevicesController::class . '@toggleMulti');
+    Route::post('/change_limit/{device_id}/{time_limit}',  DevicesController::class . '@changeLimit');
+    Route::post('/update_cart/{bill_id}',  DevicesController::class . '@updateCart');
 });

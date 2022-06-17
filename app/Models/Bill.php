@@ -29,7 +29,10 @@ class Bill extends Model
     {
         return $this->hasMany(CafeBillItem::class);
     }
-
+    public function tempItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TempBillItem::class);
+    }
     public function getPriceAttribute()
     {
         return $this->items->sum(function ($row) {

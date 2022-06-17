@@ -23,11 +23,19 @@ class CafeBillItem extends Model
                 'user_id' => $item->bill->user_id,
             ]);
         });
+        static::updated(function ($item) {
+            Inventory::create([
+                'item_id' => $item->item_id,
+                'quantity' => -$item->quantity,
+                'type' => 'SELL',
+                'user_id' => $item->bill->user_id,
+            ]);
+        });
         static::deleted(function ($item) {
             Inventory::create([
                 'item_id' => $item->item_id,
                 'quantity' => $item->quantity,
-                'type' => 'RETURN',
+                'type' => 'DELETE',
                 'user_id' => $item->bill->user_id,
             ]);
         });

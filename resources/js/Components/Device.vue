@@ -67,8 +67,8 @@
             </v-table>
         <div>
 
-        <v-dialog v-model="cartDialog" persistent>
-            <DeviceCart @closeCartDialog ="cartDialog = false" :device="device" :items="items"></DeviceCart>
+        <v-dialog v-model="cartDialog" width="70%" height="90%" persistent fullscreen>
+            <DeviceCart @closeCartDialog ="cartDialog = false" :bill="device.active_bill" :categories="items"></DeviceCart>
         </v-dialog>
 
 
@@ -135,7 +135,7 @@ export default {
     name: "Device",
     components: {Timeline,DeviceCart},
     data: () => ({
-        cartDialog: true,
+        cartDialog: false,
         multi: false,
         timeDiff: 0,
         activeSessionDiff: 0,
@@ -224,6 +224,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 
 </style>
