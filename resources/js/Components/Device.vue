@@ -71,6 +71,9 @@
             <DeviceCart @closeCartDialog ="cartDialog = false" :bill="device.active_bill" :categories="items"></DeviceCart>
         </v-dialog>
 
+        <v-dialog v-model="checkoutDialog" width="70%" height="90%" persistent fullscreen>
+            <Checkout :bill="activeBill"></Checkout>
+        </v-dialog>
 
         </div>
         </v-card-text>
@@ -131,11 +134,13 @@ import Timeline from "./Timeline";
 import DeviceCart from "./DeviceCart";
 import axios from "axios";
 import moment from "moment";
+import Checkout from "./Checkout";
 export default {
     name: "Device",
-    components: {Timeline,DeviceCart},
+    components: {Checkout, Timeline,DeviceCart},
     data: () => ({
         cartDialog: false,
+        checkoutDialog:true,
         multi: false,
         timeDiff: 0,
         activeSessionDiff: 0,
