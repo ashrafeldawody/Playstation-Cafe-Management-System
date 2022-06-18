@@ -15,3 +15,4 @@ use Inertia\Inertia;
 */
 
 Route::get('/', \App\Http\Controllers\Cashier\DevicesController::class . '@index');
+Route::get('/cafe', \App\Http\Controllers\Cashier\CafeController::class . '@index');

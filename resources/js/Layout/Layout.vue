@@ -3,9 +3,11 @@
         <v-app-bar app color="indigo" >
             <div class="d-flex justify-content-between w-100">
             <div>
-                <v-btn variant="outlined" color="white" href="/">الأجهزة</v-btn>
-                <v-btn variant="outlined" class="mx-2" color="white" href="/cafe">الكافيه</v-btn>
-                <v-btn variant="outlined" color="white" href="/income">الايراد</v-btn>
+                <Link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" href="/">الأجهزة</Link>
+
+
+                <Link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" href="/cafe">الكافيه</Link>
+                <Link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" href="/shift">اليوميه</Link>
             </div>
             <div>
                 <v-btn variant="outlined" color="white" href="/admin">لوحة التحكم</v-btn>
@@ -17,7 +19,7 @@
         <v-main>
 
             <!-- Provides the application the proper gutter -->
-            <v-container fluid class="p-3">
+            <v-container fluid class="p-3 h-100 w-100">
                 <slot></slot>
             </v-container>
         </v-main>
@@ -25,9 +27,13 @@
 
 </template>
 <script>
+import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
     name: "Layout",
+    components: {
+        Link
+    },
     onMounted() {
         alert('Layout mounted');
         this.$vuetify.rtl = true

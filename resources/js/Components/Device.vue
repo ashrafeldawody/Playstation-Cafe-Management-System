@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto m-3 elevation-4" width="400">
+    <v-card class="mx-auto m-3 elevation-4 d-flex flex-column" width="400">
         <v-card-header>
             <div class="d-flex justify-content-between w-100">
                 <p class="text-h4 text--primary">
@@ -84,19 +84,21 @@
                               :active-session-diff="activeSessionDiff"></Checkout>
                 </v-dialog>
                 <v-dialog v-model="timeDialog" width="70%" height="90%">
-                    <Timeout :device="device" @timeChanged="timeLimitChanged"></Timeout>
+                    <Timeout :device="device" @timeChanged="timeLimitChanged" @showPay="checkoutDialog=true;timeDialog = false"></Timeout>
                 </v-dialog>
 
             </div>
         </v-card-text>
-        <v-card-actions v-if="!device.active_bill">
-            <v-switch
-                v-model="multi"
-                hide-details
-                inset
-                color="indigo"
-                :label="`${multi ? 'مالتي':'عادي'}`"
-            ></v-switch>
+        <v-card-actions v-if="!device.active_bill" class="d-flex justify-content-between">
+            <div>
+                <v-switch
+                    v-model="multi"
+                    hide-details
+                    inset
+                    color="indigo"
+                    :label="`${multi ? 'مالتي':'عادي'}`"
+                ></v-switch>
+            </div>
 
             <v-menu>
                 <template v-slot:activator="{ props }">
@@ -201,7 +203,7 @@ export default {
                         clearInterval(timer);
                     this.timeDiff = moment().diff(moment(this.device.active_bill.sessions[0].start_time), 'seconds');
                     this.activeSessionDiff = moment().diff(moment(this.activeSession.start_time), 'minutes');
-                    if(this.activeBill.time_limit > 0 && this.timeDiff > this.activeBill.time_limit && !this.timeDialog)
+                    if(this.activeBill.time_limit > 0 && this.timeDiff > this.activeBill.time_limit && !this.timeDialog&& !this.checkoutDialog)
                         this.timeDialog = true;
                 }, 1000)
         },

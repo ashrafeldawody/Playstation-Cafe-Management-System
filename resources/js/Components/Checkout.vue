@@ -102,6 +102,7 @@
                         v-model="discount"
                         label="الخصم"
                         suffix="جنيه"
+                        :disabled="totalCost <= 5"
                         :rules="[v => v <= 5 || 'الخصم يجب ان يكون اقل من 5 جنيه']"
                         density="compact"
                     ></v-text-field>
