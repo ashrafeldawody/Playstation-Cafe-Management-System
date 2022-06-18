@@ -16,6 +16,7 @@ class CreateBillsTable extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->foreignId('device_id')->nullable()->constrained();
+            $table->foreignId('shift_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->integer('time_limit')->nullable();
             $table->decimal('discount',5,2)->default(0);
