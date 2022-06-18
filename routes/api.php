@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'play'], function () {
     Route::resource('/devices', 'DeviceController');
     Route::post('/start', DevicesController::class . '@start');
-    Route::post('/finish/{device_id}',  DevicesController::class . '@finish');
+    Route::post('/finish',  DevicesController::class . '@finish');
     Route::post('/toggle_multi/{device_id}',  DevicesController::class . '@toggleMulti');
     Route::post('/change_limit/{device_id}/{time_limit}',  DevicesController::class . '@changeLimit');
     Route::post('/update_cart/{bill_id}',  DevicesController::class . '@updateCart');

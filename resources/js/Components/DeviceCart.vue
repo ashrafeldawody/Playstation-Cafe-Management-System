@@ -47,7 +47,7 @@
                                     <v-list-item-header>
                                         <v-list-item-title>
                                             <div class="d-flex justify-content-between py-1 pl-2">
-                                                <span>{{ getItemName(item.item_id) }}</span>
+                                                <span>{{ item.item_name }}</span>
                                                 <span>
                                                     <v-btn icon="mdi-plus" @click="cartAdd(item)" size="x-small" color="primary"></v-btn>
                                                     {{item.quantity}}
@@ -107,8 +107,6 @@ export default {
         closeCartDialog() {
             axios.post(`/api/play/update_cart/${this.bill.id}`, {
                 items: this.bill.temp_items
-            }).then(response => {
-                this.$emit("closeCartDialog");
             });
             this.$emit("closeCartDialog");
         },
@@ -133,15 +131,6 @@ export default {
             } else {
                 this.bill.temp_items.splice(this.bill.temp_items.indexOf(item), 1);
             }
-        },
-        getItemName(item_id) {
-            for(let category of this.categories) {
-                let found = category.items.find(i => i.id === item_id);
-                if (found) {
-                    return found.name;
-                }
-            }
-            return "";
         },
     },
     computed: {

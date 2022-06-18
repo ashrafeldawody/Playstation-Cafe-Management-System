@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CashierDeviceResource;
 use App\Models\Bill;
 use App\Models\CafeBillItem;
 use App\Models\Device;
@@ -16,7 +17,7 @@ class DevicesController extends Controller
 {
     public function index()
     {
-        $devices = Device::with('category','activeBill','activeBill.sessions','activeBill.tempItems')->get();
+        $devices = CashierDeviceResource::collection(Device::all());
         $items = ItemsCategory::with('items')->get();
         return Inertia::render('Home',[
             'devices' => $devices,
@@ -135,16 +136,21 @@ class DevicesController extends Controller
         return response()->json(null,200);
     }
 
-    public function finish($device_id,Request $request)
+    public function finish(Request $request)
     {
-        $bill = Bill::where('device_id',$request->device_id)->whereHas('activeSession')->first();
+        $bill = Bill::find($request->bill_id);
 
         if(!$bill)
             return response()->json(['message' => 'لا يوجد فاتوره للجهاز'], 404);
+
         $activeSession = $bill->activeSession->first();
+
         $duration = Carbon::now()->diffInSeconds($activeSession->start_time);
+
         $pricePerHour = $activeSession->is_multi ? $bill->device->category->multi_price : $bill->device->category->price;
+
         $cost = round(($duration / 3600) * $pricePerHour);
+
         $afterDiscount = $this->custom_round($pricePerHour,$cost);
 
         $activeSession->update([
@@ -152,7 +158,13 @@ class DevicesController extends Controller
             'cost' => $cost,
             'duration' => $duration,
         ]);
-        return response()->json($bill);
+
+        $bill->update([
+            'paid' => $request->paid,
+            'discount' => $request->discount,
+        ]);
+
+        return CashierDeviceResource::make(Device::find($bill->device_id));
     }
     public function updateCart($bill_id,Request $request){
 

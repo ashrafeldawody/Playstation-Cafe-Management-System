@@ -4,8 +4,15 @@
             <div class="d-flex justify-content-between w-100">
                 <p class="text-h4 text--primary">
                     {{ device.name }}
+                    <v-chip
+                        class="ma-2"
+                        size="small"
+                    >
+                        {{ device.category.name }}
+                    </v-chip>
                 </p>
-                <div class="rounded-circle" :class="device.active_bill ? 'bg-danger':'bg-success'" style="width: 2rem;height: 2rem"></div>
+                <div class="rounded-circle" :class="device.active_bill ? 'bg-danger':'bg-success'"
+                     style="width: 2rem;height: 2rem"></div>
             </div>
         </v-card-header>
         <v-card-text>
@@ -14,11 +21,11 @@
                          v-if="activeBill"
                          :content="device.active_bill && device.active_bill.time_limit > 0 ? formatTime(device.active_bill.time_limit) : 'مفتوح'"
                          :color="device.active_bill && device.active_bill.time_limit > 0 ? 'error':'success'">
-                    {{ timeLabel}}
+                    {{ timeLabel }}
                 </v-badge>
-                <span v-else>{{ timeLabel}}</span>
+                <span v-else>{{ timeLabel }}</span>
             </div>
-            <v-table v-if="activeBill">
+            <v-table v-if="activeBill" density="compact">
                 <thead>
                 <tr>
                     <th class="text-right">
@@ -41,7 +48,7 @@
                     :key="session.id"
                 >
                     <td>{{ prettyTime(session.start_time) }}</td>
-                    <td v-if="session.end_time">{{prettyTime(session.end_time)}}</td>
+                    <td v-if="session.end_time">{{ prettyTime(session.end_time) }}</td>
                     <td v-else>
                         <v-progress-linear
                             color=" accent-4"
@@ -50,7 +57,7 @@
                             height="6"
                         ></v-progress-linear>
                     </td>
-                    <td>{{ session.is_multi ? 'مالتي':'عادي' }}</td>
+                    <td>{{ session.is_multi ? 'مالتي' : 'عادي' }}</td>
                     <td>{{ calculateSessionCost(session) }}</td>
                 </tr>
                 </tbody>
@@ -65,19 +72,21 @@
                 </td>
                 </tfoot>
             </v-table>
-        <div>
+            <div>
 
-        <v-dialog v-model="cartDialog" width="70%" height="90%" persistent fullscreen>
-            <DeviceCart @closeCartDialog ="cartDialog = false" :bill="device.active_bill" :categories="items"></DeviceCart>
-        </v-dialog>
+                <v-dialog v-model="cartDialog" width="70%" height="90%" persistent fullscreen>
+                    <DeviceCart @closeCartDialog="cartDialog = false" :bill="device.active_bill"
+                                :categories="items"></DeviceCart>
+                </v-dialog>
 
-        <v-dialog v-model="checkoutDialog" width="70%" height="90%" persistent fullscreen>
-            <Checkout :bill="activeBill"></Checkout>
-        </v-dialog>
+                <v-dialog v-model="checkoutDialog" width="70%" height="90%" fullscreen>
+                    <Checkout @closeCheckoutDialog="checkoutDialog=false" :device="device"
+                              :active-session-diff="activeSessionDiff"></Checkout>
+                </v-dialog>
 
-        </div>
+            </div>
         </v-card-text>
-        <v-card-actions v-if="!device.active_bill" >
+        <v-card-actions v-if="!device.active_bill">
             <v-switch
                 v-model="multi"
                 hide-details
@@ -86,41 +95,43 @@
                 :label="`${multi ? 'مالتي':'عادي'}`"
             ></v-switch>
 
-            <v-menu >
+            <v-menu>
                 <template v-slot:activator="{ props }">
                     <v-btn color="primary" v-bind="props">بدء وقت</v-btn>
                 </template>
                 <v-list>
                     <v-list-item @click="this.startTime(0)">
-                        <v-list-item-title >وقت مفتوح</v-list-item-title>
+                        <v-list-item-title>وقت مفتوح</v-list-item-title>
                     </v-list-item>
                     <v-list-item v-for="index in 8" key="index" link @click="this.startTime(index*1800)">
-                        <v-list-item-title >{{this.formatTime(index*1800)}}</v-list-item-title>
+                        <v-list-item-title>{{ this.formatTime(index * 1800) }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
 
 
         </v-card-actions>
-        <v-card-actions v-else >
+        <v-card-actions v-else>
             <div class="d-flex justify-content-between w-100">
 
-            <v-btn color="primary" @click="this.toggleMulti" :disabled="this.activeBill.sessions.length >= 3" variant="outlined">{{ activeSession.is_multi ? 'تحويل عادي':'تحويل مالتي' }}</v-btn>
-            <v-btn color="warning" @click="cartDialog=true" variant="outlined">الكافيه</v-btn>
-            <v-btn color="warning" @click="this.finishAndPay" variant="outlined">دفع</v-btn>
-            <v-menu >
-                <template v-slot:activator="{ props }">
-                    <v-btn color="primary"  variant="outlined" v-bind="props">تغيير الوقت</v-btn>
-                </template>
-                <v-list>
-                    <v-list-item @click="this.changeTimeLimit(0)">
-                        <v-list-item-title >وقت مفتوح</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item v-for="index in 8" key="index" link @click="this.changeTimeLimit(index*1800)">
-                        <v-list-item-title v-if="activeBill">{{this.formatTime(index*1800)}}</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
+                <v-btn color="primary" @click="this.toggleMulti" :disabled="this.activeBill.sessions.length >= 3"
+                       variant="outlined">{{ activeSession.is_multi ? 'تحويل عادي' : 'تحويل مالتي' }}
+                </v-btn>
+                <v-menu>
+                    <template v-slot:activator="{ props }">
+                        <v-btn color="primary" variant="outlined" v-bind="props">تغيير الوقت</v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item @click="this.changeTimeLimit(0)">
+                            <v-list-item-title>وقت مفتوح</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item v-for="index in 8" key="index" link @click="this.changeTimeLimit(index*1800)">
+                            <v-list-item-title v-if="activeBill">{{ this.formatTime(index * 1800) }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+                <v-btn color="secondary accent-4" @click="cartDialog=true" variant="outlined">الكافيه</v-btn>
+                <v-btn color="green accent-4" @click="checkoutDialog = true" variant="outlined">دفع</v-btn>
 
             </div>
 
@@ -135,12 +146,13 @@ import DeviceCart from "./DeviceCart";
 import axios from "axios";
 import moment from "moment";
 import Checkout from "./Checkout";
+
 export default {
     name: "Device",
-    components: {Checkout, Timeline,DeviceCart},
+    components: {Checkout, Timeline, DeviceCart},
     data: () => ({
         cartDialog: false,
-        checkoutDialog:true,
+        checkoutDialog: false,
         multi: false,
         timeDiff: 0,
         activeSessionDiff: 0,
@@ -155,16 +167,16 @@ export default {
             let date = new Date(time);
             return date.toLocaleTimeString('ar-EG', {
                 hour: '2-digit',
-                minute:'2-digit'
+                minute: '2-digit'
             });
         },
-        formatTime(time,include_seconds=false) {
+        formatTime(time, include_seconds = false) {
             let hours = Math.floor(time / 3600);
             let minutes = Math.floor((time - hours * 3600) / 60);
             let seconds = time - hours * 3600 - minutes * 60;
-            let time_str = `${hours<10 ? '0'+hours:hours}:${minutes<10 ? '0'+minutes:minutes}`;
-            if(include_seconds)
-                time_str = `${time_str}:${seconds<10 ? '0'+seconds:seconds}`;
+            let time_str = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+            if (include_seconds)
+                time_str = `${time_str}:${seconds < 10 ? '0' + seconds : seconds}`;
             return time_str;
         },
         startTime(time_limit) {
@@ -177,12 +189,16 @@ export default {
                 this.startTimer()
             });
         },
-        startTimer(){
-            if(this.device.active_bill)
-                setInterval(()=>{
-                    this.timeDiff = moment().diff(moment(this.device.active_bill.sessions[0].start_time),'seconds');
-                    this.activeSessionDiff = moment().diff(moment(this.activeSession.start_time),'minutes');
-                },1000)
+        startTimer() {
+            if (!this.device.active_bill) return;
+                let timer = setInterval(() => {
+                    if(!this.device.active_bill)
+                        clearInterval(timer);
+                    this.timeDiff = moment().diff(moment(this.device.active_bill.sessions[0].start_time), 'seconds');
+                    this.activeSessionDiff = moment().diff(moment(this.activeSession.start_time), 'minutes');
+                    if(this.activeBill.time_limit > 0 && this.timeDiff > this.activeBill.time_limit)
+                        console.log('session over');
+                }, 1000)
         },
         changeTimeLimit(time_limit) {
             axios.post(`/api/play/change_limit/${this.device.id}/${time_limit}`)
@@ -190,20 +206,19 @@ export default {
                     this.device.active_bill.time_limit = time_limit;
                 });
         },
-        toggleMulti(){
-            if(this.activeBill.sessions.length >= 3) return;
+        toggleMulti() {
+            if (this.activeBill.sessions.length >= 3) return;
             axios.post(`/api/play/toggle_multi/${this.device.id}`)
                 .then(response => {
                     this.device.active_bill = response.data;
                 });
         },
-        finishAndPay(){
-            console.log('finishAndPay');
-        },
-        calculateSessionCost(session){
+
+        calculateSessionCost(session) {
             let price = session.is_multi ? this.device.category.multi_price : this.device.category.price;
-            let diff = (session.end_time ? moment(session.end_time).diff(moment(session.start_time),'minutes') : this.activeSessionDiff) / 60 ;
-            return Math.round(price * diff * 100) / 100;
+            let diff = (session.end_time ? moment(session.end_time).diff(moment(session.start_time), 'minutes') : this.activeSessionDiff) / 60;
+            let cost = price * diff;
+            return Math.round(cost * 2) / 2;
         }
     },
     computed: {
@@ -214,21 +229,21 @@ export default {
             return this.activeBill ? this.activeBill.sessions[this.activeBill.sessions.length - 1] : null;
         },
         timeLabel() {
-            return this.activeBill ? this.formatTime(this.timeDiff,true) : '00:00:00';
+            return this.activeBill ? this.formatTime(this.timeDiff, true) : '00:00:00';
         },
         totalCost() {
-            return this.activeBill ? this.activeBill.sessions.reduce((total,session)=>{
+            return this.activeBill ? this.activeBill.sessions.reduce((total, session) => {
                 return total + this.calculateSessionCost(session);
-            },0) : 0;
+            }, 0) : 0;
         }
     },
 
-     mounted() {
+    mounted() {
         this.startTimer();
     }
 }
 </script>
 
-<style >
+<style>
 
 </style>
