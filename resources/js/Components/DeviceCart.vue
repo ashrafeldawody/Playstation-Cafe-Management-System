@@ -116,6 +116,7 @@ export default {
                 found.quantity++;
             } else {
                 this.bill.temp_items.push({
+                    item_name: item.name,
                     item_id: item.id,
                     price: item.price,
                     quantity: 1

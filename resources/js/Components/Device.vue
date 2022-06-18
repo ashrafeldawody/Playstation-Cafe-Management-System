@@ -83,6 +83,9 @@
                     <Checkout @closeCheckoutDialog="checkoutDialog=false" :device="device"
                               :active-session-diff="activeSessionDiff"></Checkout>
                 </v-dialog>
+                <v-dialog v-model="timeDialog" width="70%" height="90%">
+                    <Timeout :device="device" @timeChanged="timeLimitChanged"></Timeout>
+                </v-dialog>
 
             </div>
         </v-card-text>
@@ -146,13 +149,15 @@ import DeviceCart from "./DeviceCart";
 import axios from "axios";
 import moment from "moment";
 import Checkout from "./Checkout";
+import Timeout from "./Timeout";
 
 export default {
     name: "Device",
-    components: {Checkout, Timeline, DeviceCart},
+    components: {Timeout, Checkout, Timeline, DeviceCart},
     data: () => ({
         cartDialog: false,
         checkoutDialog: false,
+        timeDialog: false,
         multi: false,
         timeDiff: 0,
         activeSessionDiff: 0,
@@ -196,15 +201,15 @@ export default {
                         clearInterval(timer);
                     this.timeDiff = moment().diff(moment(this.device.active_bill.sessions[0].start_time), 'seconds');
                     this.activeSessionDiff = moment().diff(moment(this.activeSession.start_time), 'minutes');
-                    if(this.activeBill.time_limit > 0 && this.timeDiff > this.activeBill.time_limit)
-                        console.log('session over');
+                    if(this.activeBill.time_limit > 0 && this.timeDiff > this.activeBill.time_limit && !this.timeDialog)
+                        this.timeDialog = true;
                 }, 1000)
         },
         changeTimeLimit(time_limit) {
-            axios.post(`/api/play/change_limit/${this.device.id}/${time_limit}`)
-                .then(response => {
-                    this.device.active_bill.time_limit = time_limit;
-                });
+            if(time_limit < 0) return;
+            let limit = time_limit === 0 ? 0 : this.activeBill.time_limit + time_limit;
+            axios.post(`/api/play/change_limit/${this.device.id}/${limit}`)
+                .then(() => this.device.active_bill.time_limit = limit);
         },
         toggleMulti() {
             if (this.activeBill.sessions.length >= 3) return;
@@ -219,7 +224,11 @@ export default {
             let diff = (session.end_time ? moment(session.end_time).diff(moment(session.start_time), 'minutes') : this.activeSessionDiff) / 60;
             let cost = price * diff;
             return Math.round(cost * 2) / 2;
-        }
+        },
+        timeLimitChanged(time_limit) {
+            this.timeDialog = false
+            this.changeTimeLimit(time_limit);
+        },
     },
     computed: {
         activeBill() {
