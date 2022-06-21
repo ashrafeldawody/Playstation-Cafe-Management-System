@@ -17,12 +17,7 @@ class DevicesController extends Controller
 {
     public function index()
     {
-        $devices = CashierDeviceResource::collection(Device::all());
-        $items = ItemsCategory::with('items')->get();
-        return Inertia::render('Home',[
-            'devices' => $devices,
-            'items' => $items
-        ]);
+        return CashierDeviceResource::collection(Device::all());
     }
 
     /**

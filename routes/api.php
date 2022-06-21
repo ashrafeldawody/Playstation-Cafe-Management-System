@@ -19,10 +19,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['prefix' => 'play'], function () {
-    Route::resource('/devices', 'DeviceController');
+    Route::get('/devices', DevicesController::class . '@index');
     Route::post('/start', DevicesController::class . '@start');
     Route::post('/finish',  DevicesController::class . '@finish');
     Route::post('/toggle_multi/{device_id}',  DevicesController::class . '@toggleMulti');
     Route::post('/change_limit/{device_id}/{time_limit}',  DevicesController::class . '@changeLimit');
     Route::post('/update_cart/{bill_id}',  DevicesController::class . '@updateCart');
+});
+
+Route::group(['prefix' => 'cafe'], function () {
+    Route::get('/items', \App\Http\Controllers\Cashier\CafeController::class . '@index');
 });

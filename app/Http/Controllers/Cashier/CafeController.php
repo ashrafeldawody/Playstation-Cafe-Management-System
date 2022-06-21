@@ -11,9 +11,6 @@ class CafeController extends Controller
 {
     public function index()
     {
-        $categories = ItemsCategory::with('items')->get();
-        return Inertia::render('Cafe', [
-            'categories' => $categories,
-        ]);
+        return ItemsCategory::with('items')->get();
     }
 }
