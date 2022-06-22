@@ -1,5 +1,4 @@
 <template>
-    <Layout>
         <v-card height="100%" class="overflow-hidden">
             <v-row class="h-100">
                 <v-col cols="9" class="px-0 h-100">
@@ -44,7 +43,7 @@
                             </v-list>
                         </div>
                         <v-card class="m-0 flex-grow-1 h-100 overflow-y-auto">
-                            <v-list-item v-for="item in cart" :key="item.id" variant="contained">
+                            <v-list-item v-for="item in cart" :key="item.id">
                                 <v-list-item-header>
                                     <v-list-item-title>
                                         <div class="d-flex justify-content-between py-1 pl-2">
@@ -70,7 +69,7 @@
 
                                 </v-card-text>
                                 <v-card-actions class="text-center">
-                                    <v-btn color="primary" block @click="closeCartDialog">حفظ</v-btn>
+                                    <v-btn color="primary" block @click="saveCart" :disabled="cart.length === 0">حفظ</v-btn>
                                 </v-card-actions>
 
                             </v-card>
@@ -81,24 +80,19 @@
 
             </v-row>
         </v-card>
-    </Layout>
 </template>
 
 <script>
 import axios from "../plugins/axios";
-import Layout from "../Layout/Layout.vue";
 export default {
     name: "Cafe",
-    components: {
-        Layout
-    },
-    props: {
-        categories: Array
-    },
+
+
     data() {
         return {
             category: null,
-            cart:[]
+            cart:[],
+            categories:[]
         }
     },
     methods: {
@@ -125,6 +119,16 @@ export default {
                 this.cart.splice(this.cart.indexOf(item), 1);
             }
         },
+        saveCart() {
+            axios.post("/api/cafe/save", {cart: this.cart}).then(res => {
+                this.cart = [];
+                this.$toast.open({
+                    message: "تم تسجيل الطلب",
+                    type: "success",
+                    position: "bottom-left"
+                });
+            });
+        }
     },
     computed: {
         activeCategory() {
@@ -134,6 +138,16 @@ export default {
             return this.cart ? this.cart.reduce((total, item) => total + item.price * item.quantity, 0) : 0;
         }
     },
+    mounted() {
+        axios.get('/api/cafe/items')
+            .then(response => {
+                this.categories = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+    }
 }
 </script>
 

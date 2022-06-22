@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto p-3">
+    <v-card class="mx-auto p-3" v-if="device.active_bill">
         <v-card-text>
             <div>جهاز 1</div>
             <p class="text-h4 text--primary">
@@ -166,7 +166,8 @@ export default {
             return this.device.active_bill.temp_items ? this.device.active_bill.temp_items.reduce((total, item) => total + item.price * item.quantity, 0) : 0;
         },
         playTotal() {
-            return this.device.active_bill.sessions ? this.device.active_bill.sessions.reduce((total, session) => total + this.calculateSessionCost(session), 0) : 0;
+            let cost = this.device.active_bill.sessions ? this.device.active_bill.sessions.reduce((total, session) => total + this.calculateSessionCost(session), 0) : 0;
+            return cost < 5 ? 5 : cost;
         },
         validDiscount() {
             return (!isNaN(this.discount) && this.discount > 0 && this.discount <= 5) ? this.discount:0;
@@ -204,6 +205,11 @@ export default {
                  paid: this.totalCost,
              }).then(response => {
                  this.device.active_bill = null;
+                 this.$toast.open({
+                     message: "تم تسجيل الفاتوره",
+                     type: "success",
+                     position: "bottom-left"
+                 });
                  this.$emit('closeCheckoutDialog');
              }).catch(error => {
                  console.log(error);

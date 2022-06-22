@@ -75,8 +75,7 @@
             <div>
 
                 <v-dialog v-model="cartDialog" width="70%" height="90%" persistent fullscreen>
-                    <DeviceCart @closeCartDialog="cartDialog = false" :bill="device.active_bill"
-                                :categories="items"></DeviceCart>
+                    <DeviceCart @closeCartDialog="cartDialog = false" :bill="device.active_bill"></DeviceCart>
                 </v-dialog>
 
                 <v-dialog v-model="checkoutDialog" width="70%" height="90%" fullscreen>
@@ -166,8 +165,7 @@ export default {
     }),
 
     props: {
-        device: Object,
-        items: Array
+        device: Object
     },
     methods: {
         prettyTime(time) {
@@ -243,9 +241,10 @@ export default {
             return this.activeBill ? this.formatTime(this.timeDiff, true) : '00:00:00';
         },
         totalCost() {
-            return this.activeBill ? this.activeBill.sessions.reduce((total, session) => {
+            let cost = this.activeBill ? this.activeBill.sessions.reduce((total, session) => {
                 return total + this.calculateSessionCost(session);
             }, 0) : 0;
+            return cost < 5 ? 5 : cost;
         }
     },
 

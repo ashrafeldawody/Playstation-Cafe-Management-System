@@ -43,7 +43,7 @@
                                 </v-list>
                             </div>
                             <v-card class="m-0 flex-grow-1 h-100 overflow-y-auto">
-                                <v-list-item v-for="item in bill.temp_items" :key="item.id" variant="contained">
+                                <v-list-item v-for="item in bill.temp_items" :key="item.id">
                                     <v-list-item-header>
                                         <v-list-item-title>
                                             <div class="d-flex justify-content-between py-1 pl-2">
@@ -92,15 +92,12 @@ export default {
         bill: {
             type: Object,
             required: true
-        },
-        categories: {
-            type: Array,
-            required: true
         }
-    },
+        },
     data() {
         return {
             category: null,
+            categories: [],
         }
     },
     methods: {
@@ -145,6 +142,13 @@ export default {
     mounted() {
         if(!this.bill.temp_items)
             this.bill.temp_items = [];
+        axios.get('/api/cafe/items')
+            .then(response => {
+                this.categories = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 }
 </script>
