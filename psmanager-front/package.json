@@ -16,6 +16,7 @@
     "vue": "^3.2.13",
     "vue-router": "^4.0.13",
     "vue-toast-notification": "^3.0.4",
+    "vue3-select2-component": "^0.1.7",
     "vuetify": "^3.0.0-beta.0",
     "webfontloader": "^1.0.0"
   },

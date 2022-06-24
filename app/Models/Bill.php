@@ -33,11 +33,5 @@ class Bill extends Model
     {
         return $this->hasMany(TempBillItem::class);
     }
-    public function getPriceAttribute()
-    {
-        return $this->items->sum(function ($row) {
-            return $row->price * $row->quantity;
-        });
-    }
 
 }

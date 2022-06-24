@@ -1,4 +1,12 @@
 <template>
+    <v-card>
+        <v-card-header>
+            <v-toolbar-title>
+                <div class="d-flex justify-content-between w-100">
+                    <span class="headline">فواتير الشيفت</span>
+                </div>
+            </v-toolbar-title>
+        </v-card-header>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -17,6 +25,18 @@
             <th class="text-right">
                 وقت محدود؟
             </th>
+            <th class="text-right">
+                تكلفه اللعب
+            </th>
+            <th class="text-right">
+                تكلفه الكافيه
+            </th>
+            <th class="text-right">
+                الخصم
+            </th>
+            <th class="text-right">
+                الاجمالي
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -29,9 +49,14 @@
                 <span v-if="bill.time_limit > 0">{{ bill.time_limit/60 }} دقيقة</span>
                 <span v-if="bill.time_limit === 0">مفتوح</span>
             </td>
+            <td>{{ parseFloat(bill.cafe_total) }} جنيه</td>
+            <td>{{ parseFloat(bill.play_total) }} جنيه</td>
+            <td>{{ parseFloat(bill.discount) }} جنيه</td>
+            <td>{{ parseFloat(bill.cafe_total) + parseFloat(bill.play_total) - parseFloat(bill.discount) }} جنيه</td>
         </tr>
         </tbody>
     </table>
+    </v-card>
 </template>
 
 <script>

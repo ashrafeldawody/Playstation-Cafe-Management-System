@@ -1,8 +1,8 @@
 <template>
-        <v-card height="100%" class="overflow-hidden">
+        <v-card height="100%" class="overflow-hidden user-select-none">
             <v-row class="h-100">
                 <v-col cols="9" class="px-0 h-100">
-                    <v-card height="100%">
+                    <v-card class="p-4 h-100">
                         <v-tabs v-model="category" background-color="primary">
                             <v-tab v-for="category in categories" :value="category.id">{{ category.name }}</v-tab>
                         </v-tabs>
@@ -10,15 +10,14 @@
                         <v-card-text class="h-100">
                             <div class="d-flex justify-content-between align-content-start flex-wrap gap-4 overflow-auto p-2 h-100">
                                 <v-card
-                                    class="mx-auto"
+                                    class="mx-auto p-2"
                                     width="200px"
                                     height="fit-content"
                                     v-if="activeCategory"
                                     v-for="item in activeCategory.items"
                                     @click="addToCart(item)"
                                 >
-                                    <v-img :src="item.image" cover>
-                                    </v-img>
+                                    <v-img :src="require('../assets/images/' + item.image)" style="height: 200px"></v-img>
                                     <v-card-title class="flex-column align-start">
                                         <p class=" mb-2">
                                             {{ item.name }}

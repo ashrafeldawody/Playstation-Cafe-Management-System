@@ -17,10 +17,10 @@ class CreateBillsTable extends Migration
             $table->id();
             $table->foreignId('device_id')->nullable()->constrained();
             $table->foreignId('shift_id')->constrained();
-            $table->foreignId('user_id')->constrained();
             $table->integer('time_limit')->nullable();
+            $table->decimal('cafe_total',5,2)->default(0);
+            $table->decimal('play_total',5,2)->default(0);
             $table->decimal('discount',5,2)->default(0);
-            $table->decimal('paid',5,2)->default(0);
             $table->timestamps();
         });
     }

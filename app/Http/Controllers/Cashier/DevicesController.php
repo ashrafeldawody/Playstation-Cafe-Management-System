@@ -8,6 +8,7 @@ use App\Models\Bill;
 use App\Models\CafeBillItem;
 use App\Models\Device;
 use App\Models\itemsCategory;
+use App\Models\shift;
 use App\Models\TempBillItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -89,14 +90,15 @@ class DevicesController extends Controller
 
     public function start(Request $request)
     {
+        $shift = shift::where('end_time', null)->first();
+        if (!$shift) {
+            return response()->json(['message' => 'يرجي بدء الشيفت اولا'], 400);
+        }
         $bill = Bill::where('device_id',$request->device_id)->whereHas('activeSession')->first();
         if($bill)
-            return response()->json(['message' => 'يرجي انهاء الفاتوره السابقه أولا'], 404);
-
-        $request->merge([
-            'user_id' => 1,
-        ]);
-        $bill = Bill::create($request->only(['device_id','user_id','time_limit']));
+            return response()->json(['message' => 'يرجي انهاء الفاتوره السابقه أولا'], 400);
+        $request->merge(['shift_id' => $shift->id]);
+        $bill = Bill::create($request->only(['device_id','shift_id','time_limit']));
         $bill->sessions()->create([
             'start_time' => Carbon::now(),
             'is_multi' => $request->is_multi ? 1 : 0,
@@ -144,9 +146,7 @@ class DevicesController extends Controller
 
         $pricePerHour = $activeSession->is_multi ? $bill->device->category->multi_price : $bill->device->category->price;
 
-        $cost = round(($duration / 3600) * $pricePerHour);
-
-        $afterDiscount = $this->custom_round($pricePerHour,$cost);
+        $cost = $this->custom_round($duration, $pricePerHour);
 
         $activeSession->update([
             'end_time' => Carbon::now(),
@@ -154,8 +154,22 @@ class DevicesController extends Controller
             'duration' => $duration,
         ]);
 
+        $tempBillItems = TempBillItem::where('bill_id',$bill->id)->get();
+        $total_cafe_cost = 0;
+        foreach ($tempBillItems as $tempBillItem) {
+            $total_cafe_cost += $tempBillItem->price * $tempBillItem->quantity;
+            CafeBillItem::create([
+                'bill_id' => $tempBillItem->bill_id,
+                'item_id' => $tempBillItem->item_id,
+                'quantity' => $tempBillItem->quantity,
+                'price' => $tempBillItem->price,
+            ]);
+            $tempBillItem->delete();
+        }
+
         $bill->update([
-            'paid' => $request->paid,
+            'cafe_total' => $total_cafe_cost,
+            'play_total' => $bill->sessions->sum('cost'),
             'discount' => $request->discount,
         ]);
 
@@ -173,7 +187,7 @@ class DevicesController extends Controller
 
         return response()->json(null,200);
     }
-    private function delete_bill($device_id)
+    public function delete_bill($device_id)
     {
         $bill = Bill::where('device_id',$device_id)->whereHas('activeSession')->first();
         if(!$bill)
@@ -184,13 +198,15 @@ class DevicesController extends Controller
         if($bill->delete())
             return response()->json(['message' => 'تم حذف الفاتوره بنجاح'], 200);
     }
-    private function custom_round($pricePerHour,$price):float{
-        if($price <= 5)
-            return 5;
-        if($price > ($pricePerHour * 3))
-            return floor( $price / 5 ) * 5;
 
-        return floor( $price / 2 ) * 2;
+    private function custom_round($duration,$pricePerHour):float{
+        $cost = ($duration / 3600) * $pricePerHour;
+        if($cost <= 5)
+            return 5;
+        if($cost > ($pricePerHour * 3))
+            return floor( $cost / 5 ) * 5;
+
+        return floor( $cost / 2 ) * 2;
     }
 
 }

@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shifts', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('start_time');
-            $table->dateTime('end_time')->nullable();
-
+            $table->decimal('amount', 10, 2);
+            $table->string('description')->nullable();
+            $table->string('type');
+            $table->boolean('take_from_dialy_income')->default(true);
+            $table->foreignId('shift_id')->constrained();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shifts');
+        Schema::dropIfExists('expenses');
     }
 };

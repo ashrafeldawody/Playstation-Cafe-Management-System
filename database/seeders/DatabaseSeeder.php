@@ -8,6 +8,7 @@ use App\Models\Inventory;
 use App\Models\Item;
 use App\Models\itemsCategory;
 use App\Models\playSession;
+use App\Models\Shift;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -20,159 +21,77 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'أشرف الداودى',
-            'email' => 'ashraf@gmail.com',
-            'phone' => '0123456789',
-            'password' => bcrypt('123456')
-        ]);
-        DevicesCategory::create([
-            'name' => 'بلايستيشن 3',
-            'price' => 5,
-            'multi_price' => 10,
-        ]);
-        DevicesCategory::create([
-            'name' => 'بلايستيشن 4',
-            'price' => 10,
-            'multi_price' => 15,
-        ]);
-        Device::create([
-            'name' => 'جهاز 1',
-            'games' => 'PES 2019, PES 2020',
-            'devices_category_id' => 1,
-        ]);
-        Device::create([
-            'name' => 'جهاز 2',
-            'games' => 'PES 2019, PES 2020',
-            'devices_category_id' => 1,
-        ]);
-        Device::create([
-            'name' => 'جهاز 3',
-            'games' => 'PES 2019, PES 2020',
-            'devices_category_id' => 1,
-        ]);
-        Device::create([
-            'name' => 'جهاز 4',
-            'games' => 'PES 2019, PES 2020',
-            'devices_category_id' => 1,
-        ]);
-        Device::create([
-            'name' => 'جهاز 5',
-            'games' => 'PES 2019, PES 2020',
-            'devices_category_id' => 2,
-        ]);
-        Device::create([
-            'name' => 'جهاز 6',
-            'games' => 'PES 2019, PES 2020',
-            'devices_category_id' => 2,
-        ]);
-        itemsCategory::create([
-            'name' => 'مشروبات',
-        ]);
-        itemsCategory::create([
-            'name' => 'مأكولات',
-        ]);
-        Item::create([
-            'name' => 'مشروب 1',
-            'price' => 5,
-            'buy_price' => 4.5,
-            'items_category_id' => 1,
-        ]);
-        Item::create([
-            'name' => 'مشروب 2',
-            'price' => 10,
-            'buy_price' => 9,
-            'items_category_id' => 1,
-        ]);
-        Item::create([
-            'name' => 'مشروب 3',
-            'price' => 15,
-            'buy_price' => 10,
-            'items_category_id' => 1,
-        ]);
-        Item::create([
-            'name' => 'مشروب 4',
-            'price' => 20,
-            'buy_price' => 18,
-            'items_category_id' => 1,
-        ]);
-        Item::create([
-            'name' => 'مشروب 5',
-            'price' => 25,
-            'buy_price' => 20,
-            'items_category_id' => 1,
-        ]);
-        Item::create([
-            'name' => 'اكلات 1',
-            'price' => 10,
-            'buy_price' => 8,
-            'items_category_id' => 2,
-        ]);
-        Item::create([
-            'name' => 'اكلات 2',
-            'price' => 15,
-            'buy_price' => 12,
-            'items_category_id' => 2,
-        ]);
-        Item::create([
-            'name' => 'اكلات 3',
-            'price' => 20,
-            'buy_price' => 12,
-            'items_category_id' => 2,
-        ]);
-        Item::create([
-            'name' => 'اكلات 4',
-            'price' => 25,
-            'buy_price' => 22,
-            'items_category_id' => 2,
-        ]);
+        $device_categories = [
+            ['name'=>'بلايستيشن 5','price'=>20,'multi_price'=>30],
+            ['name'=>'بلايستيشن 4','price'=>10,'multi_price'=>15],
+            ['name'=>'بلايستيشن 3','price'=>5,'multi_price'=>10],
+            ['name'=>'اكس بوكس','price'=>10,'multi_price'=>15],
+            ['name'=>'بلياردو','price'=>20,'multi_price'=>20],
+            ['name'=>'تنس','price'=>20,'multi_price'=>20],
+            ['name'=>'واقع افتراضي','price'=>50,'multi_price'=>50],
+        ];
+        $devices = [
+            ['name'=>'جهاز 1','devices_category_id'=>2],
+            ['name'=>'جهاز 2','devices_category_id'=>2],
+            ['name'=>'جهاز 3','devices_category_id'=>2],
+            ['name'=>'جهاز 4','devices_category_id'=>2],
+            ['name'=>'جهاز 5','devices_category_id'=>2],
+            ['name'=>'جهاز 6','devices_category_id'=>2],
+        ];
+        $items_categories = [
+            ['name'=>'مشروبات باردة'],
+            ['name'=>'مشروبات ساخنه'],
+            ['name'=>'شيبسي'],
+            ['name'=>'بسكوت'],
+            ['name'=>'اكل'],
+        ];
+        $items = [
+            ['name'=>'شاي','image'=>'tea.png', 'items_category_id'=>2, 'price'=>4, 'buy_price'=>1],
+            ['name'=>'كافي ميكس','image'=>'Bonjorno.png', 'items_category_id'=>2, 'price'=>5, 'buy_price'=>2],
+            ['name'=>'نسكافيه','image'=>'nescafe.jpg', 'items_category_id'=>2, 'price'=>5, 'buy_price'=>3],
 
-        Bill::create([
-            'user_id' => 1,
-        ]);
-        Bill::create([
-            'user_id' => 1,
-        ]);
+            ['name'=>'بيبسي','image'=>'pepsi.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'مريندا برتقال','image'=>'mirinda orange.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'مريندا تفاح اخضر','image'=>'green apple.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'شويبس','image'=>'schweppes.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'راني','image'=>'schweppes.png', 'items_category_id'=>1, 'price'=>8, 'buy_price'=>6],
+            ['name'=>'بشاير','image'=>'bashayer.png', 'items_category_id'=>1, 'price'=>3, 'buy_price'=>2],
+            ['name'=>'جهينة','image'=>'juhayna.png', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],
+            ['name'=>'بيتي','image'=>'bety.jpg', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],
+
+            ['name'=>'شيبسي','image'=>'chipsy.png', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+            ['name'=>'ويندوز','image'=>'windows5.jpg', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+            ['name'=>'بريك','image'=>'break5.jpg', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+            ['name'=>'دوريتوس','image'=>'doritos5.png', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+
+            ['name'=>'ويندوز','image'=>'windows2.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
+            ['name'=>'بريك','image'=>'break2.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
+            ['name'=>'برونتو','image'=>'pronto.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
 
 
-        CafeBillItem::create([
-            'bill_id' => 1,
-            'item_id' => 1,
-            'quantity' => 3,
-            'price' => Item::find(1)->price,
-        ]);
+            ['name'=>'هوهوز','image'=>'hohos.png', 'items_category_id'=>4, 'price'=>2, 'buy_price'=>1.7],
+            ['name'=>'توينكز','image'=>'twinkies.jpg', 'items_category_id'=>4, 'price'=>3, 'buy_price'=>2.6],
+            ['name'=>'لمبادا','image'=>'lambada.jpg', 'items_category_id'=>4, 'price'=>2, 'buy_price'=>1.7],
 
-        CafeBillItem::create([
-            'bill_id' => 1,
-            'item_id' => 2,
-            'quantity' => 2,
-            'price' => Item::find(2)->price,
-        ]);
-        CafeBillItem::create([
-            'bill_id' => 1,
-            'item_id' => 4,
-            'quantity' => 1,
-            'price' => Item::find(3)->price,
-        ]);
 
-        CafeBillItem::create([
-            'bill_id' => 2,
-            'item_id' => 6,
-            'quantity' => 8,
-            'price' => Item::find(6)->price,
-        ]);
+            ['name'=>'اندومي صغير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>6, 'buy_price'=>4],
+            ['name'=>'اندومي كبير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>6, 'buy_price'=>4],
+        ];
+        foreach ($items_categories as $items_category) {
+            itemsCategory::create($items_category);
+        }
+        foreach ($items as $item) {
+            Item::create($item);
+        }
+        foreach ($device_categories as $category) {
+            devicesCategory::create($category);
+        }
+        foreach ($device_categories as $category) {
+            devicesCategory::create($category);
+        }
+        foreach ($devices as $device) {
+            Device::create($device);
+        }
 
-        CafeBillItem::create([
-            'bill_id' => 2,
-            'item_id' => 7,
-            'quantity' => 4,
-            'price' => Item::find(7)->price,
-        ]);
-        CafeBillItem::create([
-            'bill_id' => 2,
-            'item_id' => 6,
-            'quantity' => 2,
-            'price' => Item::find(6)->price,
-        ]);
     }
 }

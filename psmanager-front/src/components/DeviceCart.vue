@@ -17,9 +17,7 @@
                                         v-for="item in activeCategory.items"
                                         @click="addToCart(item)"
                                     >
-                                        <v-img :src="item.image" cover>
-                                        </v-img>
-                                        <v-card-title class="flex-column align-start">
+                                        <v-img :src="require('../assets/images/' + item.image)" style="height: 200px"></v-img>                                        <v-card-title class="flex-column align-start">
                                             <p class=" mb-2">
                                                 {{ item.name }}
                                             </p>

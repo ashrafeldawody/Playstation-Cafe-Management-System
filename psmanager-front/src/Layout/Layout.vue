@@ -5,7 +5,10 @@
             <div>
                 <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'/'}">الأجهزة</router-link>
                 <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'cafe'}">الكافيه</router-link>
-                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'income'}">تفاصيل الشيفت</router-link>
+                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'income'}">الفواتير</router-link>
+                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'inventory'}">المخزون</router-link>
+                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'expense'}">المصاريف</router-link>
+                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'summary'}">ملخص اليوم</router-link>
             </div>
             <div>
                 <span class="h5 text-white mx-5">
