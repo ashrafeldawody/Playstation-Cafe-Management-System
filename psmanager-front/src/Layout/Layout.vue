@@ -1,14 +1,15 @@
 <template>
     <v-app>
-        <v-app-bar app color="indigo" >
+        <v-app-bar app color="blue" >
             <div class="d-flex justify-content-between w-100">
             <div>
-                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'/'}">الأجهزة</router-link>
-                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'cafe'}">الكافيه</router-link>
-                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'income'}">الفواتير</router-link>
-                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'inventory'}">المخزون</router-link>
-                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'expense'}">المصاريف</router-link>
-                <router-link class="v-btn v-btn--flat v-theme--light text-white v-btn--density-default v-btn--size-default v-btn--variant-outlined mx-3" :to="{path:'summary'}">ملخص اليوم</router-link>
+                <v-tab to="/" class="h-100 px-3" color="white">الأجهزة</v-tab>
+                <v-tab class="h-100 px-3" color="white" to="/cafe">الكافيه</v-tab>
+                <v-tab class="h-100 px-3" color="white" to="/income">الفواتير</v-tab>
+                <v-tab class="h-100 px-3" color="white" to="/inventory">المخزون</v-tab>
+                <v-tab class="h-100 px-3" color="white" to="/expense">المصاريف</v-tab>
+                <v-tab class="h-100 px-3" color="white" to="/summary">ملخص اليوم</v-tab>
+                <v-tab class="h-100 px-3" color="white" to="/overtime">الاوفر تايم</v-tab>
             </div>
             <div>
                 <span class="h5 text-white mx-5">

@@ -5,6 +5,7 @@ import Income from "@/Pages/Income";
 import Inventory from "@/Pages/Inventory";
 import Expense from "@/Pages/Expense";
 import Summary from "@/Pages/Summary";
+import Overtime from "@/Pages/Overtime";
 const routes = [
     {
         path: "/",
@@ -35,6 +36,11 @@ const routes = [
         path: "/summary",
         name: "Summary",
         component: Summary,
+    },
+    {
+        path: "/overtime",
+        name: "Overtime",
+        component: Overtime,
     },
 ];
 

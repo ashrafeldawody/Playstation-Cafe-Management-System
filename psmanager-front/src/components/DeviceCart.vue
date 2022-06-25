@@ -47,7 +47,7 @@
                                             <div class="d-flex justify-content-between py-1 pl-2">
                                                 <span>{{ item.item_name }}</span>
                                                 <span>
-                                                    <v-btn icon="mdi-plus" @click="cartAdd(item)" size="x-small" color="primary"></v-btn>
+                                                    <v-btn icon="mdi-plus" @click="cartAdd(item)" size="x-small" color="primary">+</v-btn>
                                                     {{item.quantity}}
                                                     <v-btn icon="mdi-minus" @click="cartRemove(item)" size="x-small" color="primary"></v-btn>
                                                 </span>

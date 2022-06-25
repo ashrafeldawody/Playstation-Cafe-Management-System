@@ -5,6 +5,7 @@ use App\Http\Controllers\Cashier\CafeController;
 use App\Http\Controllers\Cashier\DevicesController;
 use App\Http\Controllers\Cashier\ExpensesController;
 use App\Http\Controllers\Cashier\ShiftController;
+use App\Http\Controllers\Cashier\StatsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,5 +50,10 @@ Route::group(['prefix' => 'bill'], function () {
 Route::group(['prefix' => 'expense'], function () {
         Route::get('', [ExpensesController::class, 'index']);
         Route::post('', [ExpensesController::class, 'store']);
+});
+
+Route::group(['prefix' => 'stats'], function () {
+        Route::get('', [StatsController::class, 'index']);
+        Route::get('/overtime', [StatsController::class, 'overtime']);
 });
 
