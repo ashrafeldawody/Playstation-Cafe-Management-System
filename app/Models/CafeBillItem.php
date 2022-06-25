@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class CafeBillItem extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     protected $guarded = [];
     protected $appends = ['item_name'];
     function bill()

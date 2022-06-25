@@ -1,4 +1,4 @@
-import { createWebHistory, createRouter } from "vue-router";
+import {createWebHistory, createRouter, createWebHashHistory} from "vue-router";
 import Home from "@/Pages/Home";
 import Cafe from "@/Pages/Cafe";
 import Income from "@/Pages/Income";
@@ -8,7 +8,7 @@ import Summary from "@/Pages/Summary";
 import Overtime from "@/Pages/Overtime";
 const routes = [
     {
-        path: "/",
+        path: "",
         name: "Home",
         component: Home,
     },
@@ -45,7 +45,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: process.env.IS_ELECTRON ? createWebHashHistory() : createWebHistory(),
     routes,
 });
 

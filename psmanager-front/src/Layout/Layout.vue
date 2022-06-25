@@ -15,9 +15,31 @@
                 <span class="h5 text-white mx-5">
                     {{ shiftElapsedFormatted }}
                 </span>
-                <v-btn variant="outlined" color="white" @click="finishShift">انهاء الشيفت</v-btn>
+                <v-btn variant="outlined" color="white">
+                    انهاء الشيفت
+                    <v-dialog
+                        v-model="confirmDialog"
+                        activator="parent"
+                    >
+                        <v-card>
+                            <v-card-text>
+                                هل انت متأكد انك تريد انهاء الشيفت الحالي؟
+                                <p class="text-danger">
+                                    {{ shiftElapsed < (8*60*60) ? 'يرجي العلم انه لم تمر 8 ساعات، سيتم خصم المتبقي من المرتب' : '' }}
+                                </p>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="primary" @click="confirmDialog = false">لا</v-btn>
+                                <v-btn color="primary" @click="finishShift">نعم</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-btn>
             </div>
             </div>
+
+
         </v-app-bar>
 
         <!-- Sizes your content based upon application components -->
@@ -37,8 +59,9 @@ export default {
     name: "Layout",
     data() {
         return {
-            shiftElapsed: null,
             timer: null,
+            confirmDialog: false,
+            now: moment()
         }
     },
     props: {
@@ -48,17 +71,21 @@ export default {
         finishShift() {
             this.$emit('endShift')
             clearInterval(this.timer)
+            this.confirmDialog=false;
         },
     },
     mounted() {
         this.timer = setInterval(() => {
-            this.shiftElapsed = moment().diff(moment(this.shift.start_time), 'seconds');
+            this.now = moment()
         }, 1000);
     },
     computed: {
         shiftElapsedFormatted() {
             return moment.utc(this.shiftElapsed * 1000).format('HH:mm:ss');
-        }
+        },
+        shiftElapsed() {
+            return this.now.diff(moment(this.shift.start_time), 'seconds');
+        },
     }
 
 }

@@ -6,20 +6,17 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "backpack/crud": "^5.0",
-        "backpack/langfilemanager": "^4.1",
+        "barryvdh/laravel-dompdf": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
-        "inertiajs/inertia-laravel": "^0.6.2",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "laraveldaily/laravel-invoices": "3.0",
+        "twbs/bootstrap": "^5.1"
     },
     "require-dev": {
-        "backpack/generators": "^3.1",
         "fakerphp/faker": "^1.9.1",
-        "laravel-shift/blueprint": "^2.4",
-        "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpstan/phpstan": "^1.7",

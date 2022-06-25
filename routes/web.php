@@ -1,7 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +14,9 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', \App\Http\Controllers\Cashier\DevicesController::class . '@index');
-Route::get('/cafe', \App\Http\Controllers\Cashier\CafeController::class . '@index');
+
+Auth::routes();
+
+Route::get('/dashboard', function () {
+    return view('pages.home.index');
+});

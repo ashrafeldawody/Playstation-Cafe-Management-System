@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     protected $guarded = [];
     protected $hidden = ['inventory','created_at', 'updated_at'];
     protected $appends = ['quantity'];

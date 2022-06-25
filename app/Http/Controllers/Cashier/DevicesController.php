@@ -12,7 +12,6 @@ use App\Models\shift;
 use App\Models\TempBillItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class DevicesController extends Controller
 {

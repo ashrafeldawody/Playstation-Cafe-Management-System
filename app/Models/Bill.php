@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     protected $guarded = [];
     protected $hidden = ['user_id','device_id'];
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        User::create([
+            'name' => 'Admin',
+            'email' => 'ashraf6450@gmail.com',
+            'password' => bcrypt('91919191917'),
+        ]);
         $device_categories = [
             ['name'=>'بلايستيشن 5','price'=>20,'multi_price'=>30],
             ['name'=>'بلايستيشن 4','price'=>10,'multi_price'=>15],

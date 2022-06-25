@@ -10,7 +10,6 @@ use App\Models\Item;
 use App\Models\itemsCategory;
 use App\Models\Shift;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class CafeController extends Controller
 {
