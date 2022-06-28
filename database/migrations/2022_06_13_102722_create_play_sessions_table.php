@@ -15,7 +15,7 @@ class CreatePlaySessionsTable extends Migration
     {
         Schema::create('play_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bill_id')->constrained();
+            $table->foreignId('bill_id')->constrained()->onDelete('cascade');
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
             $table->integer('duration')->default(0);

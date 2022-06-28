@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
-use App\Models\Bill;
 use App\Models\Shift;
 use Carbon\CarbonInterval;
-use Illuminate\Http\Request;
 
 class StatsController extends Controller
 {
@@ -16,6 +14,7 @@ class StatsController extends Controller
         $cafeTotal = $current_shift->bills->sum('cafe_total');
         $playTotal = $current_shift->bills->sum('play_total');
         $totalDiscount = $current_shift->bills->sum('discount');
+        $totalPaid = $current_shift->bills->sum('paid');
         $stats = [
             [
                 'label' => 'مبيعات الكافيه',
@@ -48,8 +47,8 @@ class StatsController extends Controller
                 'unit' => 'جنيه',
             ],
             [
-                'label' => 'الدخل بعد الخصم',
-                'value' => $playTotal + $cafeTotal -$totalDiscount,
+                'label' => 'اجمالي المدفوع',
+                'value' => $totalPaid,
                 'unit' => 'جنيه',
             ],
         ];

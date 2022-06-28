@@ -223,7 +223,7 @@ export default {
             let price = session.is_multi ? this.device.category.multi_price : this.device.category.price;
             let diff = (session.end_time ? moment(session.end_time).diff(moment(session.start_time), 'minutes') : this.activeSessionDiff) / 60;
             let cost = price * diff;
-            return Math.round(cost * 2) / 2;
+            return Math.round(cost);
         },
         timeLimitChanged(time_limit) {
             this.timeDialog = false

@@ -35,7 +35,7 @@
 </style>
 
 <!-- HTML Code: Place this code in the document's body (between the 'body' tags) where the table should appear -->
-<table class="GeneratedTable" style="width: 100%;border: 1px solid">
+<table class="GeneratedTable" style="width: 100%;border: 1px solid" cellpadding="4" cellspacing="4">
     <thead>
     <tr>
         <th>الوقت</th>

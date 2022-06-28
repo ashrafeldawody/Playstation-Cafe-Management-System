@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             ['name'=>'مريندا برتقال','image'=>'mirinda orange.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
             ['name'=>'مريندا تفاح اخضر','image'=>'green apple.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
             ['name'=>'شويبس','image'=>'schweppes.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
-            ['name'=>'راني','image'=>'schweppes.png', 'items_category_id'=>1, 'price'=>8, 'buy_price'=>6],
+            ['name'=>'راني','image'=>'rani.png', 'items_category_id'=>1, 'price'=>8, 'buy_price'=>6],
             ['name'=>'بشاير','image'=>'bashayer.png', 'items_category_id'=>1, 'price'=>3, 'buy_price'=>2],
             ['name'=>'جهينة','image'=>'juhayna.png', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],
             ['name'=>'بيتي','image'=>'bety.jpg', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],

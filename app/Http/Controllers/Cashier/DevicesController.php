@@ -7,8 +7,7 @@ use App\Http\Resources\CashierDeviceResource;
 use App\Models\Bill;
 use App\Models\CafeBillItem;
 use App\Models\Device;
-use App\Models\itemsCategory;
-use App\Models\shift;
+use App\Models\Shift;
 use App\Models\TempBillItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -145,7 +144,7 @@ class DevicesController extends Controller
 
         $pricePerHour = $activeSession->is_multi ? $bill->device->category->multi_price : $bill->device->category->price;
 
-        $cost = $this->custom_round($duration, $pricePerHour);
+        $cost = round(($duration / 3600) * $pricePerHour) ;
 
         $activeSession->update([
             'end_time' => Carbon::now(),
@@ -169,7 +168,8 @@ class DevicesController extends Controller
         $bill->update([
             'cafe_total' => $total_cafe_cost,
             'play_total' => $bill->sessions->sum('cost'),
-            'discount' => $request->discount,
+            'discount' => $request->discount ? $request->discount : 0,
+            'paid' => $request->paid,
         ]);
 
         return CashierDeviceResource::make(Device::find($bill->device_id));
@@ -198,14 +198,5 @@ class DevicesController extends Controller
             return response()->json(['message' => 'تم حذف الفاتوره بنجاح'], 200);
     }
 
-    private function custom_round($duration,$pricePerHour):float{
-        $cost = ($duration / 3600) * $pricePerHour;
-        if($cost <= 5)
-            return 5;
-        if($cost > ($pricePerHour * 3))
-            return floor( $cost / 5 ) * 5;
-
-        return floor( $cost / 2 ) * 2;
-    }
 
 }
