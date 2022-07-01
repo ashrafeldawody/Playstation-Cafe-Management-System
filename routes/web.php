@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/dashboard', function () {
-    return view('pages.home.index');
+// create dashboard group routes
+Route::group(['middleware' => 'auth','prefix'=>'dashboard'], function () {
+    Route::get('/shifts', [\App\Http\Controllers\Dashboard\ShiftController::class,'index'])->name('shifts');
+
 });

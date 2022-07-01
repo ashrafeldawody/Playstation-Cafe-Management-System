@@ -11,7 +11,7 @@ class Shift extends Model
     use HasFactory;
     protected $guarded = [];
     public $timestamps = false;
-    protected $appends = ['duration','overtime','overtimePrice'];
+    protected $appends = ['duration','overtime','overtimePrice','total_paid','total_discount','cafe_total','play_total'];
     public function bills()
     {
         return $this->hasMany(Bill::class);
@@ -35,5 +35,22 @@ class Shift extends Model
     public function getOvertimePriceAttribute()
     {
         return round(($this->overtime/60) * env('OVERTIME_PRICE',10));
+    }
+
+    public function getCafeTotalAttribute()
+    {
+        return $this->bills->sum('cafe_total');
+    }
+    public function getPlayTotalAttribute()
+    {
+        return $this->bills->sum('play_total');
+    }
+    public function getTotalDiscountAttribute()
+    {
+        return $this->bills->sum('discount');
+    }
+    public function getTotalPaidAttribute()
+    {
+        return $this->bills->sum('paid');
     }
 }
