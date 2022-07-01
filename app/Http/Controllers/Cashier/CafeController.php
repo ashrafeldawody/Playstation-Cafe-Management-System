@@ -51,7 +51,8 @@ class CafeController extends Controller
             $total += $item['price'] * $item['quantity'];
         }
         $bill->update([
-            'cafe_total'=> $total
+            'cafe_total'=> $total,
+            'paid' => $request->paid
         ]);
         return response()->json(null,200);
     }

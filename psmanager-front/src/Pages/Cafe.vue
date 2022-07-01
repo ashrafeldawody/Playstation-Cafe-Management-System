@@ -1,5 +1,5 @@
 <template>
-        <v-card height="100%" class="overflow-hidden user-select-none">
+        <v-card height="90%" class="overflow-hidden user-select-none">
             <v-row class="h-100">
                 <v-col cols="9" class="px-0 h-100">
                     <v-card class="p-4 h-100">
@@ -119,7 +119,8 @@ export default {
             }
         },
         saveCart() {
-            axios.post("/api/cafe/save", {cart: this.cart}).then(res => {
+            console.log(this.cartTotal)
+            axios.post("/api/cafe/save", {cart: this.cart,paid: this.cartTotal}).then(res => {
                 this.cart = [];
                 this.$toast.open({
                     message: "تم تسجيل الطلب",
