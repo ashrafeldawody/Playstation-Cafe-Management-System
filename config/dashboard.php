@@ -8,6 +8,11 @@ return [
             'route' => 'home',
         ],
         [
+            'name' => 'الشيفتات',
+            'icon' => 'fa fa-playstation',
+            'route' => '/dashboard/shifts',
+        ],
+        [
             'name' => 'الاجهزة',
             'icon' => 'fa fa-playstation',
             'route' => 'users',
