@@ -169,7 +169,7 @@ class DevicesController extends Controller
             'cafe_total' => $total_cafe_cost,
             'play_total' => $bill->sessions->sum('cost'),
             'discount' => $request->discount ? $request->discount : 0,
-            'paid' => $request->paid,
+            'paid' => $request->paid < 5 ? 5 : $request->paid,
         ]);
 
         return CashierDeviceResource::make(Device::find($bill->device_id));
