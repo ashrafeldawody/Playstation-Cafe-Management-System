@@ -167,7 +167,7 @@ class DevicesController extends Controller
 
         $bill->update([
             'cafe_total' => $total_cafe_cost,
-            'play_total' => $bill->sessions->sum('cost'),
+            'play_total' => $bill->sessions->sum('cost') < 5 ? 5 : $bill->sessions->sum('cost'),
             'discount' => $request->discount ? $request->discount : 0,
             'paid' => $request->paid < 5 ? 5 : $request->paid,
         ]);
