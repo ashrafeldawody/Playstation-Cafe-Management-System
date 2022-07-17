@@ -13,7 +13,9 @@ class BillController extends Controller
     public function index(Request $request)
     {
         $current_shift = Shift::where('end_time', null)->first();
-        $bills = Bill::with('sessions','items','device','device.category')->whereDoesntHave('activeSession')->where('shift_id', $current_shift->id)->get();
+        $bills = Bill::with('sessions','items','device','device.category')->whereDoesntHave('activeSession')
+        ->where('shift_id', $current_shift->id)
+        ->get();
         return response()->json($bills);
     }
 

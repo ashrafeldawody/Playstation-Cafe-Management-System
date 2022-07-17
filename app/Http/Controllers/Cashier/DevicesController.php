@@ -110,9 +110,19 @@ class DevicesController extends Controller
             return response()->json(['message' => 'لا يوجد فاتوره للجهاز'], 404);
 
         $last_session = $bill->sessions->last();
+
+        $duration = Carbon::now()->diffInSeconds($last_session->start_time);
+
+        $pricePerHour = $last_session->is_multi ? $bill->device->category->multi_price : $bill->device->category->price;
+
+        $cost = round(($duration / 3600) * $pricePerHour) ;
+
         $last_session->update([
             'end_time' => Carbon::now(),
+            'cost' => $cost,
+            'duration' => $duration,
         ]);
+
         $bill->sessions()->create([
             'start_time' => Carbon::now(),
             'is_multi' => !$last_session->is_multi,
