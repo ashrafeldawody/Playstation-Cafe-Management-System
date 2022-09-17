@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\DataTables\ShiftDataTable;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ShiftResource;
-use App\Models\Shift;
-use Illuminate\Http\Request;
 
 class ShiftController extends Controller
 {
-    public function index()
+    public function index(ShiftDataTable $dataTable)
     {
-        $shifts = ShiftResource::collection(Shift::all());
-
-        return view('pages.shifts.index', compact('shifts'));
+        return $dataTable->render('dashboard.shifts.index');
     }
 }

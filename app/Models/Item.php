@@ -9,9 +9,9 @@ class Item extends Model
     protected $guarded = [];
     protected $hidden = ['inventory','created_at', 'updated_at'];
     protected $appends = ['quantity'];
-    public function itemsCategory()
+    public function category()
     {
-        return $this->belongsTo(ItemsCategory::class)->select('id','name');
+        return $this->belongsTo(ItemsCategory::class,'items_category_id')->select('id','name');
     }
     public function inventory()
     {
