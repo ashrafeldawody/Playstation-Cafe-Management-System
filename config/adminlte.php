@@ -328,6 +328,11 @@ return [
             'icon'        => 'fa fa-clock',
         ],
         [
+            'text'        => 'الفواتير',
+            'url'         => '/dashboard/bills',
+            'icon'        => 'fa fa-file-invoice-dollar',
+        ],
+        [
             'text'        => 'المصروفات',
             'url'         => '/dashboard/expenses',
             'icon'        => 'fa fa-money-bill',

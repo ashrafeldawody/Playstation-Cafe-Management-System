@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-
+    {{ $dataTable->table() }}
 @stop
 
 @section('css')
@@ -15,5 +15,5 @@
 @stop
 
 @section('js')
-
+{{ $dataTable->scripts() }}
 @stop

@@ -79,8 +79,8 @@ class DatabaseSeeder extends Seeder
             ['name'=>'لمبادا','image'=>'lambada.jpg', 'items_category_id'=>4, 'price'=>2, 'buy_price'=>1.7],
 
 
-            ['name'=>'اندومي صغير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>6, 'buy_price'=>4],
-            ['name'=>'اندومي كبير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>6, 'buy_price'=>4],
+            ['name'=>'اندومي صغير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>7, 'buy_price'=>5],
+            ['name'=>'اندومي كبير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>8, 'buy_price'=>6],
         ];
         foreach ($items_categories as $items_category) {
             itemsCategory::create($items_category);

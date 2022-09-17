@@ -9,5 +9,9 @@ class setting extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $primaryKey = 'key';
+    protected $fillable = [
+        'key',
+        'value',
+    ];
+
 }

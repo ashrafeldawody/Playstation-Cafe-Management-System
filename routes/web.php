@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
 // create dashboard group routes
 Route::group(['middleware' => 'auth','prefix'=>'dashboard'], function () {
     Route::get('/', [DashboardController::class,'index'])->name('dashboard');
@@ -48,8 +51,7 @@ Route::group(['middleware' => 'auth','prefix'=>'dashboard'], function () {
     Route::get('/reports/monthly', [ReportController::class,'monthly'])->name('reports.monthly');
     Route::get('/reports/yearly', [ReportController::class,'yearly'])->name('reports.yearly');
 
-    Route::get('/settings', [SettingController::class,'index'])->name('settings.index');
-    Route::post('/settings', [SettingController::class,'store'])->name('settings.store');
+    Route::resource('/settings', SettingController::class)->names('settings');
 
     Route::resource('/users', UserController::class)->names('users');
 
