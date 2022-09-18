@@ -1,22 +1,20 @@
 <template>
-        <v-card height="90%" class="overflow-hidden user-select-none">
-            <v-row class="h-100">
-                <v-col cols="9" class="px-0 h-100">
-                    <v-card class="p-4 h-100">
+    <div class="h-100">
+            <v-row no-gutters class="h-100">
+                <v-col cols="8">
+                    <v-card>
                         <v-tabs v-model="category" background-color="primary">
                             <v-tab v-for="category in categories" :value="category.id">{{ category.name }}</v-tab>
                         </v-tabs>
 
-                        <v-card-text class="h-100">
-                            <div class="d-flex justify-content-between align-content-start flex-wrap gap-4 overflow-auto p-2 h-100">
-                                <v-card
-                                    class="mx-auto p-2"
-                                    width="200px"
-                                    height="fit-content"
-                                    v-if="activeCategory"
-                                    v-for="item in activeCategory.items"
-                                    @click="addToCart(item)"
-                                >
+                        <v-card-text>
+                            <div v-if="activeCategory">
+                            <div class="d-flex justify-content-between align-content-start flex-wrap gap-4 overflow-auto p-2" style="height: 80vh">
+                                <v-card class="mx-auto p-2"
+                                        width="200px"
+                                        height="fit-content"
+                                        v-for="item in activeCategory.items"
+                                        @click="addToCart(item)">
                                     <v-img :src="require('../assets/images/' + item.image)" style="height: 200px"></v-img>
                                     <v-card-title class="flex-column align-start">
                                         <p class=" mb-2">
@@ -26,16 +24,16 @@
                                             {{ item.price }} جنيه
                                         </p>
                                     </v-card-title>
-
                                 </v-card>
 
+                            </div>
                             </div>
                         </v-card-text>
                     </v-card>
 
                 </v-col>
-                <v-col cols="3" class="px-0 h-100">
-                    <div class="d-flex flex-column justify-content-between align-content-between h-100">
+                <v-col cols="4">
+                    <div class="d-flex flex-column justify-content-between align-content-between " style="height: 100%">
                         <div class="text-h5 p-2 pb-3 bg-gray">
                             <v-list>
                                 <v-list-item title="طلبات الجهاز"></v-list-item>
@@ -74,11 +72,9 @@
                             </v-card>
                         </div>
                     </div>
-
                 </v-col>
-
             </v-row>
-        </v-card>
+    </div>
 </template>
 
 <script>

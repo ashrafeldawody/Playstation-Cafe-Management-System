@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto m-3 elevation-4 d-flex flex-column" width="400">
+    <v-card class="mx-auto m-1 elevation-4 d-flex flex-column user-select-none" min-width="30%">
         <v-card-header>
             <div class="d-flex justify-content-between w-100">
                 <p class="text-h4 text--primary">
@@ -11,12 +11,11 @@
                         {{ device.category.name }}
                     </v-chip>
                 </p>
-                <div class="rounded-circle" :class="device.active_bill ? 'bg-danger':'bg-success'"
-                     style="width: 2rem;height: 2rem"></div>
+                <v-btn v-if="activeBill" icon="mdi-swap-horizontal" @click="timeSwap = true"></v-btn>
             </div>
         </v-card-header>
         <v-card-text>
-            <div class="display-1 text-center">
+            <div class="text-center p-5" style="font-size: 6rem">
                 <v-badge location="bottom start"
                          v-if="activeBill"
                          :content="device.active_bill && device.active_bill.time_limit > 0 ? formatTime(device.active_bill.time_limit) : 'مفتوح'"
@@ -74,7 +73,7 @@
             </v-table>
             <div>
 
-                <v-dialog v-model="cartDialog" width="70%" height="90%" persistent fullscreen>
+                <v-dialog v-model="cartDialog" width="90%" height="90%" persistent fullscreen>
                     <DeviceCart @closeCartDialog="cartDialog = false" :bill="device.active_bill"></DeviceCart>
                 </v-dialog>
 
@@ -84,6 +83,9 @@
                 </v-dialog>
                 <v-dialog v-model="timeDialog" width="70%" height="90%">
                     <Timeout :device="device" @timeChanged="timeLimitChanged" @showPay="checkoutDialog=true;timeDialog = false"></Timeout>
+                </v-dialog>
+                <v-dialog v-model="timeSwap" width="70%" height="90%">
+                    <TimeSwap :bill_id="activeBill.id" :device_name="device.name"></TimeSwap>
                 </v-dialog>
 
             </div>
@@ -145,20 +147,21 @@
 </template>
 
 <script>
-import Timeline from "./Timeline";
 import DeviceCart from "./DeviceCart";
 import axios from "../plugins/axios";
 import moment from "moment";
 import Checkout from "./Checkout";
 import Timeout from "./Timeout";
+import TimeSwap from "./TimeSwap";
 
 export default {
     name: "Device",
-    components: {Timeout, Checkout, Timeline, DeviceCart},
+    components: {Timeout, Checkout, DeviceCart,TimeSwap},
     data: () => ({
         cartDialog: false,
         checkoutDialog: false,
         timeDialog: false,
+        timeSwap: false,
         multi: false,
         timeDiff: 0,
         activeSessionDiff: 0,

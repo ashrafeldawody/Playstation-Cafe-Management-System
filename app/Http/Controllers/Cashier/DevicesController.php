@@ -209,4 +209,9 @@ class DevicesController extends Controller
     }
 
 
+    public function get_available_devices()
+    {
+        $devices = Device::whereDoesntHave('activeBill')->get();
+        return response()->json($devices);
+    }
 }

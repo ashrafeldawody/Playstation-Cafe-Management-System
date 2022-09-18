@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::group(['prefix' => 'play'], function () {
     Route::get('/devices', [DevicesController::class , 'index']);
+    Route::get('/devices/available', [DevicesController::class , 'get_available_devices']);
     Route::post('/start', [DevicesController::class , 'start']);
     Route::post('/finish',  [DevicesController::class , 'finish']);
     Route::post('/toggle_multi/{device_id}',  [DevicesController::class , 'toggleMulti']);
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'shift'], function () {
 });
 Route::group(['prefix' => 'bill'], function () {
         Route::get('', [BillController::class , 'index']);
+        Route::post('swap', [BillController::class , 'swap']);
 });
 Route::group(['prefix' => 'expense'], function () {
         Route::get('', [ExpensesController::class, 'index']);

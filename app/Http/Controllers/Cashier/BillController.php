@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
+use App\Models\Device;
 use App\Models\Shift;
 use Illuminate\Http\Request;
 
@@ -19,5 +20,19 @@ class BillController extends Controller
             ->get();
         return response()->json($bills);
     }
+
+    public function swap(Request $request)
+    {
+        $bill = Bill::find($request->bill_id);
+        $device = Device::find($request->device_id);
+        if($device->activeBill){
+            return response()->json(['message' => 'لا يمكنك تغيير الفاتوره لهذا الجهاز'], 400);
+        }
+        $bill->update([
+            'device_id' => $request->device_id,
+        ]);
+        return response()->json(null,200);
+    }
+
 
 }

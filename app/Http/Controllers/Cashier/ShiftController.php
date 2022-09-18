@@ -48,11 +48,14 @@ class ShiftController extends Controller
         $data["playTotal"] = $shift->bills->sum('play_total');
         $data["playHours"] = CarbonInterval::seconds($shift->sessions->sum('duration'))->cascade()->format('%h:%I');
         $data["discount"] = $shift->bills->sum('discount');
-
-        Mail::send('emails.shiftEnd', $data, function($message)use($data) {
-            $message->to($data["email"], $data["email"])
-                        ->subject($data["title"]);
-        });
+        try {
+            Mail::send('emails.shiftEnd', $data, function($message)use($data) {
+                $message->to($data["email"], $data["email"])
+                    ->subject($data["title"]);
+            });
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'حدث خطأ'], 400);
+        }
 
         return response()->json($shift);
     }

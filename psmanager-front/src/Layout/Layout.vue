@@ -46,7 +46,7 @@
         <v-main>
 
             <!-- Provides the application the proper gutter -->
-            <v-container fluid class="p-3 h-100 w-100">
+            <v-container fluid class="p-0 h-100 w-100">
                 <slot></slot>
             </v-container>
         </v-main>

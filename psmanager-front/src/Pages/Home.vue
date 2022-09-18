@@ -1,5 +1,5 @@
 <template>
-        <v-card width="100%" style="margin: 2rem auto">
+        <v-card width="100%" style="margin: 1rem auto">
                 <div class="d-flex justify-content-between w-100 flex-wrap">
                     <Device v-for="device in devices" :device="device" :key="device.id"></Device>
                 </div>
