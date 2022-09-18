@@ -174,11 +174,12 @@ class DevicesController extends Controller
             ]);
             $tempBillItem->delete();
         }
-
+        $playCost = $bill->sessions->sum('cost') < 5 ? 5 : $bill->sessions->sum('cost');
+        $totalCost = $total_cafe_cost + $playCost;
         $bill->update([
             'cafe_total' => $total_cafe_cost,
-            'play_total' => $bill->sessions->sum('cost') < 5 ? 5 : $bill->sessions->sum('cost'),
-            'discount' => $request->discount ? $request->discount : 0,
+            'play_total' => $playCost,
+            'discount' => $request->paid < $totalCost ?  $totalCost - $request->paid : 0,
             'paid' => $request->paid < 5 ? 5 : $request->paid,
         ]);
 

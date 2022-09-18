@@ -89,34 +89,23 @@
                     <strong>المجموع الكلي: </strong>
                 </v-col>
                 <v-col cols="3" class="text-center">
-                    <strong>{{ this.cartTotal + this.playTotal }}</strong>
+                    <strong>{{ this.totalCost }}</strong>
                     <span class="mx-2">جنيه</span>
                 </v-col>
             </v-row>
 
             <v-row justify="center" align-content="center">
                 <v-col cols="2" class="align-self-center">
-                    <strong>الخصم</strong>
+                    <strong>المبلغ المدفوع</strong>
                 </v-col>
                 <v-col cols="3">
                     <v-text-field
-                        v-model="discount"
-                        label="الخصم"
+                        v-model="paid"
+                        label="المدفوع"
                         suffix="جنيه"
-                        :disabled="totalCost <= 5"
-                        :rules="[v => v <= 5 || 'الخصم يجب ان يكون اقل من 5 جنيه']"
+                        hide-details
                         density="compact"
                     ></v-text-field>
-                </v-col>
-            </v-row>
-
-            <v-row justify="center" align-content="center">
-                <v-col cols="2" class="align-self-center">
-                    <strong>المبلغ المطلوب: </strong>
-                </v-col>
-                <v-col cols="3" class="text-center">
-                    <strong>{{ totalCost  }}</strong>
-                    <span class="mx-2">جنيه</span>
                 </v-col>
             </v-row>
             <div>
@@ -158,7 +147,7 @@ export default {
     },
     data() {
         return {
-            discount: 0,
+            paid: 0,
             printRecipt: true,
         }
     },
@@ -170,11 +159,10 @@ export default {
             let cost = this.device.active_bill.sessions ? this.device.active_bill.sessions.reduce((total, session) => total + this.calculateSessionCost(session), 0) : 0;
             return cost < 5 ? 5 : cost;
         },
-        validDiscount() {
-            return (!isNaN(this.discount) && this.discount > 0 && this.discount <= 5) ? this.discount:0;
-        },
+
         totalCost() {
-            return this.cartTotal + this.playTotal - this.validDiscount;
+            this.paid = this.cartTotal + this.playTotal;
+            return this.cartTotal + this.playTotal;
         }
     },
      methods: {
@@ -199,11 +187,21 @@ export default {
          },
 
          finishAndPay() {
+             // if the diffrence between the paid and the total is more then 5
+                // then we need to ask the user to confirm the payment
+                if (Math.abs(this.paid - this.totalCost) >= 5) {
+                    this.$toast.warning("المبلغ المدفوع لا يساوي المجموع الكلي");
+                    return;
+                }
+                if (this.paid < 5 && this.playTotal > 0) {
+                    this.$toast.warning("المبلغ المدفوع لا يمكن ان يكون اقل من 5 جنيه");
+                    return;
+                }
+             if(this.paid )
              axios.post(`/api/play/finish`, {
                  bill_id: this.device.active_bill.id,
                  printRecipt: this.printRecipt,
-                 discount: this.discount,
-                 paid: this.totalCost,
+                 paid: this.paid,
              }).then(response => {
                  this.device.active_bill = null;
                  this.$toast.open({
