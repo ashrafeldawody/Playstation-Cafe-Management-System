@@ -54,7 +54,7 @@
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>المنتج</th>
-                            <th>الكمية</th>
+                            <th>عدد المبيعات</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -82,8 +82,8 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>العميل</th>
-                            <th>الكمية</th>
+                            <th>الجهاز</th>
+                            <th>مرات التشغيل</th>
                         </tr>
                         </thead>
                         <tbody>

@@ -42,7 +42,7 @@ class Bill extends Model
     public static function stats($start_time = null, $end_time = null)
     {
         if ($start_time && $end_time) {
-            $bills = Bill::with('items')->whereBetween('created_at', [$start_time, $end_time]);
+            $bills = Bill::with('items')->whereBetween('created_at', [$start_time, $end_time])->get();
         } else {
             $bills = Bill::with('items')->get();
         }
