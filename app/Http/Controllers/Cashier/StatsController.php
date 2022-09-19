@@ -48,7 +48,7 @@ class StatsController extends Controller
             ],
             [
                 'label' => 'اجمالي المدفوع',
-                'value' => $playTotal + $cafeTotal - $totalDiscount,
+                'value' => $totalPaid,
                 'unit' => 'جنيه',
             ],
         ];

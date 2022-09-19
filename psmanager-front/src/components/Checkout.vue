@@ -151,6 +151,9 @@ export default {
             printRecipt: true,
         }
     },
+    mounted() {
+        this.paid = this.cartTotal + this.playTotal;
+    },
     computed: {
         cartTotal() {
             return this.device.active_bill.temp_items ? this.device.active_bill.temp_items.reduce((total, item) => total + item.price * item.quantity, 0) : 0;
@@ -161,7 +164,6 @@ export default {
         },
 
         totalCost() {
-            this.paid = this.cartTotal + this.playTotal;
             return this.cartTotal + this.playTotal;
         }
     },
@@ -197,7 +199,10 @@ export default {
                     this.$toast.warning("المبلغ المدفوع لا يمكن ان يكون اقل من 5 جنيه");
                     return;
                 }
-             if(this.paid )
+             if (this.paid < this.cartTotal) {
+                  this.$toast.warning("المبلغ المدفوع لا يمكن ان يكون اقل من المجموع الكلي للسلع");
+                  return;
+             }
              axios.post(`/api/play/finish`, {
                  bill_id: this.device.active_bill.id,
                  printRecipt: this.printRecipt,

@@ -49,10 +49,10 @@
                 <span v-if="bill.time_limit > 0">{{ bill.time_limit/60 }} دقيقة</span>
                 <span v-if="bill.time_limit === 0">مفتوح</span>
             </td>
-            <td>{{ parseFloat(bill.cafe_total) }} جنيه</td>
             <td>{{ parseFloat(bill.play_total) }} جنيه</td>
+            <td>{{ parseFloat(bill.cafe_total) }} جنيه</td>
             <td>{{ parseFloat(bill.discount) }} جنيه</td>
-            <td>{{ parseFloat(bill.cafe_total) + parseFloat(bill.play_total) - parseFloat(bill.discount) }} جنيه</td>
+            <td>{{ bill.paid }} جنيه</td>
         </tr>
         </tbody>
     </table>
