@@ -11,7 +11,7 @@ class Item extends Model
     protected $appends = ['quantity','revenue'];
     public function category()
     {
-        return $this->belongsTo(ItemsCategory::class,'items_category_id')->select('id','name');
+        return $this->belongsTo(ItemCategory::class,'items_category_id')->select('id','name');
     }
     public function inventory()
     {

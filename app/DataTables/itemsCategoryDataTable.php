@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\itemsCategory;
+use App\Models\ItemCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -24,9 +24,14 @@ class itemsCategoryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($device) {
-                return '<div class="d-flex justify-content-evenly gap-3">
-                <a href="' . route('device-categories.edit', $device->id) . '" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                <a href="' . route('device-categories.delete', $device->id) . '" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                return '<div class="d-flex justify-content-evenly">
+                <a href="' . route('item-categories.edit', $device->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
+                <form action="' . route('item-categories.destroy', $device->id) . '" method="POST">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-danger"
+                    onclick="return confirm(\'هل انت متأكد من الحذف؟\')"><i class="fa fa-trash"></i></button>
+                </form>
                 </div>';
             })
             ->addColumn('created_at', function ($device) {
@@ -38,10 +43,10 @@ class itemsCategoryDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\itemsCategory $model
+     * @param \App\Models\ItemCategory $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(itemsCategory $model): QueryBuilder
+    public function query(ItemCategory $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -58,7 +63,6 @@ class itemsCategoryDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),

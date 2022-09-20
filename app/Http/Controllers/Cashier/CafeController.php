@@ -7,7 +7,7 @@ use App\Models\Bill;
 use App\Models\CafeBillItem;
 use App\Models\Inventory;
 use App\Models\Item;
-use App\Models\itemsCategory;
+use App\Models\ItemCategory;
 use App\Models\Shift;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class CafeController extends Controller
 {
     public function index()
     {
-        return ItemsCategory::with('items')->get();
+        return ItemCategory::with('items')->get();
     }
     public function list(Request $request)
     {

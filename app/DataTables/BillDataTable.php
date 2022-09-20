@@ -61,7 +61,7 @@ class BillDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->ajax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->footerCallback('function (row, data, start, end, display) {
                         var api = this.api(), data;
                         var total = api.column(4).data().reduce(function (a, b) {

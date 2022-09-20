@@ -56,7 +56,6 @@ class StatsController extends Controller
     }
     public function overtime(){
         $shifts = Shift::whereNot('end_time', null)->whereMonth('start_time', '=', date('m'))->whereYear('start_time', '=', date('Y'))->get();
-
         return response()->json($shifts);
     }
 }

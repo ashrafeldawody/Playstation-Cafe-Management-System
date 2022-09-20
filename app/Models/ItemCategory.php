@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class itemsCategory extends Model
+class ItemCategory extends Model
 {
+    protected $table = 'items_categories';
 
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at'];

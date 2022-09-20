@@ -6,48 +6,42 @@
 @section('content')
     <div class="card card-primary mt-4">
         <div class="card-header">
-            <h3 class="card-title">اضافة جهاز جديد</h3>
+            <h3 class="card-title">تعديل جهاز</h3>
         </div>
-        <form>
+        <form action="{{ route('devices.update',$device->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            @include('includes.errors')
             <div class="card-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    <label for="name">الإسم</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="الاسم" required value="{{ $device->name }}">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <select class="custom-select form-control-border" id="exampleSelectBorder">
-                        <option>Value 1</option>
-                        <option>Value 2</option>
-                        <option>Value 3</option>
+                    <label for="devices_category_id">النوع</label>
+                    <select name="devices_category_id" id="devices_category_id" class="form-control">
+                        @foreach ($deviceCategories as $deviceCategory)
+                            <option {{ $device->devices_category_id == $deviceCategory->id ? 'selected' : '' }} value="{{ $deviceCategory->id }}">{{ $deviceCategory->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="exampleInputFile">
-                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                        </div>
-                        <div class="input-group-append">
-                            <span class="input-group-text">Upload</span>
-                        </div>
+                    <label for="games">الألعاب</label>
+                    <div>
+                        @foreach ($games as $game)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="game{{ $game->id }}" name="games[]" value="{{ $game->id }}" {{ $device->games->contains($game->id) ? 'checked' : '' }}>
+                                <label class="form-check-label" {{ $device->games->contains($game->id) ? 'checked' : '' }} for="game{{ $game->id }}">{{ $game->name }}</label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-            </div>
-            <!-- /.card-body -->
+                <!-- /.card-body -->
 
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </div>
+                </div>
         </form>
     </div>
 @stop

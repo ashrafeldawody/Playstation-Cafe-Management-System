@@ -1,52 +1,40 @@
 @extends('adminlte::page')
 
-@section('title', 'الأجهزة')
+@section('title', 'انواع الأجهزة')
 
 
 @section('content')
     <div class="card card-primary mt-4">
         <div class="card-header">
-            <h3 class="card-title">اضافة جهاز جديد</h3>
+            <h3 class="card-title">{{ $deviceCategory->name }}
+            -
+            تعديل البيانات</h3>
         </div>
-        <form>
+        <form action="{{ route('device-categories.update', $deviceCategory->id) }}" method="POST">
+            @csrf
+            @method('PUT')
             <div class="card-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    <label for="name">الإسم</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="الاسم" required value="{{ $deviceCategory->name }}">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label for="price">سعر الساعة</label>
+                    <input type="number" class="form-control" id="price" name="price" placeholder="سعر الساعة" required value="{{ $deviceCategory->price }}">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <select class="custom-select form-control-border" id="exampleSelectBorder">
-                        <option>Value 1</option>
-                        <option>Value 2</option>
-                        <option>Value 3</option>
-                    </select>
+                    <label for="multi_price">سعر المالتي</label>
+                    <input type="number" class="form-control" id="multi_price" name="multi_price" placeholder="سعر المالتي"  value="{{ $deviceCategory->multi_price }}">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="exampleInputFile">
-                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                        </div>
-                        <div class="input-group-append">
-                            <span class="input-group-text">Upload</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <label for="discount">نسبه الخصم</label>
+                    <input type="number" class="form-control" id="discount" name="discount" placeholder="نسبه الخصم"  value="{{ $deviceCategory->discount }}">
                 </div>
             </div>
             <!-- /.card-body -->
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">حفظ</button>
             </div>
         </form>
     </div>

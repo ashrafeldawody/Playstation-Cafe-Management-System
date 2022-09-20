@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Device extends Model
 {
     protected $guarded = [];
+
+    public function games()
+    {
+        return $this->belongsToMany(Game::class,'device_has_games');
+    }
+
     function category(){
-        return $this->belongsTo(devicesCategory::class,'devices_category_id');
+        return $this->belongsTo(DeviceCategory::class,'devices_category_id');
     }
     function activeBill()
     {

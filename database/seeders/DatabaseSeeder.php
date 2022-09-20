@@ -3,10 +3,11 @@
 use App\Models\Bill;
 use App\Models\CafeBillItem;
 use App\Models\Device;
-use App\Models\devicesCategory;
+use App\Models\DeviceCategory;
+use App\Models\Game;
 use App\Models\Inventory;
 use App\Models\Item;
-use App\Models\itemsCategory;
+use App\Models\ItemCategory;
 use App\Models\playSession;
 use App\Models\Shift;
 use App\Models\User;
@@ -26,6 +27,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'ashraf6450@gmail.com',
             'password' => bcrypt('91919191917'),
         ]);
+        $games = [
+            ['name'=>"FIFA 18","type"=>"digital"],
+            ['name'=>"FIFA 19","type"=>"digital"],
+            ['name'=>"FIFA 20","type"=>"digital"],
+            ['name'=>"FIFA 21","type"=>"digital"],
+            ['name'=>"FIFA 22","type"=>"digital"],
+            ['name'=>"FIFA 23","type"=>"digital"],
+            ['name'=>"PES 18","type"=>"digital"],
+            ['name'=>"PES 19","type"=>"digital"],
+            ['name'=>"PES 20","type"=>"digital"],
+            ['name'=>"PES 21","type"=>"digital"],
+            ['name'=>"PES 22","type"=>"digital"],
+            ['name'=>"GTA V","type"=>"digital"],
+            ['name'=>"Mortal Combat","type"=>"disc"],
+        ];
         $device_categories = [
             ['name'=>'بلايستيشن 5','price'=>20,'multi_price'=>30],
             ['name'=>'بلايستيشن 4','price'=>10,'multi_price'=>15],
@@ -82,17 +98,20 @@ class DatabaseSeeder extends Seeder
             ['name'=>'اندومي صغير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>7, 'buy_price'=>5],
             ['name'=>'اندومي كبير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>8, 'buy_price'=>6],
         ];
+        foreach($games as $game){
+            Game::create($game);
+        }
         foreach ($items_categories as $items_category) {
-            itemsCategory::create($items_category);
+            ItemCategory::create($items_category);
         }
         foreach ($items as $item) {
             Item::create($item);
         }
         foreach ($device_categories as $category) {
-            devicesCategory::create($category);
+            DeviceCategory::create($category);
         }
         foreach ($device_categories as $category) {
-            devicesCategory::create($category);
+            DeviceCategory::create($category);
         }
         foreach ($devices as $device) {
             Device::create($device);

@@ -27,9 +27,14 @@ class DevicesDataTable extends DataTable
                 return $device->category->name;
             })
             ->addColumn('action', function ($device) {
-                return '<div class="d-flex justify-content-evenly gap-3">
-                <a href="' . route('devices.edit', $device->id) . '" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                <a href="' . route('devices.delete', $device->id) . '" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                return '<div class="d-flex justify-content-evenly">
+                <a href="' . route('devices.edit', $device->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
+                <form action="' . route('devices.destroy', $device->id) . '" method="POST">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-danger"
+                    onclick="return confirm(\'هل انت متأكد من الحذف؟\')"><i class="fa fa-trash"></i></button>
+                </form>
                 </div>';
             })
             ->addColumn('created_at', function ($device) {
@@ -64,7 +69,6 @@ class DevicesDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),
