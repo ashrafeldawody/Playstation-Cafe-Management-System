@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         swapTime() {
-            axios.post("/api/bill/swap", {
+            axios.post("/bill/swap", {
                 device_id: this.selected_device,
                 bill_id: this.bill_id,
             })
@@ -54,7 +54,7 @@ export default {
         },
     },
     mounted() {
-        axios.get('/api/play/devices/available')
+        axios.get('/play/devices/available')
             .then(response => {
                 this.devices = response.data;
             })

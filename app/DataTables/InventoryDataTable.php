@@ -31,10 +31,10 @@ class InventoryDataTable extends DataTable
                     return '<h4><span class="badge badge-success">بيع</span></h4>';
                 }
                 if ($inventory->type == 'BUY') {
-                    return '<h4><span class="badge badge-primary">شراء</span></h4>';
+                    return '<h4><span class="badge badge-success">شراء</span></h4>';
                 }
                 if ($inventory->type == 'RETURN') {
-                    return '<h4><span class="badge badge-danger">مرتجع</span></h4>';
+                    return '<h4><span class="badge badge-warning">مرتجع</span></h4>';
                 }
                 if ($inventory->type == 'DEFECT') {
                     return '<h4><span class="badge badge-danger">تالف</span></h4>';

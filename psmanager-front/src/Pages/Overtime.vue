@@ -71,7 +71,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('/api/stats/overtime')
+        axios.get('/stats/overtime')
             .then(response => {
                 this.shifts = response.data;
             })

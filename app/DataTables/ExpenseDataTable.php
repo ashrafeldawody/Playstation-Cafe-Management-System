@@ -23,9 +23,24 @@ class ExpenseDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('action', function ($expense) {
+                return '<div class="d-flex justify-content-evenly">
+                <a href="' . route('expenses.edit', $expense->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
+                <form action="' . route('expenses.destroy', $expense->id) . '" method="POST">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-danger"
+                    onclick="return confirm(\'هل انت متأكد من الحذف؟\')"><i class="fa fa-trash"></i></button>
+                </form>
+                </div>';
+            })
+            ->editColumn('image', function ($item) {
+                return '<img src="' . asset('uploads/' . $item->image) . '" height="150px">';
+            })
             ->addColumn('created_at', function ($device) {
                 return $device->created_at->format('Y-m-d h:i a');
             })
+            ->rawColumns(['action', 'image'])
             ->setRowId('id');
     }
 
@@ -72,8 +87,10 @@ class ExpenseDataTable extends DataTable
             Column::make('id'),
             Column::make('type')->title('السبب'),
             Column::make('description')->title('التفاصيل'),
+            Column::make('image')->title('الصورة'),
             Column::make('amount')->title('المبلغ'),
             Column::make('created_at')->title('التاريخ'),
+            Column::make('action')->title('العمليات')->orderable(false)->searchable(false),
         ];
     }
 

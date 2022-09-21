@@ -35,7 +35,7 @@ export default {
     }
     },
     mounted() {
-        axios.get('/api/cafe/list')
+        axios.get('/cafe/list')
             .then(response => {
                 this.items = response.data;
             })
@@ -54,7 +54,7 @@ export default {
                 });
                 return;
             }
-            axios.post('/api/cafe/inventory', this.inventory).then(response => {
+            axios.post('/cafe/inventory', this.inventory).then(response => {
                 this.inventory= {
                     item_id: 1,
                     quantity: 1,

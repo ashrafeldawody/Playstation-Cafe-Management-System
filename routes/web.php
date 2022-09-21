@@ -40,16 +40,13 @@ Route::group(['middleware' => 'auth','prefix'=>'dashboard'], function () {
     Route::resource('/item-categories', ItemCategoryController::class)->names('item-categories');
     Route::get('/item-categories/{id}', [ItemCategoryController::class,'delete'])->name('item-categories.delete');
 
-    Route::get('/expenses', [ExpenseController::class,'index'])->name('expenses.index');
+    Route::resource('/expenses', ExpenseController::class)->names('expenses');
 
     Route::resource('/bills', BillController::class)->names('bills');
 
     Route::resource('/inventory', InventoryController::class)->names('inventory');
 
     Route::get('/reports', [ReportController::class,'index'])->name('reports.index');
-    Route::get('/reports/daily', [ReportController::class,'daily'])->name('reports.daily');
-    Route::get('/reports/monthly', [ReportController::class,'monthly'])->name('reports.monthly');
-    Route::get('/reports/yearly', [ReportController::class,'yearly'])->name('reports.yearly');
 
     Route::resource('/settings', SettingController::class)->names('settings');
 

@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         loadInventory() {
-            axios.get("/api/cafe/inventory").then(res => {
+            axios.get("/cafe/inventory").then(res => {
                 this.items = res.data;
             });
         },

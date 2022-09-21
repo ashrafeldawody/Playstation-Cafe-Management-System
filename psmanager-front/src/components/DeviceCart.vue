@@ -17,7 +17,7 @@
                                         v-for="item in activeCategory.items"
                                         @click="addToCart(item)"
                                     >
-                                        <v-img :src="require('../assets/images/' + item.image)" style="height: 200px"></v-img>                                        <v-card-title class="flex-column align-start">
+                                        <v-img :src="image_url(item.image)" style="height: 200px"></v-img>                                        <v-card-title class="flex-column align-start">
                                             <p class=" mb-2">
                                                 {{ item.name }}
                                             </p>
@@ -83,6 +83,7 @@
 
 <script>
 import axios from "../plugins/axios";
+import { MEDIA_URL } from '../config'
 
 export default {
     name: "DeviceCart",
@@ -99,8 +100,12 @@ export default {
         }
     },
     methods: {
+        image_url(image){
+            return MEDIA_URL + image
+        },
+
         closeCartDialog() {
-            axios.post(`/api/play/update_cart/${this.bill.id}`, {
+            axios.post(`/play/update_cart/${this.bill.id}`, {
                 items: this.bill.temp_items
             });
             this.$emit("closeCartDialog");
@@ -140,7 +145,7 @@ export default {
     mounted() {
         if(!this.bill.temp_items)
             this.bill.temp_items = [];
-        axios.get('/api/cafe/items')
+        axios.get('/cafe/items')
             .then(response => {
                 this.categories = response.data;
             })

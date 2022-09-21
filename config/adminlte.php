@@ -186,14 +186,14 @@ return [
     |
     */
 
-    'classes_body' => 'rtl',
+    'classes_body' => 'overflow-hidden',
     'classes_brand' => '',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
-    'classes_sidebar_nav' => '',
+    'classes_sidebar_nav' => 'p-0',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
@@ -342,40 +342,22 @@ return [
             'url'         => '/dashboard/inventory',
             'icon'        => 'fa fa-box',
         ],
-        [
-            'text' => 'التقارير',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'التقارير اليومية',
-                    'url'  => '/dashboard/reports/daily',
-                ],
-                [
-                    'text' => 'التقارير الشهرية',
-                    'url'  => '/dashboard/reports/monthly',
-                ],
-                [
-                    'text' => 'التقارير السنوية',
-                    'url'  => '/dashboard/reports/yearly',
-                ],
-            ],
-        ],
+
         [
             'text'        => 'المستخدمين',
             'url'         => '/dashboard/users',
             'icon'        => 'fa fa-users',
         ],
         [
+            'text'        => 'التقارير',
+            'url'         => '/dashboard/reports',
+            'icon'        => 'fa fa-file-invoice',
+        ],
+        [
             'text'        => 'الاعدادات',
             'url'         => '/dashboard/settings',
             'icon'        => 'fa fa-cog',
         ],
-        [
-            'text'        => 'تسجيل الخروج',
-            'url'         => '/dashboard/logout',
-            'icon'        => 'fa fa-sign-out-alt',
-        ],
-
 
         ],
 

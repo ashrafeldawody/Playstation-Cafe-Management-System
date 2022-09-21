@@ -188,7 +188,7 @@ export default {
             return time_str;
         },
         startTime(time_limit) {
-            axios.post('/api/play/start', {
+            axios.post('/play/start', {
                 device_id: this.device.id,
                 is_multi: this.multi,
                 time_limit: time_limit
@@ -211,12 +211,12 @@ export default {
         changeTimeLimit(time_limit) {
             if(time_limit < 0) return;
             let limit = time_limit === 0 ? 0 : this.activeBill.time_limit + time_limit;
-            axios.post(`/api/play/change_limit/${this.device.id}/${limit}`)
+            axios.post(`/play/change_limit/${this.device.id}/${limit}`)
                 .then(() => this.device.active_bill.time_limit = limit);
         },
         toggleMulti() {
             if (this.activeBill.sessions.length >= 3) return;
-            axios.post(`/api/play/toggle_multi/${this.device.id}`)
+            axios.post(`/play/toggle_multi/${this.device.id}`)
                 .then(response => {
                     this.device.active_bill = response.data;
                 });

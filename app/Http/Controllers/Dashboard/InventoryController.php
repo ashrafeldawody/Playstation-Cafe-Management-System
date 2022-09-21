@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\DataTables\InventoryDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Inventory;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -18,25 +20,24 @@ class InventoryController extends Controller
         return $dataTable->render('dashboard.inventory.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        $items = Item::all();
+        return view('dashboard.inventory.create',compact('items'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'item_id' => 'required',
+            'quantity' => 'required|numeric',
+            'type' => 'required|in:BUY,SELL,RETURN,DEFECT,RETURN',
+        ]);
+
+        Inventory::create($request->all());
+        return redirect()->route('inventory.index')->with('success','تمت الاضافة بنجاح');
     }
 
     /**

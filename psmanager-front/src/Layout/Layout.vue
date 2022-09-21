@@ -56,7 +56,7 @@
 <script>
 import moment from 'moment';
 export default {
-    name: "Layout",
+    name: "LayoutComponent",
     data() {
         return {
             timer: null,

@@ -63,7 +63,7 @@ export default {
                 });
                 return;
             }
-            axios.post('/api/expense', this.expense).then(response => {
+            axios.post('/expense', this.expense).then(response => {
                 this.$emit('added',response.data);
                 this.expense = {
                     type: "",

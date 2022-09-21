@@ -67,36 +67,36 @@ class DatabaseSeeder extends Seeder
             ['name'=>'اكل'],
         ];
         $items = [
-            ['name'=>'شاي','image'=>'tea.png', 'items_category_id'=>2, 'price'=>4, 'buy_price'=>1],
-            ['name'=>'كافي ميكس','image'=>'Bonjorno.png', 'items_category_id'=>2, 'price'=>5, 'buy_price'=>2],
-            ['name'=>'نسكافيه','image'=>'nescafe.jpg', 'items_category_id'=>2, 'price'=>5, 'buy_price'=>3],
+            ['name'=>'شاي','image'=>'items/tea.png', 'items_category_id'=>2, 'price'=>4, 'buy_price'=>1],
+            ['name'=>'كافي ميكس','image'=>'items/Bonjorno.png', 'items_category_id'=>2, 'price'=>5, 'buy_price'=>2],
+            ['name'=>'نسكافيه','image'=>'items/nescafe.jpg', 'items_category_id'=>2, 'price'=>5, 'buy_price'=>3],
 
-            ['name'=>'بيبسي','image'=>'pepsi.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
-            ['name'=>'مريندا برتقال','image'=>'mirinda orange.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
-            ['name'=>'مريندا تفاح اخضر','image'=>'green apple.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
-            ['name'=>'شويبس','image'=>'schweppes.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
-            ['name'=>'راني','image'=>'rani.png', 'items_category_id'=>1, 'price'=>8, 'buy_price'=>6],
-            ['name'=>'بشاير','image'=>'bashayer.png', 'items_category_id'=>1, 'price'=>3, 'buy_price'=>2],
-            ['name'=>'جهينة','image'=>'juhayna.png', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],
-            ['name'=>'بيتي','image'=>'bety.jpg', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],
+            ['name'=>'بيبسي','image'=>'items/pepsi.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'مريندا برتقال','image'=>'items/mirinda orange.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'مريندا تفاح اخضر','image'=>'items/green apple.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'شويبس','image'=>'items/schweppes.png', 'items_category_id'=>1, 'price'=>7, 'buy_price'=>6],
+            ['name'=>'راني','image'=>'items/rani.png', 'items_category_id'=>1, 'price'=>8, 'buy_price'=>6],
+            ['name'=>'بشاير','image'=>'items/bashayer.png', 'items_category_id'=>1, 'price'=>3, 'buy_price'=>2],
+            ['name'=>'جهينة','image'=>'items/juhayna.png', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],
+            ['name'=>'بيتي','image'=>'items/bety.jpg', 'items_category_id'=>1, 'price'=>5, 'buy_price'=>4],
 
-            ['name'=>'شيبسي','image'=>'chipsy.png', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
-            ['name'=>'ويندوز','image'=>'windows5.jpg', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
-            ['name'=>'بريك','image'=>'break5.jpg', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
-            ['name'=>'دوريتوس','image'=>'doritos5.png', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+            ['name'=>'شيبسي 5','image'=>'items/chipsy.png', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+            ['name'=>'ويندوز 5','image'=>'items/windows5.jpg', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+            ['name'=>'بريك 5','image'=>'items/break5.jpg', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
+            ['name'=>'دوريتوس 5','image'=>'items/doritos5.png', 'items_category_id'=>3, 'price'=>5, 'buy_price'=>4.5],
 
-            ['name'=>'ويندوز','image'=>'windows2.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
-            ['name'=>'بريك','image'=>'break2.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
-            ['name'=>'برونتو','image'=>'pronto.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
-
-
-            ['name'=>'هوهوز','image'=>'hohos.png', 'items_category_id'=>4, 'price'=>2, 'buy_price'=>1.7],
-            ['name'=>'توينكز','image'=>'twinkies.jpg', 'items_category_id'=>4, 'price'=>3, 'buy_price'=>2.6],
-            ['name'=>'لمبادا','image'=>'lambada.jpg', 'items_category_id'=>4, 'price'=>2, 'buy_price'=>1.7],
+            ['name'=>'ويندوز 2','image'=>'items/windows2.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
+            ['name'=>'بريك 2','image'=>'items/break2.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
+            ['name'=>'برونتو','image'=>'items/pronto.png', 'items_category_id'=>3, 'price'=>2, 'buy_price'=>1.7],
 
 
-            ['name'=>'اندومي صغير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>7, 'buy_price'=>5],
-            ['name'=>'اندومي كبير','image'=>'indomie.jpg', 'items_category_id'=>5, 'price'=>8, 'buy_price'=>6],
+            ['name'=>'هوهوز','image'=>'items/hohos.png', 'items_category_id'=>4, 'price'=>2, 'buy_price'=>1.7],
+            ['name'=>'توينكز','image'=>'items/twinkies.jpg', 'items_category_id'=>4, 'price'=>3, 'buy_price'=>2.6],
+            ['name'=>'لمبادا 2','image'=>'items/lambada.jpg', 'items_category_id'=>4, 'price'=>2, 'buy_price'=>1.7],
+
+
+            ['name'=>'اندومي صغير','image'=>'items/indomie.jpg', 'items_category_id'=>5, 'price'=>7, 'buy_price'=>5],
+            ['name'=>'اندومي كبير','image'=>'items/indomie.jpg', 'items_category_id'=>5, 'price'=>8, 'buy_price'=>6],
         ];
         foreach($games as $game){
             Game::create($game);

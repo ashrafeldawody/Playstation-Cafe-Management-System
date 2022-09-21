@@ -87,7 +87,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('/api/expense')
+        axios.get('/expense')
             .then(response => {
                 this.expenses = response.data;
             });

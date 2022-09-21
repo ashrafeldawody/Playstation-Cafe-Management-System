@@ -26,11 +26,19 @@ class ItemDataTable extends DataTable
             ->addColumn('category', function ($device) {
                 return $device->category->name;
             })
-            ->addColumn('action', function ($device) {
-                return '<div class="d-flex justify-content-evenly gap-3">
-                <a href="' . route('devices.edit', $device->id) . '" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                <a href="' . route('devices.delete', $device->id) . '" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+            ->addColumn('action', function ($item) {
+                return '<div class="d-flex justify-content-evenly">
+                <a href="' . route('items.edit', $item->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
+                <form action="' . route('items.destroy', $item->id) . '" method="POST">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-danger"
+                    onclick="return confirm(\'هل انت متأكد من الحذف؟\')"><i class="fa fa-trash"></i></button>
+                </form>
                 </div>';
+            })
+            ->editColumn('image', function ($item) {
+                return '<img src="' . asset('uploads/' . $item->image) . '" height="150px">';
             })
             ->addColumn('created_at', function ($device) {
                 return $device->created_at->format('Y-m-d');
@@ -38,7 +46,7 @@ class ItemDataTable extends DataTable
             ->addColumn('updated_at', function ($device) {
                 return $device->updated_at->format('Y-m-d');
             })
-            ->setRowId('id');
+            ->rawColumns(['action', 'image']);
     }
 
     /**
@@ -82,7 +90,8 @@ class ItemDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name')->title('اسم الجهاز'),
+            Column::make('name')->title('اسم المنتج'),
+            Column::make('image')->title('صورة المنتج'),
             Column::make('category')->title('النوع'),
             Column::make('created_at')->title('تاريخ الانشاء'),
             Column::computed('action')

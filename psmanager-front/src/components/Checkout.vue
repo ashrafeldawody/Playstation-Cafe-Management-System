@@ -203,7 +203,7 @@ export default {
                   this.$toast.warning("المبلغ المدفوع لا يمكن ان يكون اقل من المجموع الكلي للسلع");
                   return;
              }
-             axios.post(`/api/play/finish`, {
+             axios.post(`/play/finish`, {
                  bill_id: this.device.active_bill.id,
                  printRecipt: this.printRecipt,
                  paid: this.paid,

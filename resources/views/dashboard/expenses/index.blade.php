@@ -3,7 +3,13 @@
 @section('title', 'التقارير')
 
 @section('content_header')
-    <h1>المصروفات</h1>
+    <div class="d-flex justify-content-between">
+        <h1>المصاريف</h1>
+        <a href="{{ route('expenses.create') }}" class="btn btn-success">
+            <i class="fa fa-plus"></i>
+            اضافة مصروفات
+        </a>
+    </div>
 @stop
 
 @section('content')

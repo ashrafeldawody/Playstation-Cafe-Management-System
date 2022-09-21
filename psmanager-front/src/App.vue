@@ -26,19 +26,19 @@ export default {
     }),
     methods:{
         endShift(){
-            axios.post('api/shift/end').then(()=>{
+            axios.post('shift/end').then(()=>{
                 this.noShift = true
             })
         },
         start() {
-            axios.post('/api/shift/start').then(response => {
+            axios.post('shift/start').then(response => {
                 this.noShift = false;
                 this.shift = response.data;
             });
         }
     },
     beforeMount() {
-        axios.get('/api/shift/check').then(response => {
+        axios.get('shift/check').then(response => {
             this.noShift = false;
             this.shift = response.data;
         }).catch(() => {

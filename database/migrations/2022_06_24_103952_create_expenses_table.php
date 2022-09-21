@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('type');
             $table->boolean('take_from_dialy_income')->default(true);
-            $table->foreignId('shift_id')->constrained()->onDelete('cascade');;
+            $table->string('image')->nullable();
+            $table->foreignId('shift_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

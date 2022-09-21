@@ -15,7 +15,7 @@
                                         height="fit-content"
                                         v-for="item in activeCategory.items"
                                         @click="addToCart(item)">
-                                    <v-img :src="require('../assets/images/' + item.image)" style="height: 200px"></v-img>
+                                    <v-img :src="image_url(item.image)" style="height: 200px"></v-img>
                                     <v-card-title class="flex-column align-start">
                                         <p class=" mb-2">
                                             {{ item.name }}
@@ -79,10 +79,9 @@
 
 <script>
 import axios from "../plugins/axios";
+import { MEDIA_URL } from '../config'
 export default {
     name: "Cafe",
-
-
     data() {
         return {
             category: null,
@@ -91,6 +90,9 @@ export default {
         }
     },
     methods: {
+        image_url(image){
+            return MEDIA_URL + image
+        },
         addToCart(item) {
             let found = this.cart.find(i => i.item_id === item.id);
             if (found) {
@@ -116,7 +118,7 @@ export default {
         },
         saveCart() {
             console.log(this.cartTotal)
-            axios.post("/api/cafe/save", {cart: this.cart,paid: this.cartTotal}).then(res => {
+            axios.post("/cafe/save", {cart: this.cart,paid: this.cartTotal}).then(res => {
                 this.cart = [];
                 this.$toast.open({
                     message: "تم تسجيل الطلب",
@@ -135,7 +137,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('/api/cafe/items')
+        axios.get('/cafe/items')
             .then(response => {
                 this.categories = response.data;
             })

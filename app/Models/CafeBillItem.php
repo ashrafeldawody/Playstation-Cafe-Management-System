@@ -17,6 +17,7 @@ class CafeBillItem extends Model
         parent::boot();
         static::created(function ($item) {
             Inventory::create([
+                'bill_id' => $item->bill_id,
                 'item_id' => $item->item_id,
                 'quantity' => -$item->quantity,
                 'type' => 'SELL',
@@ -24,6 +25,7 @@ class CafeBillItem extends Model
         });
         static::updated(function ($item) {
             Inventory::create([
+                'bill_id' => $item->bill_id,
                 'item_id' => $item->item_id,
                 'quantity' => -$item->quantity,
                 'type' => 'SELL',
@@ -31,6 +33,7 @@ class CafeBillItem extends Model
         });
         static::deleted(function ($item) {
             Inventory::create([
+                'bill_id' => $item->bill_id,
                 'item_id' => $item->item_id,
                 'quantity' => $item->quantity,
                 'type' => 'DELETE',

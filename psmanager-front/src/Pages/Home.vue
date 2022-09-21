@@ -25,7 +25,7 @@ export default {
 
     },
     mounted() {
-        axios.get('/api/play/devices')
+        axios.get('/play/devices')
             .then(response => {
                 this.devices = response.data;
             })

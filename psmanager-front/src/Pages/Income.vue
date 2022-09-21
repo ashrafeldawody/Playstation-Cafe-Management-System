@@ -76,7 +76,7 @@ export default {
 
     },
     mounted: function () {
-        axios.get('/api/bill')
+        axios.get('/bill')
             .then(response => {
                 this.bills = response.data;
             })

@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         getStats() {
-            axios.get('/api/stats')
+            axios.get('/stats')
                 .then(response => {
                     this.stats = response.data;
                 })
