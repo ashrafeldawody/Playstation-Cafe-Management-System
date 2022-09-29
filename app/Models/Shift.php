@@ -14,7 +14,9 @@ class Shift extends Model
     protected $appends = ['duration','overtime','overtimePrice','total_paid','total_discount','cafe_total','play_total'];
     public function bills()
     {
-        return $this->hasMany(Bill::class);
+        return $this->hasMany(Bill::class)->with('sessions', 'items', 'device', 'device.category')
+            ->whereDoesntHave('activeSession')
+            ->orderBy('updated_at', 'desc');
     }
     public function items()
     {
@@ -53,4 +55,10 @@ class Shift extends Model
     {
         return $this->bills->sum('paid');
     }
+
+    public function stats()
+    {
+        return Bill::stats($this->bills);
+    }
+
 }

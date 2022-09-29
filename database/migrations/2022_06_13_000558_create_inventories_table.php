@@ -19,6 +19,7 @@ class CreateInventoriesTable extends Migration
             $table->foreignId('item_id')->constrained();
             $table->integer('quantity');
             $table->enum('type', ['BUY', 'SELL', 'RETURN','DEFECT','LOST','DELETE']);
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

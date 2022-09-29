@@ -18,7 +18,7 @@ class Device extends Model
     }
     function activeBill()
     {
-        return $this->hasOne(Bill::class)->whereHas('sessions', function ($query) {
+        return $this->hasOne(Bill::class)->with('tempItems','sessions')->whereHas('sessions', function ($query) {
             $query->where('end_time', null);
         });
     }

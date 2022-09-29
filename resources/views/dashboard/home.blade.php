@@ -5,13 +5,11 @@
 @section('content_header')
     <div class="d-flex justify-content-between">
         <h1>الرئيسية</h1>
-        <div>
             <form action="{{ route('dashboard') }}" method="get" class="row">
                 <input type="date" class="form-control col-5" name="start_time" value="{{old('start_time', request()->start_time) }}">
                 <input type="date" class="form-control col-5" name="end_time" value="{{old('end_time', request()->end_time) }}">
-                <button type="submit" class="btn btn-primary  col-2">بحث</button>
+                <button type="submit" class="btn btn-primary col-2">بحث</button>
             </form>
-        </div>
     </div>
 @stop
 

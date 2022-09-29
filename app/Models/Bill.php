@@ -36,10 +36,10 @@ class Bill extends Model
 
     public function tempItems(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(TempBillItem::class);
+        return $this->hasMany(TempBillItem::class)->with('item');
     }
 
-    public static function timeRange($start_time = null, $end_time = null)
+    public static function timeRangeBills($start_time = null, $end_time = null)
     {
         $bills = Bill::with('sessions', 'items', 'device', 'device.category')
             ->whereDoesntHave('activeSession')
@@ -50,15 +50,16 @@ class Bill extends Model
         return $bills->get();
     }
 
-    public static function stats($start_time = null, $end_time = null)
-    {
-        if ($start_time && $end_time) {
-            $bills = Bill::with('items')->whereBetween('created_at', [$start_time, $end_time])->get();
-        } else {
-            $bills = Bill::with('items')->get();
-        }
 
-        return [
+    public static function timeRangeStats($start_time = null, $end_time = null)
+    {
+        $bills = self::timeRangeBills($start_time, $end_time);
+        return self::stats($bills);
+    }
+
+    public static function stats($bills){
+        $isAdmin = auth()->user()->hasRole('admin');
+        $statsArray = [
             [
                 'title' => 'عدد الفواتير',
                 'value' => $bills->count(),
@@ -81,17 +82,12 @@ class Bill extends Model
                 'append' => 'جنيه',
             ],
             [
-                'title' => 'مكسب الكافيه',
-                'value' => $bills->sum(function ($bill) {
-                    return $bill->items->sum(function ($item) {
-                        return $item->item->revenue * $item->quantity;
-                    });
-                }),
-                'icon' => 'fa fa-money-bill',
-                'bg-color' => 'bg-success',
+                'title' => 'اجمالي الخصم',
+                'value' => $bills->sum('discount'),
+                'icon' => 'fa fa-percent',
+                'bg-color' => 'bg-info',
                 'append' => 'جنيه',
             ],
-
             [
                 'title' => 'اجمالي المدفوع',
                 'value' => $bills->sum('paid'),
@@ -100,6 +96,20 @@ class Bill extends Model
                 'append' => 'جنيه',
             ],
         ];
-    }
 
+        if($isAdmin){
+            $statsArray[] = [
+                    'title' => 'مكسب الكافيه',
+                    'value' => $bills->sum(function ($bill) {
+                        return $bill->items->sum(function ($item) {
+                            return $item->item->revenue * $item->quantity;
+                        });
+                    }),
+                    'icon' => 'fa fa-money-bill',
+                    'bg-color' => 'bg-success',
+                    'append' => 'جنيه',
+            ];
+        }
+        return $statsArray;
+    }
 }

@@ -107,7 +107,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
@@ -186,7 +186,7 @@ return [
     |
     */
 
-    'classes_body' => 'overflow-hidden',
+    'classes_body' => 'overflow-x-hidden',
     'classes_brand' => '',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
@@ -212,11 +212,11 @@ return [
 
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
-    'sidebar_collapse_remember_no_transition' => true,
+    'sidebar_collapse_auto_size' => true,
+    'sidebar_collapse_remember' => true,
+    'sidebar_collapse_remember_no_transition' => false,
     'sidebar_scrollbar_theme' => 'os-theme-light',
-    'sidebar_scrollbar_auto_hide' => 'l',
+    'sidebar_scrollbar_auto_hide' => 'n',
     'sidebar_nav_accordion' => true,
     'sidebar_nav_animation_speed' => 300,
 
@@ -273,7 +273,7 @@ return [
     |
     */
 
-    'enabled_laravel_mix' => false,
+    'enabled_laravel_mix' => true,
     'laravel_mix_css_path' => 'css/app.css',
     'laravel_mix_js_path' => 'js/app.js',
 
@@ -301,65 +301,99 @@ return [
             'text'        => 'الرئيسية',
             'url'         => 'dashboard',
             'icon'        => 'fa fa-home',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'فئات الأجهزة',
             'url'         => '/dashboard/device-categories',
             'icon'        => 'fa fa-list',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'الأجهزة',
             'url'         => '/dashboard/devices',
             'icon'        => 'fa fa-tv',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'فئات الكافيه',
             'url'         => '/dashboard/item-categories',
             'icon'        => 'fa fa-list',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'منتجات الكافيه',
             'url'         => '/dashboard/items',
             'icon'        => 'fa fa-coffee',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'الشيفتات',
             'url'         => '/dashboard/shifts',
             'icon'        => 'fa fa-clock',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'الفواتير',
             'url'         => '/dashboard/bills',
             'icon'        => 'fa fa-file-invoice-dollar',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'المصروفات',
             'url'         => '/dashboard/expenses',
             'icon'        => 'fa fa-money-bill',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'المخزون',
             'url'         => '/dashboard/inventory',
             'icon'        => 'fa fa-box',
+            'role'        => 'admin',
         ],
 
         [
             'text'        => 'المستخدمين',
             'url'         => '/dashboard/users',
             'icon'        => 'fa fa-users',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'التقارير',
             'url'         => '/dashboard/reports',
             'icon'        => 'fa fa-file-invoice',
+            'role'        => 'admin',
         ],
         [
             'text'        => 'الاعدادات',
             'url'         => '/dashboard/settings',
             'icon'        => 'fa fa-cog',
+            'role'        => 'admin',
         ],
 
+
+        [
+            'text'        => 'اللعب',
+            'url'         => '/pos',
+            'icon'        => 'fa fa-gamepad',
+            'role'        => 'user',
         ],
+
+        [
+            'text'        => 'الكافيه',
+            'url'         => '/pos/cafe',
+            'icon'        => 'fa fa-coffee',
+            'role'        => 'user',
+        ],
+
+        [
+            'text'        => 'الاحصائيات',
+            'url'         => '/pos/stats',
+            'icon'        => 'fa fa-chart-line',
+            'role'        => 'user',
+        ],
+
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -417,7 +451,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -442,7 +476,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $stats = Bill::stats($request->get('start_time'), $request->get('end_time'));
+        $stats = Bill::timeRangeStats($request->get('start_time'), $request->get('end_time'));
         $topSelling = Item::top5($request->get('start_time'), $request->get('end_time'));
         $mostActiveDevice = Device::top5($request->get('start_time'), $request->get('end_time'));
         return view('dashboard.home',compact('stats','topSelling','mostActiveDevice'));

@@ -11,79 +11,14 @@ use App\Models\Shift;
 use App\Models\TempBillItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class DevicesController extends Controller
 {
     public function index()
     {
         return CashierDeviceResource::collection(Device::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function start(Request $request)
@@ -177,6 +112,7 @@ class DevicesController extends Controller
         $playCost = $bill->sessions->sum('cost') < 5 ? 5 : $bill->sessions->sum('cost');
         $totalCost = $total_cafe_cost + $playCost;
         $bill->update([
+            'shift_id' => shift::where('end_time', null)->first()->id,
             'cafe_total' => $total_cafe_cost,
             'play_total' => $playCost,
             'discount' => $request->paid < $totalCost ?  $totalCost - $request->paid : 0,
@@ -194,22 +130,24 @@ class DevicesController extends Controller
                 ['quantity' => $item['quantity'],'price'=> $item['price']]
             );
         }
-
-        return response()->json(null,200);
-    }
-    public function delete_bill($device_id)
-    {
-        $bill = Bill::where('device_id',$device_id)->whereHas('activeSession')->first();
-        if(!$bill)
-            return response()->json(['message' => 'لا يوجد فاتوره للجهاز'], 404);
-        $duration = Carbon::now()->diffInSeconds($bill->created_at);
-        if($duration > (10 * 60))
-            return response()->json(['message' => 'لا يمكن حذف الفاتوره بعد مرور 10 دقائق'], 404);
-        if($bill->delete())
-            return response()->json(['message' => 'تم حذف الفاتوره بنجاح'], 200);
+        $bill = Bill::with('sessions','tempItems')->find($bill_id);
+        return response()->json($bill,200);
     }
 
 
+    public function delete_bill(Request $request){
+        $bill_delete_duration = Config::get('app_settings.bill_delete_duration',8);
+        $bill = Bill::find($request->id);
+        if($bill->created_at->diffInMinutes(Carbon::now()) > $bill_delete_duration){
+            return response()->json(['status' => 'error', 'message' => 'لا يمكن حذف الفاتوره بعد ' . $bill_delete_duration . ' دقائق من انشائها'], 400);
+        }
+        try {
+            $bill->delete();
+            return response()->json(['status' => 'success', 'message' => 'تم حذف الفاتوره بنجاح'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'حدث خطأ ما'], 400);
+        }
+    }
     public function get_available_devices()
     {
         $devices = Device::whereDoesntHave('activeBill')->get();

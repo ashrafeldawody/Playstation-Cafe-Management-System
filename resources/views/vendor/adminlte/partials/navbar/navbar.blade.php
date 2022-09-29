@@ -22,6 +22,18 @@
         {{-- Configured right links --}}
         @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-right'), 'item')
 
+        @if(Auth::user() && Auth::user()->hasRole('user') && Auth::user()->active_shift)
+            <div class="mx-5 d-flex">
+                <h2 id="shiftTimerLabel" class="text-success">00:00:00</h2>
+                <form id="endShiftForm" action="{{ route('pos.shift.end') }}" method="POST">
+                    @csrf
+                    <button type="submit" id="endShiftButton" class="btn btn-danger ml-5">
+                        انهاء الشيفت
+                        <i class="fas fa-power-off"></i>
+                    </button>
+                </form>
+            </div>
+        @endif
         {{-- User menu link --}}
         @if(Auth::user())
             @if(config('adminlte.usermenu_enabled'))

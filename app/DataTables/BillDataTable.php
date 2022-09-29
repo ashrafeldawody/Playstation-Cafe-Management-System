@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Bill;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -32,9 +33,57 @@ class BillDataTable extends DataTable
             ->addColumn('updated_at', function ($bill) {
                 return $bill->updated_at->format('Y-m-d h:i a');
             })
-            ->with('total', function() use ($query) {
-                return $query->sum('paid');
+            ->addColumn('items', function ($bill) {
+                if ($bill->items->count() == 0) {
+                    return 'لا يوجد';
+                }
+                return '<table class="table table-bordered table-striped rtl">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>السعر</th>
+                            <th>الكمية</th>
+                            <th>الاجمالي</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ' . $bill->items->map(function ($item) {
+                    return '<tr>
+                                <td>' . $item->item->name . '</td>
+                                <td>' . $item->item->price . '</td>
+                                <td>' . $item->quantity . '</td>
+                                <td>' . $item->item->price * $item->quantity . '</td>
+                            </tr>';
+                })->implode('') . '
+                    </tbody>
+                </table>';
             })
+            ->addColumn('sessions', function ($bill) {
+                if($bill->sessions->count() == 0){
+                    return 'لا يوجد';
+                }
+                return '<table class="table table-bordered table-striped rtl">
+                    <thead>
+                        <tr>
+                            <th>البداية</th>
+                            <th>النهاية</th>
+                            <th>المدة</th>
+                            <th>السعر</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ' . $bill->sessions->map(function ($session) {
+                    return '<tr>
+                                <td>' . Carbon::parse($session->start_time)->format('h:i a') . '</td>
+                                <td>' . ($session->end_time ? Carbon::parse($session->end_time)->format('h:i a') : 'لا يوجد') . '</td>
+                                <td>' . round($session->duration / 60) . '</td>
+                                <td>' . $session->cost . '</td>
+                            </tr>';
+                })->implode('') . '
+                    </tbody>
+                </table>';
+            })
+            ->rawColumns(['items', 'sessions'])
             ->setRowId('id');
     }
 
@@ -46,8 +95,11 @@ class BillDataTable extends DataTable
      */
     public function query(Bill $model): QueryBuilder
     {
-        return $model->with('items','sessions','device')
-            ->newQuery();
+        if(Auth()->user()->hasRole('admin')){
+            return $model->newQuery()->with('sessions', 'items', 'device', 'device.category')->whereDoesntHave('activeSession')->orderBy('updated_at', 'desc');
+        }else{
+            return $model->newQuery()->with('sessions', 'items', 'device', 'device.category')->where('shift_id', Auth()->user()->active_shift->id)->whereDoesntHave('activeSession')->orderBy('updated_at', 'desc');;
+        }
     }
     /**
      * Optional method if you want to use html builder.
@@ -89,6 +141,8 @@ class BillDataTable extends DataTable
             Column::make('id'),
             Column::make('device')->title('الجهاز'),
             Column::make('shift_id')->title('الوردية'),
+            Column::make('items')->title('المشروبات'),
+            Column::make('sessions')->title('اللعب'),
             Column::make('time_limit')->title('الوقت المحدد'),
             Column::make('cafe_total')->title('إجمالي الكافيه'),
             Column::make('play_total')->title('إجمالي اللعب'),

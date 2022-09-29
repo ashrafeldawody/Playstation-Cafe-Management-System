@@ -9,9 +9,11 @@ use App\Models\Inventory;
 use App\Models\Item;
 use App\Models\ItemCategory;
 use App\Models\playSession;
+use App\Models\setting;
 use App\Models\Shift;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,11 +24,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'user']);
+        $admin = User::create([
             'name' => 'Admin',
             'email' => 'ashraf6450@gmail.com',
             'password' => bcrypt('91919191917'),
         ]);
+        $admin->assignRole('admin');
+        $user = User::create([
+            'name' => 'User',
+            'email' => 'user@gmail.com',
+            'password' => bcrypt('123456'),
+        ]);
+        $user->assignRole('user');
         $games = [
             ['name'=>"FIFA 18","type"=>"digital"],
             ['name'=>"FIFA 19","type"=>"digital"],
@@ -117,5 +128,13 @@ class DatabaseSeeder extends Seeder
             Device::create($device);
         }
 
+        $settings = [
+            ['key' => 'app_name', 'value' => 'GAME ON',],
+            ['key' => 'bill_delete_duration', 'value' => 8],
+            ['key' => 'currency', 'value' => 'جنية']
+        ];
+        foreach ($settings as $setting) {
+            Setting::create($setting);
+        }
     }
 }

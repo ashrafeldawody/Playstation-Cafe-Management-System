@@ -1,3 +1,4 @@
+@if(!isset($item['role']) || auth()->user()->hasRole($item['role']))
 <li @isset($item['id']) id="{{ $item['id'] }}" @endisset class="nav-item">
 
     <a class="nav-link {{ $item['class'] }} @isset($item['shift']) {{ $item['shift'] }} @endisset"
@@ -9,7 +10,9 @@
         }}"></i>
 
         <p>
-            {{ $item['text'] }}
+            <span class="mx-2">
+                {{ $item['text'] }}
+            </span>
 
             @isset($item['label'])
                 <span class="badge badge-{{ $item['label_color'] ?? 'primary' }} right">
@@ -21,3 +24,4 @@
     </a>
 
 </li>
+@endif

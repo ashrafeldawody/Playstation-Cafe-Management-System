@@ -24,7 +24,7 @@ class ExpenseDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($expense) {
-                return '<div class="d-flex justify-content-evenly">
+                return '<div class="d-flex justify-content-around">
                 <a href="' . route('expenses.edit', $expense->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
                 <form action="' . route('expenses.destroy', $expense->id) . '" method="POST">
                     ' . csrf_field() . '

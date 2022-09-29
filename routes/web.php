@@ -12,6 +12,9 @@ use App\Http\Controllers\Dashboard\ReportController;
 use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Dashboard\ShiftController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\POS\CartController;
+use App\Http\Controllers\POS\PlayController;
+use App\Http\Controllers\POS\ShopController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +23,27 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    if(!Auth::check())
+        return redirect()->route('pos.index');
+    elseif (Auth::user()->hasRole('admin'))
+        return redirect()->route('dashboard');
+    else
+        return redirect()->route('pos.index');
+
 });
 // create dashboard group routes
-Route::group(['middleware' => 'auth','prefix'=>'dashboard'], function () {
+Route::group(['middleware' => ['auth','role:user'],'prefix'=>'pos','as' => 'pos.'], function () {
+    Route::get('/shift', [\App\Http\Controllers\POS\ShiftController::class, 'index'])->name('shift.index');
+    Route::post('/shift/start', [\App\Http\Controllers\POS\ShiftController::class, 'start'])->name('shift.start');
+    Route::post('/shift/end', [\App\Http\Controllers\POS\ShiftController::class, 'end'])->name('shift.end');
+    Route::group(['middleware' => ['hasShift']], function () {
+        Route::get('/', [PlayController::class,'index'])->name('index');
+        Route::get('/cafe', [CartController::class,'index'])->name('cafe.index');
+        Route::get('/stats', [\App\Http\Controllers\POS\ShiftController::class, 'stats'])->name('shift.stats');
+    });
+});
+
+Route::group(['middleware' => ['auth','role:admin'],'prefix'=>'dashboard'], function () {
     Route::get('/', [DashboardController::class,'index'])->name('dashboard');
 
     Route::get('/shifts', [ShiftController::class,'index'])->name('shifts');
@@ -51,7 +71,5 @@ Route::group(['middleware' => 'auth','prefix'=>'dashboard'], function () {
     Route::resource('/settings', SettingController::class)->names('settings');
 
     Route::resource('/users', UserController::class)->names('users');
-
-
 });
 

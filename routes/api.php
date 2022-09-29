@@ -6,6 +6,7 @@ use App\Http\Controllers\Cashier\DevicesController;
 use App\Http\Controllers\Cashier\ExpensesController;
 use App\Http\Controllers\Cashier\ShiftController;
 use App\Http\Controllers\Cashier\StatsController;
+use App\Http\Controllers\POS\PlayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::group(['prefix' => 'play'], function () {
     Route::post('/toggle_multi/{device_id}',  [DevicesController::class , 'toggleMulti']);
     Route::post('/change_limit/{device_id}/{time_limit}',  [DevicesController::class , 'changeLimit']);
     Route::post('/update_cart/{bill_id}',  [DevicesController::class , 'updateCart']);
+    Route::delete('/delete_bill/{id}', [DevicesController::class,'delete_bill'])->name('play.delete_bill');
+
 });
 
 Route::group(['prefix' => 'cafe'], function () {

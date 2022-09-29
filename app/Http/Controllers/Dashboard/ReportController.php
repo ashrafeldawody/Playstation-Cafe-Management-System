@@ -12,8 +12,8 @@ class ReportController extends Controller
     {
         $start = $request->get('start_time');
         $end = $request->get('end_time');
-        $bills = Bill::timeRange($start, $end);
-        $stats = Bill::stats($start, $end);
+        $bills = Bill::timeRangeBills($start, $end);
+        $stats = Bill::timeRangeStats($start, $end);
         return view('dashboard.reports.index', compact('bills', 'stats'));
     }
 }

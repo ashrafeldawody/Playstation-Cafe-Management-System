@@ -24,7 +24,7 @@ class itemsCategoryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($device) {
-                return '<div class="d-flex justify-content-evenly">
+                return '<div class="d-flex justify-content-around">
                 <a href="' . route('item-categories.edit', $device->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
                 <form action="' . route('item-categories.destroy', $device->id) . '" method="POST">
                     ' . csrf_field() . '

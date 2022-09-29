@@ -27,7 +27,7 @@ class ItemDataTable extends DataTable
                 return $device->category->name;
             })
             ->addColumn('action', function ($item) {
-                return '<div class="d-flex justify-content-evenly">
+                return '<div class="d-flex justify-content-around">
                 <a href="' . route('items.edit', $item->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
                 <form action="' . route('items.destroy', $item->id) . '" method="POST">
                     ' . csrf_field() . '

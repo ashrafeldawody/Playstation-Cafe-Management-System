@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
+            $table->foreignId('user_id')->constrained();
 
         });
     }
