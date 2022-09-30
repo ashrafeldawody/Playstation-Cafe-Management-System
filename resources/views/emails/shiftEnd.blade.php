@@ -53,11 +53,8 @@
             <td>{{ $bill->created_at }}</td>
             <td>
                 @foreach($bill->sessions as $session)
-                    {{ $session->start_time }}
-                    --
-                    {{ $session->end_time }}
-                    = {{ $session->cost }} جنيه
-                    <br>
+                    {{ \Carbon\Carbon::parse($session->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($session->end_time)->format('h:i A') }}<br>
+                    = {{ $session->cost }}  جنيه
                 @endforeach
             </td>
             <td>
@@ -95,11 +92,10 @@
     </p>
     <p>
         <span>اجمالي الدخل</span>
-        <span class="mx-3">{{  $cafeTotal + $playTotal - $discount }}</span>
+        <span class="mx-3">{{  $paid }}</span>
         <span>جنيه</span>
     </p>
 
-    </p>
 </div>
 </body>
 </html>

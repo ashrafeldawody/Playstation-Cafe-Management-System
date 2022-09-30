@@ -28,7 +28,7 @@
                 <form id="endShiftForm" action="{{ route('pos.shift.end') }}" method="POST">
                     @csrf
                     <button type="submit" id="endShiftButton" class="btn btn-danger ml-5">
-                        انهاء الشيفت
+                        انهاء الوردية
                         <i class="fas fa-power-off"></i>
                     </button>
                 </form>

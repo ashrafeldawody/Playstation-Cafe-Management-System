@@ -23,7 +23,25 @@ class UserDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'user.action')
+            ->addColumn('action', function ($user) {
+                return '<div class="d-flex justify-content-around">
+                <a href="' . route('users.show', $user->id) . '" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                <a href="' . route('users.edit', $user->id) . '" class="btn btn-primary mx-2"><i class="fa fa-edit"></i></a>
+                <form action="' . route('users.destroy', $user->id) . '" method="POST">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-danger"
+                    onclick="return confirm(\'هل انت متأكد من الحذف؟\')"><i class="fa fa-trash"></i></button>
+                </form>
+                </div>';
+            })
+            ->editColumn('avatar', function ($user) {
+                return '<img src="' . asset('uploads/' . ($user->avatar ?? 'user.jpg')) . '" height="150px">';
+            })
+            ->editColumn('role', function ($user) {
+                return $user->roles->first()->name == 'admin' ? 'مدير' : 'مستخدم';
+            })
+            ->rawColumns(['action', 'avatar'])
             ->setRowId('id');
     }
 
@@ -67,15 +85,19 @@ class UserDataTable extends DataTable
     protected function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('avatar')->title('الصورة'),
+            Column::make('name')->title('الاسم'),
+            Column::make('role')->title('الصلاحية'),
+            Column::make('email')->title('البريد الالكتروني'),
+            Column::make('national_id')->title('الرقم القومي'),
+            Column::make('phone')->title('رقم الهاتف'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
+
         ];
     }
 

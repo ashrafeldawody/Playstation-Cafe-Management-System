@@ -27,15 +27,17 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'user']);
         $admin = User::create([
-            'name' => 'Admin',
+            'name' => 'Ashraf Eldawody',
             'email' => 'ashraf6450@gmail.com',
             'password' => bcrypt('91919191917'),
+            'phone' => '01000588965',
         ]);
         $admin->assignRole('admin');
         $user = User::create([
-            'name' => 'User',
-            'email' => 'user@gmail.com',
+            'name' => 'Ahmed Basha',
+            'email' => 'ahmedbasha@gmail.com',
             'password' => bcrypt('123456'),
+            'phone' => '01060152787',
         ]);
         $user->assignRole('user');
         $games = [
@@ -130,7 +132,7 @@ class DatabaseSeeder extends Seeder
 
         $settings = [
             ['key' => 'app_name', 'value' => 'GAME ON',],
-            ['key' => 'bill_delete_duration', 'value' => 8],
+            ['key' => 'bill_delete_durion', 'value' => 8],
             ['key' => 'currency', 'value' => 'جنية']
         ];
         foreach ($settings as $setting) {

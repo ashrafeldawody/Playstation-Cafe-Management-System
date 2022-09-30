@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\InventoryController;
 use App\Http\Controllers\Dashboard\ItemCategoryController;
 use App\Http\Controllers\Dashboard\ItemController;
 use App\Http\Controllers\Dashboard\ReportController;
+use App\Http\Controllers\Dashboard\SalaryController;
 use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Dashboard\ShiftController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -40,6 +41,11 @@ Route::group(['middleware' => ['auth','role:user'],'prefix'=>'pos','as' => 'pos.
         Route::get('/', [PlayController::class,'index'])->name('index');
         Route::get('/cafe', [CartController::class,'index'])->name('cafe.index');
         Route::get('/stats', [\App\Http\Controllers\POS\ShiftController::class, 'stats'])->name('shift.stats');
+        Route::get('/monthly-shifts', [\App\Http\Controllers\POS\ShiftController::class, 'monthlyShifts'])->name('shift.monthly');
+
+        Route::get('/cafe-items', [\App\Http\Controllers\POS\CafeController::class, 'index'])->name('cafe.items');
+        Route::get('/expenses', [\App\Http\Controllers\POS\ExpenseController::class, 'index'])->name('expense.index');
+        Route::get('/account', [\App\Http\Controllers\POS\AccountController::class, 'index'])->name('account.index');
     });
 });
 
@@ -71,5 +77,7 @@ Route::group(['middleware' => ['auth','role:admin'],'prefix'=>'dashboard'], func
     Route::resource('/settings', SettingController::class)->names('settings');
 
     Route::resource('/users', UserController::class)->names('users');
+
+    Route::resource('/salary', SalaryController::class)->names('salaries');
 });
 

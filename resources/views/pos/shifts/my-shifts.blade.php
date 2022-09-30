@@ -4,7 +4,7 @@
 
 @section('content_header')
     <div class="d-flex justify-content-between">
-        <h1>احصائيات الوردية</h1>
+        <h1>الورديات</h1>
     </div>
 @stop
 
@@ -16,15 +16,14 @@
                 @endforeach
             </ul>
     @endif
-
-    <div class="row">
+    @if(isset($stats))
+    <div class="d-flex justify-content-around">
         @foreach($stats as $stat)
-        <div class="col-lg-3 col-6">
+        <div class="w-25">
             <!-- small box -->
             <div class="small-box {{$stat['bg-color']}}">
                 <div class="inner">
-                    <h3>{{ $stat['value'] }}</h3>
-
+                    <h3>{{ $stat['value'] }} </h3>
                     <p>{{ $stat['title'] }}</p>
                 </div>
                 <div class="icon">
@@ -34,7 +33,8 @@
         </div>
         @endforeach
     </div>
-    <div class="row">
+    @endif
+    <div class="w-100">
         {{ $dataTable->table() }}
     </div>
 @stop

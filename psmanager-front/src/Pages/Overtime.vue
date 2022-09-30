@@ -2,7 +2,7 @@
     <v-card>
         <v-card-header>
             <v-toolbar-title>
-                    <span class="headline">شيفتات الشهر</span>
+                    <span class="headline">ورديات الشهر</span>
             </v-toolbar-title>
         </v-card-header>
         <v-table class="table table-striped">

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'الأجهزة')
+@section('title', 'المنتجات')
 
 @section('content_header')
     <div class="d-flex justify-content-between">

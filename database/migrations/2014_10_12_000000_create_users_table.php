@@ -17,7 +17,12 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('avatar')->default('user.jpg');
+            $table->string('national_id')->nullable();
+            $table->string('address')->nullable();
             $table->string('phone')->unique()->nullable();
+            $table->decimal('monthly_salary', 8, 2)->default(2000);
+            $table->float('shift_hours')->default(8);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

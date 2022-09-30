@@ -125,8 +125,8 @@
             $('#endShiftForm').click((e)=>{
                 e.preventDefault();
                 Swal.fire({
-                    title: 'انهاء الشيفت',
-                    text: "هل انت متأكد من انهاء الشيفت ؟",
+                    title: 'انهاء الوردية',
+                    text: "هل انت متأكد من انهاء الوردية ؟",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

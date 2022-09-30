@@ -2,7 +2,7 @@
     <v-overlay v-model="noShift" contained persistent class="align-center justify-center">
         <v-btn color="primary" class="mt-5" @click="start">
             <v-icon>mdi-clock-start</v-icon>
-            <span>بدء الشيفت</span>
+            <span>بدء الوردية</span>
         </v-btn>
     </v-overlay>
     <Layout v-if="shift" @endShift="endShift" :shift="shift">

@@ -21131,7 +21131,8 @@ var _hoisted_60 = {
   "aria-labelledby": "exampleModalLongTitle",
   style: {
     "display": "block",
-    "padding-right": "17px"
+    "padding-right": "17px",
+    "position": "absolute"
   },
   "aria-modal": "true",
   role: "dialog"
@@ -21150,7 +21151,7 @@ var _hoisted_64 = {
   id: "exampleModalLongTitle"
 };
 var _hoisted_65 = {
-  "class": "modal-body"
+  "class": "modal-body rtl text-right"
 };
 var _hoisted_66 = {
   key: 1,

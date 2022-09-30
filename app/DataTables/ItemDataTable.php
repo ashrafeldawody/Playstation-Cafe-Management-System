@@ -46,7 +46,15 @@ class ItemDataTable extends DataTable
             ->addColumn('updated_at', function ($device) {
                 return $device->updated_at->format('Y-m-d');
             })
-            ->rawColumns(['action', 'image']);
+            ->addColumn('quantity', function ($device) {
+                if($device->quantity == 0) return '<h2><span class="badge badge-danger">0</span></h2>';
+                if($device->quantity < 0) return '<h2><span class="badge badge-warning">' . $device->quantity . '</span></h2>';
+                return '<h2><span class="badge badge-success">' . $device->quantity . '</span></h2>';
+            })
+            ->addColumn('price', function ($device) {
+                return '<h3><span class="badge badge-primary rtl">' . $device->price . ' جنيه</span></h3>';
+            })
+            ->rawColumns(['action', 'image', 'quantity', 'price']);
     }
 
     /**
@@ -57,7 +65,7 @@ class ItemDataTable extends DataTable
      */
     public function query(Item $model): QueryBuilder
     {
-        return $model->with('category')->newQuery();
+        return $model->with('category','inventory')->newQuery();
     }
 
     /**
@@ -88,20 +96,26 @@ class ItemDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        return [
+        $columns = [
             Column::make('id'),
             Column::make('name')->title('اسم المنتج'),
             Column::make('image')->title('صورة المنتج'),
             Column::make('category')->title('النوع'),
-            Column::make('created_at')->title('تاريخ الانشاء'),
-            Column::computed('action')
+            Column::make('price')->title('السعر'),
+            Column::make('quantity')->title('الكمية'),
+        ];
+
+        if (auth()->user()->hasRole('admin')) {
+            $columns[] = Column::computed('action')
                 ->title('العمليات')
                 ->exportable(false)
                 ->orderable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center'),
-        ];
+                ->addClass('text-center');
+            $columns[] = Column::make('created_at')->title('تاريخ الانشاء');
+        }
+        return $columns;
     }
 
     /**

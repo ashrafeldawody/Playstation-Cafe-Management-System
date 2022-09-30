@@ -16,14 +16,14 @@
                     {{ shiftElapsedFormatted }}
                 </span>
                 <v-btn variant="outlined" color="white">
-                    انهاء الشيفت
+                    انهاء الوردية
                     <v-dialog
                         v-model="confirmDialog"
                         activator="parent"
                     >
                         <v-card>
                             <v-card-text>
-                                هل انت متأكد انك تريد انهاء الشيفت الحالي؟
+                                هل انت متأكد انك تريد انهاء الوردية الحالي؟
                                 <p class="text-danger">
                                     {{ shiftElapsed < (8*60*60) ? 'يرجي العلم انه لم تمر 8 ساعات، سيتم خصم المتبقي من المرتب' : '' }}
                                 </p>

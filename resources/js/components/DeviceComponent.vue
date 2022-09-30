@@ -143,14 +143,14 @@
     </div>
 
     <div v-if="currentDialog" class="modal fade show " id="exampleModalLong" tabindex="-1"
-         aria-labelledby="exampleModalLongTitle" style="display: block; padding-right: 17px;" aria-modal="true"
+         aria-labelledby="exampleModalLongTitle" style="display: block; padding-right: 17px;position: absolute" aria-modal="true"
          role="dialog">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header justify-content-between">
                     <h5 class="modal-title" id="exampleModalLongTitle">{{ device.name }}</h5>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body rtl text-right">
                     <DeviceCart v-if="currentDialog === 'cart'" :device="device" @close="currentDialog = null"
                                 @CartSaved="cartSaved"></DeviceCart>
                     <TimeSwap v-if="currentDialog === 'timeSwap'" :bill_id="activeBill().id"

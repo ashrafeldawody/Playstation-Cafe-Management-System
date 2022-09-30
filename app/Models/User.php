@@ -43,8 +43,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
+
+    public function hours()
+    {
+        return round($this->shifts->sum('duration') / 60);
+    }
     public function active_shift()
     {
         return $this->hasOne(Shift::class)->where('end_time', null);
+    }
+    public function salaries()
+    {
+        return $this->hasMany(Salary::class);
+    }
+    public function paid_this_month()
+    {
+        return $this->salaries()->whereMonth('created_at', now()->month)->sum('amount');
+    }
+    public function remaining_this_month()
+    {
+        return $this->monthly_salary - $this->paid_this_month();
     }
 }

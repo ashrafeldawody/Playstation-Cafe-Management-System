@@ -1,10 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'الرئيسية')
+@section('title', $title)
 
 @section('content_header')
     <div class="d-flex justify-content-between">
-        <h1>احصائيات الوردية</h1>
+        <h1>{{$title}}</h1>
+        @if(isset($button))
+        <a href="{{ $button['route'] }}" class="btn btn-success">
+            <i class="fa fa-plus"></i>
+            {{$button['title']}}
+        </a>
+        @endif
     </div>
 @stop
 
@@ -16,10 +22,21 @@
                 @endforeach
             </ul>
     @endif
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
 
-    <div class="row">
+    @if(isset($stats))
+    <div class="d-flex flex-wrap justify-content-around">
         @foreach($stats as $stat)
-        <div class="col-lg-3 col-6">
+        <div class="mx-3" style="width:300px">
             <!-- small box -->
             <div class="small-box {{$stat['bg-color']}}">
                 <div class="inner">
@@ -34,8 +51,9 @@
         </div>
         @endforeach
     </div>
-    <div class="row">
-        {{ $dataTable->table() }}
+    @endif
+    <div class="w-100">
+        {{ $dataTable->table(['class' => 'w-100 table table-striped table-bordered table-hover']) }}
     </div>
 @stop
 

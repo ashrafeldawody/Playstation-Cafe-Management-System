@@ -3,7 +3,7 @@
         <v-card-header>
             <v-toolbar-title>
                 <div class="d-flex justify-content-between w-100">
-                    <span class="headline">فواتير الشيفت</span>
+                    <span class="headline">فواتير الوردية</span>
                 </div>
             </v-toolbar-title>
         </v-card-header>

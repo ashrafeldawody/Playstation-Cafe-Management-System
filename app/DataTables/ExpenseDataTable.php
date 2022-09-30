@@ -52,7 +52,10 @@ class ExpenseDataTable extends DataTable
      */
     public function query(Expense $model): QueryBuilder
     {
-        return $model->newQuery();
+        if(auth()->user()->hasRole('admin')) {
+            return $model->newQuery();
+        }
+        return $model->newQuery()->whereMonth('created_at', now()->month);
     }
 
     /**
@@ -83,15 +86,20 @@ class ExpenseDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        return [
+        $columns = [
             Column::make('id'),
             Column::make('type')->title('السبب'),
             Column::make('description')->title('التفاصيل'),
-            Column::make('image')->title('الصورة'),
             Column::make('amount')->title('المبلغ'),
             Column::make('created_at')->title('التاريخ'),
-            Column::make('action')->title('العمليات')->orderable(false)->searchable(false),
+
         ];
+        if (auth()->user()->hasRole('admin')) {
+            $columns[] = Column::make('image')->title('الصورة');
+            $columns[] = Column::make('action')->title('العمليات')->orderable(false)->searchable(false);
+        }
+
+        return $columns;
     }
 
     /**

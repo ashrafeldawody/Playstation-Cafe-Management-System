@@ -8,7 +8,7 @@ return [
             'route' => 'home',
         ],
         [
-            'name' => 'الشيفتات',
+            'name' => 'الورديات',
             'icon' => 'fa fa-playstation',
             'route' => '/dashboard/shifts',
         ],

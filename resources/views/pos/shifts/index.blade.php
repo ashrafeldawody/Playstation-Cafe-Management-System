@@ -8,12 +8,12 @@
 
 @section('content')
         <h1 class="alert alert-info text-center mt-5 py-5">
-            لم يتم بدء الشيفت بعد!
+            لم يتم بدء الوردية بعد!
         </h1>
         <form action="{{ route('pos.shift.start') }}" method="POST" class="text-center">
             @csrf
             <button type="submit" class="btn btn-primary">
-                بدء الشيفت
+                بدء الوردية
             </button>
         </form>
 

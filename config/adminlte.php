@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'برنامج ادارة محلات البلايستيشن',
+    'title' => 'بلاسيتيشن مصر',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>Eldawody</b>Panel',
+    'logo' => '<b>بلايستيشن</b> <span>مصر</span>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'PSEG',
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +151,7 @@ return [
     'layout_topnav' => null,
     'layout_boxed' => null,
     'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -328,7 +328,7 @@ return [
             'role'        => 'admin',
         ],
         [
-            'text'        => 'الشيفتات',
+            'text'        => 'الورديات',
             'url'         => '/dashboard/shifts',
             'icon'        => 'fa fa-clock',
             'role'        => 'admin',
@@ -390,6 +390,30 @@ return [
             'text'        => 'الاحصائيات',
             'url'         => '/pos/stats',
             'icon'        => 'fa fa-chart-line',
+            'role'        => 'user',
+        ],
+        [
+            'text'        => 'الورديات',
+            'url'         => '/pos/monthly-shifts',
+            'icon'        => 'fa fa-clock',
+            'role'        => 'user',
+        ],
+        [
+            'text'        => 'منتجات الكافيه',
+            'url'         => '/pos/cafe-items',
+            'icon'        => 'fa fa-coffee',
+            'role'        => 'user',
+        ],
+        [
+            'text'        => 'المصروفات',
+            'url'         => '/pos/expenses',
+            'icon'        => 'fa fa-money-bill',
+            'role'        => 'user',
+        ],
+        [
+            'text'        => 'الحساب الشخصي',
+            'url'         => '/pos/account',
+            'icon'        => 'fa fa-user',
             'role'        => 'user',
         ],
 

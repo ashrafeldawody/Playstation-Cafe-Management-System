@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Shift extends Model
 {
@@ -28,10 +30,12 @@ class Shift extends Model
     }
     public function getDurationAttribute()
     {
+        if(!$this->end_time) return 0;
         return Carbon::parse($this->start_time)->diffInMinutes(Carbon::parse($this->end_time));
     }
     public function getOvertimeAttribute()
     {
+        if(!$this->end_time) return 0;
         return $this->duration - (8*60);
     }
     public function getOvertimePriceAttribute()
@@ -61,4 +65,28 @@ class Shift extends Model
         return Bill::stats($this->bills);
     }
 
+    public function sendMail($to){
+        $data = [
+            'email' => $to,
+            'title' => 'ايراد اليوم',
+            'date' => Carbon::parse($this->start_time)->format('Y-m-d'),
+            'startTime' => $this->start_time,
+            'endTime' => Carbon::now()->format('Y-m-d H:i:s'),
+            'bills' => $this->bills,
+            'cafeTotal' => $this->bills->sum('cafe_total'),
+            'playTotal' => $this->bills->sum('play_total'),
+            'paid' => $this->bills->sum('paid'),
+            'playHours' => CarbonInterval::seconds($this->sessions->sum('duration'))->cascade()->format('%h:%I'),
+            'discount' => $this->bills->sum('discount'),
+        ];
+        try {
+            Mail::send('emails.shiftEnd', $data, function($message)use($data) {
+                $message->to($data["email"], $data["email"])
+                    ->subject($data["title"]);
+            });
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'حدث خطأ'], 400);
+        }
+
+    }
 }

@@ -25,7 +25,7 @@ class DevicesController extends Controller
     {
         $shift = shift::where('end_time', null)->first();
         if (!$shift) {
-            return response()->json(['message' => 'يرجي بدء الشيفت اولا'], 400);
+            return response()->json(['message' => 'يرجي بدء الوردية اولا'], 400);
         }
         $bill = Bill::where('device_id',$request->device_id)->whereHas('activeSession')->first();
         if($bill)

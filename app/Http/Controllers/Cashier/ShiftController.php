@@ -24,7 +24,7 @@ class ShiftController extends Controller
     public function start(){
         $shift = Shift::where('end_time', null)->first();
         if($shift)
-            return response()->json(['message' => 'الشيفت تم بدءها سابقا'], 400);
+            return response()->json(['message' => 'الوردية تم بدءها سابقا'], 400);
         $new_shift = Shift::create([
             'start_time' => now()
         ]);
@@ -34,28 +34,10 @@ class ShiftController extends Controller
     {
         $shift = Shift::where('end_time', null)->with('bills.sessions','bills.items','bills.items.item')->first();
         if (!$shift)
-            return response()->json(['message' => 'الشيفت غير متوفرة'], 400);
+            return response()->json(['message' => 'الوردية غير متوفرة'], 400);
         $shift->update([
             'end_time' => now()
         ]);
-        $data["email"] = "ashraf6450@gmail.com";
-        $data["title"] = "ايراد اليوم";
-        $data["date"] = Carbon::today()->addHours(-3)->format('Y-m-d');
-        $data["startTime"] = $shift->start_time;
-        $data["endTime"] = $shift->end_time;
-        $data["bills"] = $shift->bills;
-        $data["cafeTotal"] = $shift->bills->sum('cafe_total');
-        $data["playTotal"] = $shift->bills->sum('play_total');
-        $data["playHours"] = CarbonInterval::seconds($shift->sessions->sum('duration'))->cascade()->format('%h:%I');
-        $data["discount"] = $shift->bills->sum('discount');
-        try {
-            Mail::send('emails.shiftEnd', $data, function($message)use($data) {
-                $message->to($data["email"], $data["email"])
-                    ->subject($data["title"]);
-            });
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'حدث خطأ'], 400);
-        }
 
         return response()->json($shift);
     }

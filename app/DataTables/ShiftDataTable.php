@@ -35,8 +35,12 @@ class ShiftDataTable extends DataTable
                 return CarbonInterval::minutes($shift->duration)->cascade()->format('%h:%I');
             })
             ->addColumn('overtime', function ($shift) {
-                return CarbonInterval::minutes($shift->overtime)->cascade()->format('%h:%I');
+                if(!$shift->end_time) return 'لم ينتهي بعد';
+                if($shift->overtime > 0)
+                    return '<span class="text-success">+' . CarbonInterval::minutes($shift->overtime)->cascade()->format('%h:%I') . '</span>';
+                return '<span class="text-danger">-' . CarbonInterval::minutes($shift->overtime)->cascade()->format('%h:%I') . '</span>';
             })
+            ->rawColumns(['overtime'])
             ->setRowId('id');
     }
 
@@ -48,8 +52,11 @@ class ShiftDataTable extends DataTable
      */
     public function query(Shift $model): QueryBuilder
     {
-        return $model->with('bills','items','sessions')
-            ->newQuery();
+        if (auth()->user()->hasRole('admin')) {
+            return $model->newQuery()->with('bills','items','sessions');
+        }
+        return $model->newQuery()->with('bills','items','sessions')->whereMonth('start_time', Carbon::now()->month);
+
     }
 
     /**
@@ -80,17 +87,23 @@ class ShiftDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        return [
+        $mandatoryColumns = [
             Column::make('id'),
             Column::make('start_time')->title('بداية الوردية'),
             Column::make('end_time')->title('نهاية الوردية'),
             Column::make('duration')->title('مدة الوردية'),
-            Column::make('play_total')->title('إجمالي اللعب'),
-            Column::make('cafe_total')->title('إجمالي الكافيه'),
-            Column::make('total_discount')->title('إجمالي الخصم'),
-            Column::make('total_paid')->title('إجمالي المدفوع'),
             Column::make('overtime')->title('الوقت الإضافي'),
         ];
+        if (auth()->user()->hasRole('admin')) {
+            $adminColumns = [
+                Column::make('play_total')->title('إجمالي اللعب'),
+                Column::make('cafe_total')->title('إجمالي الكافيه'),
+                Column::make('total_discount')->title('إجمالي الخصم'),
+                Column::make('total_paid')->title('إجمالي المدفوع'),
+            ];
+            return array_merge($mandatoryColumns, $adminColumns);
+        }
+        return $mandatoryColumns;
     }
 
     /**
