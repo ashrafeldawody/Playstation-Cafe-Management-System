@@ -33,8 +33,11 @@ class InventoryController extends Controller
         $request->validate([
             'item_id' => 'required',
             'quantity' => 'required|numeric',
-            'type' => 'required|in:BUY,SELL,RETURN,DEFECT,RETURN',
+            'type' => 'required|in:BUY,RETURN,DEFECT,LOST',
         ]);
+        if($request->type == 'RETURN' || $request->type == 'DEFECT' || $request->type == 'LOST'){
+            $request->merge(['quantity' => $request->quantity * -1]);
+        }
 
         Inventory::create($request->all());
         return redirect()->route('inventory.index')->with('success','تمت الاضافة بنجاح');

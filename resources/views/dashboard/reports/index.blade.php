@@ -52,13 +52,20 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @if($bills->count() == 0)
+                        <tr class="text-center">
+                            <td colspan="8">لا يوجد فواتير</td>
+                        </tr>
+                    @endif
+
                     @foreach($bills as $bill)
                     <tr>
                         <td>{{ $bill->id }}</td>
                         <td>{{ $bill->device?->name }}</td>
                         <td>{{ $bill->time_limit ? $bill->time_limit / 30 . ' دقيقة ' : '' }}</td>
                         <td>
-                            <table class="table table-striped">
+                    @if($bill->sessions->count() > 0)
+                    <table class="table table-striped">
                                 <thead>
                                 <tr>
                                     <th>البداية</th>
@@ -85,9 +92,10 @@
                                 {{ $bill->play_total }}
                                 جنيه
                             </h5>
-
+                        @endif
                         </td>
                         <td>
+                            @if($bill->items->count() > 0)
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -113,6 +121,7 @@
                                 {{ $bill->cafe_total }}
                                 جنيه
                             </h5>
+                                @endif
                         </td>
                         <td>{{ $bill->cafe_total + $bill->play_total }}</td>
                         <td>{{ $bill->discount }}</td>

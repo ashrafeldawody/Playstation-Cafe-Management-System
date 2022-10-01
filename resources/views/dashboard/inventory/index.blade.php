@@ -13,7 +13,11 @@
 @stop
 
 @section('content')
-    {{ $dataTable->table() }}
+    <div class="w-100">
+        {{$dataTable->table([
+            'class' => 'table table-striped table-bordered table-hover w-100'
+        ])}}
+    </div>
 @stop
 
 @section('css')

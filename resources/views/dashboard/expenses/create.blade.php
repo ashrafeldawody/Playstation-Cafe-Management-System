@@ -15,7 +15,6 @@
                 <div class="form-group">
                     <label for="type">النوع</label>
                     <select name="type" id="type" class="form-control">
-                        <option value="مرتب">مرتب</option>
                         <option value="مصاريف">مصاريف</option>
                         <option value="فواتير">فواتير</option>
                         <option value="صيانة">صيانة</option>

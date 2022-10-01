@@ -18,7 +18,6 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->string('description')->nullable();
             $table->string('type');
-            $table->boolean('take_from_dialy_income')->default(true);
             $table->string('image')->nullable();
             $table->foreignId('shift_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();

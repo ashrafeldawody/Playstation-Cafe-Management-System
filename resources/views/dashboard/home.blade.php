@@ -56,6 +56,11 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if($topSelling->count() == 0)
+                            <tr class="text-center">
+                                <td colspan="3">لا يوجد منتجات</td>
+                            </tr>
+                        @endif
                         @foreach($topSelling as $product)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -85,6 +90,12 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if($mostActiveDevice->count() == 0)
+                            <tr class="text-center">
+                                <td colspan="3">لا يوجد بيانات</td>
+                            </tr>
+                        @endif
+
                         @foreach($mostActiveDevice as $device)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>

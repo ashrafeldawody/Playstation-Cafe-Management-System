@@ -16,7 +16,6 @@
                 <div class="form-group">
                     <label for="type">النوع</label>
                     <select name="type" id="type" class="form-control">
-                        <option {{ $expense->type == 'مرتب' ? 'selected' : '' }} value="مرتب">مرتب</option>
                         <option {{ $expense->type == 'مصاريف' ? 'selected' : '' }} value="مصاريف">مصاريف</option>
                         <option {{ $expense->type == 'فواتير' ? 'selected' : '' }} value="فواتير">فواتير</option>
                         <option {{ $expense->type == 'صيانة' ? 'selected' : '' }} value="صيانة">صيانة</option>
