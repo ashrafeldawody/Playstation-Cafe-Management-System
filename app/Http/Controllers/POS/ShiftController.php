@@ -23,10 +23,10 @@ class ShiftController extends Controller
 
     public function start()
     {
-        if(!auth()->user()->active_shift)
+        if(!auth()->user()->active_shift) {
             auth()->user()->active_shift()->create(['start_time' => Carbon::now()]);
-
-        SendEmail::dispatch('ashraf6450@gmail.com',new ShiftStarted());
+            SendEmail::dispatch('ashraf6450@gmail.com', new ShiftStarted());
+        }
         return redirect()->route('pos.index');
     }
 
