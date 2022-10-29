@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
-    <title>{{ $title }}</title>
+    <title>{{ $shift['title'] }}</title>
 </head>
 <body>
-<h1>{{ $title }}  - {{ $date }}</h1>
+<h1>{{ $shift['title'] }}  - {{ $shift['date'] }}</h1>
 <p>
     <span>وقت البدء: </span>
-    <span>{{ $startTime }}</span>
+    <span>{{ $shift['startTime'] }}</span>
 </p>
 <p>
     <span>وقت الانتهاء: </span>
-    <span>{{ $endTime }}</span>
+    <span>{{ $shift['endTime'] }}</span>
 </p>
+<div class="text-left">
+    <p>
+        <span>اجمالي اللعب</span>
+        <span class="mx-3">{{  $shift['playTotal'] }}</span>
+        <span>جنيه</span>
+    </p>
+    <p>
+        <span>اجمالي الكافيه</span>
+        <span class="mx-3">{{  $shift['cafeTotal'] }}</span>
+        <span>جنيه</span>
+    </p>
+    <p>
+        <span>اجمالي الخصم</span>
+        <span class="mx-3">{{  $shift['discount'] }}</span>
+        <span>جنيه</span>
+    </p>
+    <p>
+        <span>اجمالي الدخل</span>
+        <span class="mx-3">{{  $shift['paid'] }}</span>
+        <span>جنيه</span>
+    </p>
+</div>
+
 <style>
     table.GeneratedTable {
         width: 100%;
@@ -48,7 +71,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($bills as $bill)
+    @foreach($shift['bills'] as $bill)
         <tr class="border: 1px solid">
             <td>{{ $bill->created_at }}</td>
             <td>
@@ -74,28 +97,5 @@
     </tbody>
 </table>
 <hr>
-<div class="text-left">
-    <p>
-        <span>اجمالي اللعب</span>
-        <span class="mx-3">{{  $playTotal }}</span>
-        <span>جنيه</span>
-    </p>
-    <p>
-        <span>اجمالي الكافيه</span>
-        <span class="mx-3">{{  $cafeTotal }}</span>
-        <span>جنيه</span>
-    </p>
-    <p>
-        <span>اجمالي الخصم</span>
-        <span class="mx-3">{{  $discount }}</span>
-        <span>جنيه</span>
-    </p>
-    <p>
-        <span>اجمالي الدخل</span>
-        <span class="mx-3">{{  $paid }}</span>
-        <span>جنيه</span>
-    </p>
-
-</div>
 </body>
 </html>

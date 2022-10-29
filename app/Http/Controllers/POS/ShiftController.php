@@ -5,6 +5,8 @@ namespace App\Http\Controllers\POS;
 use App\DataTables\BillDataTable;
 use App\DataTables\ShiftDataTable;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmail;
+use App\Mail\ShiftStarted;
 use App\Models\Shift;
 use App\Models\User;
 use Carbon\Carbon;
@@ -21,9 +23,10 @@ class ShiftController extends Controller
 
     public function start()
     {
-        auth()->user()->active_shift()->create([
-            'start_time' => Carbon::now(),
-        ]);
+        if(!auth()->user()->active_shift)
+            auth()->user()->active_shift()->create(['start_time' => Carbon::now()]);
+
+        SendEmail::dispatch('ashraf6450@gmail.com',new ShiftStarted());
         return redirect()->route('pos.index');
     }
 
@@ -31,9 +34,11 @@ class ShiftController extends Controller
     {
         $shift = auth()->user()->active_shift;
         $adminMails = User::role('admin')->pluck('email')->toArray();
+
         foreach ($adminMails as $mail) {
             $shift->sendMail($mail);
         }
+
         $shift->update([
             'end_time' => Carbon::now(),
         ]);

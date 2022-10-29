@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Jobs\SendEmail;
+use App\Mail\ShiftEnded;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -67,7 +69,6 @@ class Shift extends Model
 
     public function sendMail($to){
         $data = [
-            'email' => $to,
             'title' => 'ايراد اليوم',
             'date' => Carbon::parse($this->start_time)->format('Y-m-d'),
             'startTime' => $this->start_time,
@@ -79,14 +80,7 @@ class Shift extends Model
             'playHours' => CarbonInterval::seconds($this->sessions->sum('duration'))->cascade()->format('%h:%I'),
             'discount' => $this->bills->sum('discount'),
         ];
-        try {
-            Mail::send('emails.shiftEnd', $data, function($message)use($data) {
-                $message->to($data["email"], $data["email"])
-                    ->subject($data["title"]);
-            });
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'حدث خطأ'], 400);
-        }
+        SendEmail::dispatch($to ,new ShiftEnded($data));
 
     }
 }

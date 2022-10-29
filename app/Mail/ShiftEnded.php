@@ -7,21 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ReviewPost extends Mailable
+class ShiftEnded extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $post;
-
+    protected $shift;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($post)
+    public function __construct($shift)
     {
-        $this->post = $post;
+        $this->shift = $shift;
     }
+
 
     /**
      * Build the message.
@@ -30,6 +29,9 @@ class ReviewPost extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $shift = $this->shift;
+        return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+            ->subject('تم انهاء الشيفت')
+            ->view('emails.shift-ended', compact('shift'));
     }
 }
