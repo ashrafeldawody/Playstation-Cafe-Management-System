@@ -39,6 +39,9 @@ class ShiftDataTable extends DataTable
                 if($shift->overtime > 0)
                     return '<span class="text-success">+' . CarbonInterval::minutes($shift->overtime)->cascade()->format('%h:%I') . '</span>';
                 return '<span class="text-danger">-' . CarbonInterval::minutes($shift->overtime)->cascade()->format('%h:%I') . '</span>';
+            })->addColumn('last_session_end_time', function ($shift) {
+                $last = $shift->last_session_end_time();
+                return $last ? Carbon::parse($last)->format('Y-m-d h:i:s A') : 'لا يوجد';
             })
             ->rawColumns(['overtime'])
             ->setRowId('id');
@@ -53,7 +56,7 @@ class ShiftDataTable extends DataTable
     public function query(Shift $model): QueryBuilder
     {
         if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->with('bills','items','sessions');
+            return $model->newQuery()->with('bills','items','sessions')->orderBy('id', 'desc');
         }
         return $model->newQuery()->with('bills','items','sessions')->whereMonth('start_time', Carbon::now()->month);
 
@@ -91,6 +94,7 @@ class ShiftDataTable extends DataTable
             Column::make('id'),
             Column::make('start_time')->title('بداية الوردية'),
             Column::make('end_time')->title('نهاية الوردية'),
+            Column::make('last_session_end_time')->title('اخر فاتورة'),
             Column::make('duration')->title('مدة الوردية'),
             Column::make('overtime')->title('الوقت الإضافي'),
         ];

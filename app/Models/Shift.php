@@ -30,6 +30,10 @@ class Shift extends Model
     {
         return $this->hasManyThrough(PlaySession::class, Bill::class);
     }
+    public function last_session_end_time()
+    {
+        return $this->sessions()->orderBy('end_time', 'desc')->first()->end_time ?? null;
+    }
     public function getDurationAttribute()
     {
         if(!$this->end_time) return 0;
